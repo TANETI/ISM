@@ -1,0 +1,179 @@
+/* ISM Academy stylesheet module: 01-foundation.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* 이미지 복사 방지.
+   드래그로 끌어내기와 길게 눌러 저장하기를 막는다. 브라우저의 저장 기능
+   자체를 없앨 수는 없으니 완전한 보호가 아니라 "무심코 가져가기"를 막는
+   울타리다. 진짜로 가져가려는 사람은 개발자 도구로 언제든 가져갈 수 있다.
+   -webkit-touch-callout은 iOS Safari의 길게 누르기 메뉴를 막는다. */
+img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+:focus-visible {
+  outline: 1px solid var(--navy-accent);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 40000;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  color: #ffffff;
+  background: var(--academy-ink);
+  border-radius: var(--radius-sm);
+  transform: translateY(calc(-100% - 1rem));
+  transition: transform 150ms ease-out;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--font-ui);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.js-loading {
+  overflow: hidden;
+}
+
+/* Initial loading screen */
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.72s ease,
+    visibility 0s linear 0s;
+  background:
+    radial-gradient(ellipse 46% 34% at 50% 46%, rgba(255,255,255,0.54), transparent 70%),
+    radial-gradient(ellipse 72% 52% at 50% 54%, rgba(95,134,190,0.16), transparent 72%),
+    linear-gradient(180deg, #e4efff 0%, var(--navy) 54%, #bdd4f8 100%);
+}
+
+.site-loader::before,
+.site-loader::after {
+  content: '';
+  position: absolute;
+  inset: 7vh 9vw;
+  border: 1px solid rgba(185,154,82,0.14);
+  pointer-events: none;
+}
+
+.site-loader::after {
+  inset: 8.3vh 10.2vw;
+  filter: blur(0.2px);
+  border-color: rgba(31,72,126,0.16);
+}
+
+.site-loader-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 1.05rem;
+  transform: translateY(0);
+  transition: transform 0.72s ease, opacity 0.72s ease;
+}
+
+.site-loader-logo {
+  width: min(180px, 36vw);
+  height: auto;
+  filter:
+    drop-shadow(0 0 12px rgba(255,255,255,0.84))
+    drop-shadow(0 0 22px rgba(72,112,170,0.28));
+  animation: ismSealBreath 2.8s ease-in-out infinite;
+}
+
+.site-loader-line {
+  width: min(260px, 54vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45,86,139,0.42), rgba(255,255,255,0.88), rgba(45,86,139,0.42), transparent);
+  animation: loaderOrnamentLine 2.4s ease-in-out infinite;
+}
+
+.site-loader-text {
+  color: var(--academy-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em;
+  text-shadow: 0 1px 16px rgba(255,255,255,0.76);
+}
+
+body:not(.js-loading) .site-loader {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.72s ease,
+    visibility 0s linear 0.72s;
+}
+
+body:not(.js-loading) .site-loader-inner {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.985);
+}
+
+body:not(.js-loading) #section-factions .main-inner {
+  animation-delay: 0.12s;
+}
+
+@keyframes ismSealBreath {
+  0%, 100% {
+    opacity: 0.78;
+    transform: scale(0.985);
+    filter:
+      drop-shadow(0 0 10px rgba(185,154,82,0.12))
+      drop-shadow(0 0 20px rgba(200,216,232,0.08));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    filter:
+      drop-shadow(0 0 18px rgba(185,154,82,0.24))
+      drop-shadow(0 0 34px rgba(200,216,232,0.14));
+  }
+}
+
+@keyframes loaderOrnamentLine {
+  0%, 100% {
+    opacity: 0.36;
+    transform: scaleX(0.82);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleX(1);
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 15% 10%, rgba(69,126,114,0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(4,10,8,0.72) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+

@@ -1,0 +1,194 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # 얕은 클론이라도 GitHub은 매번 팩을 새로 만든다(`pack-reused 0`). 파일 대부분이
+          # 이미 압축된 webp라 델타가 잡히지 않아 300MB를 통째로 다시 압축하며, 그 CPU
+          # 작업이 큐에 걸리면 체크아웃 하나가 7분까지 늘어난다(세 번에 한 번꼴로 겪음).
+          # 배포에 쓰지 않는 경로를 빼서 그 몫을 줄인다 — 298MB → 245MB.
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/webtoon/*.png
+            !/webtoon/characters/
+            !/tools/releases/*.exe
+            !/*/O/
+            !/*/S/
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+      - name: Validate source files
+        run: |
+          set -euo pipefail
+          # 검사 목록과 런타임 모듈 목록은 scripts/check_all.js 하나가 쥔다. 예전에는 이 워크플로와
+          # CLAUDE.md에 따로 적혀 있어 한쪽만 고치는 일이 반복됐다.
+          echo "RUNTIME_SCRIPTS=$(node scripts/check_all.js --runtime-scripts)" >> "$GITHUB_ENV"
+          node scripts/check_all.js
+      - name: Build site artifact
+        run: |
+          set -euo pipefail
+          mkdir dist
+          cp index.html gallery.html species.html app.js easter.js characters.json dist/
+          mkdir -p dist/scripts
+          cp $RUNTIME_SCRIPTS dist/scripts/
+          node scripts/build_site_css.js --source-root . --index dist/index.html --out dist/assets/ism.css
+          # 갤러리는 별도 페이지지만 같은 번들을 쓴다. 마커 치환은 파일마다 해야 한다.
+          node scripts/build_site_css.js --source-root . --index dist/gallery.html --out dist/assets/ism.css
+          # Copy the asset directory contents into it; copying the directory itself
+          # would create dist/assets/assets and break every ./assets/* URL.
+          cp -R assets/. dist/assets/
+          cp -R docs dist/docs
+          mkdir -p dist/webtoon
+          cp webtoon/{1..4}.webp dist/webtoon/
+          mkdir -p dist/loc
+          cp loc/*.webp dist/loc/
+          # 메신저 프로필. 비어 있어도 실패하지 않도록 글로브 대신 디렉터리째 복사한다.
+          mkdir -p dist/avatar
+          cp -R avatar/. dist/avatar/
+          find . -maxdepth 1 -type d -regextype posix-extended -regex './[A-Z0-9]{2,4}' -print0 | while IFS= read -r -d '' character_dir; do
+            character_code="${character_dir#./}"
+            mkdir -p "dist/${character_code}"
+            find "$character_dir" -mindepth 1 -maxdepth 1 ! -name O ! -name S -exec cp -R {} "dist/${character_code}/" \;
+          done
+          node scripts/apply_deploy_version.js dist/index.html "${GITHUB_SHA::8}"
+          node scripts/apply_deploy_version.js dist/gallery.html "${GITHUB_SHA::8}"
+          node scripts/apply_deploy_version.js dist/app.js "${GITHUB_SHA::8}"
+      - name: Validate site artifact
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          test -f dist/gallery.html
+          test -f dist/app.js
+          test -f dist/easter.js
+          test -f dist/assets/ism.css
+          for runtime_script in $RUNTIME_SCRIPTS; do test -f "dist/$runtime_script"; done
+          test -f dist/assets/maps/cheonghaedo-map.webp
+          for webtoon_image in {1..4}; do test -f "dist/webtoon/${webtoon_image}.webp"; done
+          node scripts/validate_characters.js dist
+          for site_asset in \
+            logo.webp logo_ism_academy_transparent.webp title_wordmark.webp \
+            logo_pbs.webp logo_hprf.webp logo_wf.webp logo_rtn.webp logo_nf.webp \
+            wordmark_ism.webp wordmark_pbs.webp wordmark_hprf.webp wordmark_wf.webp wordmark_rtn.webp wordmark_nf.webp; do
+            test -f "dist/assets/${site_asset}"
+          done
+          if test -d dist/assets/assets; then
+            echo "Asset directory was nested as dist/assets/assets."
+            exit 1
+          fi
+          if grep -q './styles/' dist/index.html; then
+            echo "Deployment HTML must reference the bundled stylesheet, not source modules."
+            exit 1
+          fi
+          test -f dist/characters.json
+          test ! -e dist/outfit_assets.json
+          if find dist -mindepth 2 -maxdepth 2 -type d \( -name O -o -name S \) -print -quit | grep -q .; then
+            echo "Optional outfit directories must not be included in the Pages artifact."
+            exit 1
+          fi
+          test ! -e 'dist/프롬프트'
+          if grep -q '__VERSION__\|__VERSION_VALUE__' dist/index.html; then
+            echo "Version placeholders were not replaced."
+            exit 1
+          fi
+          if find dist -type l -print -quit | grep -q .; then
+            echo "Pages artifact must not contain symbolic links."
+            exit 1
+          fi
+          echo "Artifact file count: $(find dist -type f | wc -l)"
+          du -sh dist
+      - name: Run browser regression check
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8123 --bind 127.0.0.1 --directory dist >/tmp/ism-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2; do
+            echo "Browser regression check: attempt ${attempt}/2"
+            log_file="/tmp/ism-browser-regression-${attempt}.log"
+            if node scripts/browser_smoke_test.js --url http://127.0.0.1:8123/index.html >"$log_file" 2>&1; then
+              cat "$log_file"
+              exit 0
+            fi
+            cat "$log_file"
+            summary=$(grep '^SMOKE_FAILURES:' "$log_file" | tail -n 1 || true)
+            if [ -z "$summary" ]; then
+              summary=$(tail -n 1 "$log_file")
+            fi
+            echo "::error title=Browser regression check failed::$summary"
+            if [ "$attempt" -eq 1 ]; then
+              echo "Retrying browser regression check after a short delay."
+              sleep 2
+            fi
+          done
+          exit 1
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: 'dist'
+          retention-days: 1
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy_attempt_1.outputs.page_url || steps.deploy_attempt_2.outputs.page_url || steps.deploy_attempt_3.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Deploy to GitHub Pages - attempt 1
+        id: deploy_attempt_1
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - name: Wait before deploy retry 2
+        if: steps.deploy_attempt_1.outcome == 'failure'
+        run: sleep 30
+
+      - name: Deploy to GitHub Pages - attempt 2
+        if: steps.deploy_attempt_1.outcome == 'failure'
+        id: deploy_attempt_2
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - name: Wait before deploy retry 3
+        if: steps.deploy_attempt_2.outcome == 'failure'
+        run: sleep 60
+
+      - name: Deploy to GitHub Pages - attempt 3
+        if: steps.deploy_attempt_2.outcome == 'failure'
+        id: deploy_attempt_3
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - name: Fail if all deploy attempts failed
+        if: steps.deploy_attempt_3.outcome == 'failure'
+        run: |
+          echo "GitHub Pages deployment failed after 3 attempts."
+          exit 1

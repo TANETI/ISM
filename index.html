@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ko" data-version="__VERSION_VALUE__">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2030년 대한민국과 청해도의 ISM 아카데미를 중심으로, 인간과 이종족의 공존과 갈등을 다루는 작품 설정 사이트입니다.">
+<meta name="theme-color" content="#d9e7ff">
+<title>이종족은 좋아하세요?</title>
+<link rel="icon" type="image/webp" sizes="64x64" href="assets/favicon-ism-moon.webp">
+<link rel="preload" as="image" href="./assets/logo.webp" fetchpriority="high">
+<!-- Fonts: readable UI first, decorative type only for mottos and organization names -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- Ordered CSS modules: the sequence is part of the cascade contract. -->
+<!-- CSS_MODULES_START -->
+<link rel="stylesheet" href="./styles/00-tokens.css?__VERSION__">
+<link rel="stylesheet" href="./styles/01-foundation.css?__VERSION__">
+<link rel="stylesheet" href="./styles/02-navigation.css?__VERSION__">
+<link rel="stylesheet" href="./styles/03-home.css?__VERSION__">
+<link rel="stylesheet" href="./styles/04-characters.css?__VERSION__">
+<link rel="stylesheet" href="./styles/05-character-detail.css?__VERSION__">
+<link rel="stylesheet" href="./styles/06-schedule.css?__VERSION__">
+<link rel="stylesheet" href="./styles/07-gallery.css?__VERSION__">
+<link rel="stylesheet" href="./styles/08-world.css?__VERSION__">
+<link rel="stylesheet" href="./styles/09-overlays.css?__VERSION__">
+<link rel="stylesheet" href="./styles/10-cross-cutting.css?__VERSION__">
+<link rel="stylesheet" href="./styles/11-mobile.css?__VERSION__">
+<link rel="stylesheet" href="./styles/12-feature-refinements.css?__VERSION__">
+<link rel="stylesheet" href="./styles/13-final-theme.css?__VERSION__">
+<!-- CSS_MODULES_END -->
+
+</head>
+<body class="js-loading">
+
+<a class="skip-link" href="#site-content">본문으로 건너뛰기</a>
+
+<div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="ISM Academy loading">
+  <div class="site-loader-inner">
+    <img class="site-loader-logo" src="./assets/logo.webp" alt="ISM Academy Logo" width="360" height="360" loading="eager" decoding="async" fetchpriority="high">
+    <div class="site-loader-line"></div>
+    <div class="site-loader-text">ISM ACADEMY</div>
+  </div>
+</div>
+
+<!-- Single-scroll section index -->
+<nav class="scroll-index" aria-label="현재 페이지 인덱스">
+  <!-- 좁은 화면에서는 색인이 접혀 있고 이 단추만 남는다. 6개 점을 44px
+       터치 크기로 늘 펼쳐 두면 화면 세로의 3분의 1을 가려 본문과 조작부를
+       덮는다. 넓은 화면에서는 이 단추가 나오지 않는다. -->
+  <button class="scroll-index-toggle" type="button" aria-expanded="false" aria-label="페이지 색인 열기">
+    <span class="scroll-index-toggle-mark" aria-hidden="true"></span>
+    <span class="scroll-index-toggle-count" aria-hidden="true"></span>
+  </button>
+  <a class="scroll-index-dot active" href="#main" data-section-index="main" aria-label="메인 화면" aria-current="page"><span class="scroll-index-label">메인</span></a>
+  <a class="scroll-index-dot" href="#factions" data-section-index="factions" aria-label="세력 소개"><span class="scroll-index-label">세력</span></a>
+  <a class="scroll-index-dot" href="#world" data-section-index="world" aria-label="세계관"><span class="scroll-index-label">세계관</span></a>
+  <a class="scroll-index-dot" href="#schedule" data-section-index="schedule" aria-label="일정"><span class="scroll-index-label">일정</span></a>
+  <a class="scroll-index-dot" href="#characters" data-section-index="characters" aria-label="캐릭터"><span class="scroll-index-label">캐릭터</span></a>
+</nav>
+
+<main id="site-content">
+<!-- Main intro -->
+<!-- 첫 화면은 키비주얼 한 장처럼 읽혀야 한다. 조판은 왼쪽에 세우고, 배경은
+     뒤에서부터 격자 → 초승달 → 청해도 스카이라인 → 반짝임 순으로 쌓아 위로
+     갈수록 앞에 온다. 색은 아카데미 셸(#ccdeff)과 금색을 유지하되 안개와
+     장식선에만 라벤더를 섞는다. -->
+<section class="section active" id="section-main" aria-labelledby="intro-title">
+  <div class="intro-grid" aria-hidden="true"></div>
+  <!-- 초승달. CSS mask-composite로도 만들 수 있지만 브라우저마다 합성 값이
+       달라 원판 하나로 뭉개진 적이 있어, 흰 원에서 검은 원을 빼는 SVG mask로
+       고정한다. 계산이 눈에 보이고 어디서나 같게 나온다.
+       달 표면의 알갱이는 mask 안에 들어 있어 초승달 밖으로 새지 않는다 —
+       그래서 원판 전체에 흩뿌려도 보이는 것은 초승달 부분뿐이다. -->
+  <svg class="intro-moon" viewBox="0 0 140 140" aria-hidden="true" focusable="false">
+    <defs>
+      <mask id="intro-moon-cut">
+        <circle cx="70" cy="70" r="47" fill="#fff"/>
+        <circle cx="82" cy="54" r="44" fill="#000"/>
+      </mask>
+      <linearGradient id="intro-moon-fill" x1="0" y1="0" x2="0.85" y2="1">
+        <stop class="intro-moon-stop-a" offset="0"/>
+        <stop class="intro-moon-stop-b" offset="0.58"/>
+        <stop class="intro-moon-stop-c" offset="1"/>
+      </linearGradient>
+      <radialGradient id="intro-moon-halo">
+        <stop class="intro-moon-halo-in" offset="0.62"/>
+        <stop class="intro-moon-halo-out" offset="1"/>
+      </radialGradient>
+    </defs>
+    <circle class="intro-moon-halo" cx="70" cy="70" r="66"/>
+    <g mask="url(#intro-moon-cut)">
+      <circle class="intro-moon-body" cx="70" cy="70" r="47"/>
+      <g class="intro-moon-grain">
+        <circle cx="38" cy="52" r="1.7"/><circle cx="31" cy="74" r="2.6"/>
+        <circle cx="44" cy="93" r="1.3"/><circle cx="36" cy="108" r="2"/>
+        <circle cx="58" cy="104" r="1"/><circle cx="52" cy="62" r="0.9"/>
+        <circle cx="27" cy="62" r="1.1"/><circle cx="63" cy="112" r="1.5"/>
+        <circle cx="80" cy="108" r="1.1"/><circle cx="47" cy="41" r="0.9"/>
+        <circle cx="34" cy="88" r="0.8"/><circle cx="72" cy="110" r="0.7"/>
+        <circle cx="90" cy="101" r="1.4"/><circle cx="42" cy="66" r="0.7"/>
+      </g>
+    </g>
+    <circle class="intro-moon-ring" cx="70" cy="70" r="55"/>
+  </svg>
+
+  <!-- 청해도. 2030년의 인공섬을 실루엣 한 겹으로만 깔아 제목을 가리지 않는다.
+       path는 고정 시드로 한 번 생성해 정적으로 박아 둔 값이다(빌드 없는 사이트라
+       런타임에서 만들지 않는다). 위쪽은 CSS mask로 안개에 녹인다. -->
+  <svg class="intro-skyline" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- 창문 격자. 실루엣만 있으면 색종이를 오려 붙인 것처럼 보인다.
+           같은 path를 clipPath로 재사용해 건물 안쪽에만 무늬가 든다. -->
+      <pattern id="intro-city-window" width="9" height="12" patternUnits="userSpaceOnUse">
+        <rect class="intro-city-window-cell" x="2.2" y="3" width="2.6" height="3.4"/>
+        <rect class="intro-city-window-cell" x="6.2" y="7.8" width="1.8" height="2.4"/>
+      </pattern>
+      <clipPath id="intro-city-far-clip"><use href="#intro-city-far-path"/></clipPath>
+      <clipPath id="intro-city-near-clip"><use href="#intro-city-near-path"/></clipPath>
+    </defs>
+    <path id="intro-city-far-path" d="M-20 260V208H17V260ZM26 260V192L34 178H43L51 192V260ZM35.5 178L38.5 139L41.5 178ZM46 260V204H65V260ZM52 204h2V153h-2ZM74 260V133H94V260ZM98 260V159H123V260ZM110 159h2V128h-2ZM126 260V187H155V260ZM144 187h2V140h-2ZM161 260V144H201V260ZM204 260V191H223V260ZM220 260V227H228V179H243V227H251V260ZM238 179h2V137h-2ZM253 260V219H258V170H271V219H276V260ZM271 260V158H299V260ZM307 260V188H339V260ZM328 188h2V166h-2ZM338 260V191H377V260ZM374 260V168H394V260ZM395 260V148H434V260ZM418 148h2V116h-2ZM432 260V204H459V260ZM453 260V172H493V260ZM475 172h2V136h-2ZM492 260V168H525V260ZM521 260V213H530V182H547V213H556V260ZM544 182h2V151h-2ZM555 260V187H575V260ZM567 187h2V143h-2ZM575 260V129H614V260ZM586 129h2V88h-2ZM611 260V162H630V260ZM616 162h2V128h-2ZM637 260V199H655V260ZM650 260V173H673V260ZM673 260V176H708V260ZM704 260V165L709 151H715L720 165V260ZM709 151L712 114L715 151ZM717 260V155H744V260ZM735 155h2V108h-2ZM748 260V137H786V260ZM780 260V149L791 135H804L815 149V260ZM794.5 135L797.5 94L800.5 135ZM812 260V134H847V260ZM843 260V207H863V260ZM861 260V182L872 168H886L897 182V260ZM876 168L879 148L882 168ZM903 260V176H938V260ZM917 176h2V152h-2ZM934 260V137H966V260ZM974 260V152H994V260ZM984 152h2V121h-2ZM991 260V212L1002 198H1017L1028 212V260ZM1006.5 198L1009.5 165L1012.5 198ZM1015 198h2V162h-2ZM1024 260V191H1062V260ZM1064 260V193H1092V260ZM1091 260V192H1124V260ZM1121 260V163H1155V260ZM1135 163h2V113h-2ZM1157 260V175H1180V260ZM1189 260V160H1218V260ZM1219 260V139H1251V260ZM1235 139h2V119h-2ZM1251 260V201H1272V260ZM1274 260V206H1294V260ZM1303 260V193L1315 179H1330L1342 193V260ZM1319.5 179L1322.5 139L1325.5 179ZM1347 260V205H1378V260ZM1387 260V177H1411V260ZM1399 177h2V151h-2ZM1418 260V200H1442V260ZM1444 260V207H1472V260ZM1462 207h2V181h-2Z" class="intro-skyline-far"/>
+    <rect class="intro-city-window intro-city-window--far" width="1440" height="260" fill="url(#intro-city-window)" clip-path="url(#intro-city-far-clip)"/>
+    <path id="intro-city-near-path" d="M-20 260V123H23V260ZM1 123h2V72h-2ZM19 260V95H35V56H62V95H78V260ZM86 260V63H142V260ZM136 260V93H190V260ZM187 260V89H235V260ZM244 260V172L258 158H275L289 172V260ZM263.5 158L266.5 123L269.5 158ZM265 158h2V122h-2ZM296 260V131L304 117H316L324 131V260ZM307 117L310 78L313 117ZM325 260V88H384V260ZM387 260V68H433V260ZM418 68h2V37h-2ZM429 260V148H471V260ZM457 148h2V111h-2ZM466 260V59H520V260ZM499 59h2V8h-2ZM519 260V64H545V260ZM529 64h2V28h-2ZM545 260V95H596V260ZM564 95h2V48h-2ZM599 260V83H647V260ZM618 83h2V59h-2ZM647 260V190H662V138H689V190H704V260ZM699 260V140H726V260ZM725 260V136H786V260ZM788 260V92H841V260ZM809 92h2V64h-2ZM847 260V155H854V120H871V155H878V260ZM874 260V141H916V260ZM896 141h2V100h-2ZM917 260V52H976V260ZM980 260V196H996V148H1023V196H1039V260ZM1015 148h2V121h-2ZM1048 260V95L1062 81H1080L1094 95V260ZM1068 81L1071 53L1074 81ZM1102 260V53H1147V260ZM1119 53h2V29h-2ZM1148 260V97H1201V260ZM1165 97h2V49h-2ZM1198 260V116H1260V260ZM1232 116h2V93h-2ZM1261 260V112H1308V260ZM1279 112h2V88h-2ZM1305 260V58H1342V260ZM1344 260V108H1383V260ZM1361 108h2V64h-2ZM1386 260V168H1397V125H1427V168H1438V260ZM1419 125h2V101h-2ZM1446 260V85H1505V260ZM1467 85h2V53h-2Z" class="intro-skyline-near"/>
+    <rect class="intro-city-window intro-city-window--near" width="1440" height="260" fill="url(#intro-city-window)" clip-path="url(#intro-city-near-clip)"/>
+  </svg>
+
+  <!-- 반짝임. 네 갈래 별을 오목한 곡선으로 그려야 뾰족하게 읽힌다. 다각형
+       clip-path로 만들면 같은 크기에서 마름모처럼 뭉툭해진다. -->
+  <div class="intro-sparks" aria-hidden="true">
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+    <svg class="intro-spark"><use href="#intro-spark"></use></svg>
+  </div>
+
+  <!-- 되풀이해 쓰는 문양 한 벌. 뒤집기는 CSS가 한다. -->
+  <svg class="intro-defs" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="intro-flourish" viewBox="0 0 100 20">
+      <path d="M2 10C20 10 30 3.5 46 5.5c11 1.4 14.5 8.5 7 10-7.5 1.5-9.5-7.5 2-8.5 13-1.2 21 3 43 3" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+      <circle cx="97" cy="10" r="1.7" fill="currentColor"/>
+    </symbol>
+    <symbol id="intro-spark" viewBox="0 0 24 24">
+      <path d="M12 0c.5 7 4.5 11.5 12 12-7.5.5-11.5 5-12 12-.5-7-4.5-11.5-12-12 7.5-.5 11.5-5 12-12Z" fill="currentColor"/>
+    </symbol>
+    <!-- 장식선의 팔. 곡선 끝의 잎사귀가 가운데 별 쪽을 향하도록 왼쪽에 두고,
+         선은 오른쪽으로 뻗다가 CSS mask로 사라진다. -->
+    <symbol id="intro-rule-arm" viewBox="0 0 120 12">
+      <path d="M120 6H36c-7 0-9-1.5-13.5-1.5S15 5.3 15 6s3 1.5 7.5 1.5S29 6 36 6" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <div class="intro-inner">
+    <!-- 로더에서 이미 받아 둔 파일이라 여기서 다시 내려받지 않는다. -->
+    <img class="intro-logo" src="./assets/logo.webp" alt="ISM 아카데미 상징" width="360" height="360" loading="eager" decoding="async" fetchpriority="high">
+    <p class="intro-kicker">ISM ACADEMY · CHEONGHAEDO · 2030</p>
+    <!-- 제목은 손으로 쓴 레터링이라 웹폰트로 흉내낼 수 없다. 그림 한 장을
+         얹되 글자는 DOM에 그대로 남긴다 — 스크린리더·검색·validate_single_scroll이
+         모두 이 텍스트를 읽는다. 화면에서만 밀어내는 것이고 지우는 것이 아니다. -->
+    <h1 class="intro-title" id="intro-title"><img class="intro-title-art" src="./assets/title_wordmark.webp" alt="" width="808" height="418" loading="eager" decoding="async" fetchpriority="high">이종족은 <span class="intro-title-ask">좋아하세요<span class="intro-title-mark">?</span></span></h1>
+    <span class="intro-rule" aria-hidden="true">
+      <i></i>
+      <svg class="intro-rule-arm"><use href="#intro-rule-arm"></use></svg>
+    </span>
+    <!-- 캐치프레이즈. 윗줄이 장르를 알리고, 아랫줄이 제목의 질문을 되받는다.
+         왼쪽 정렬이라 곡선은 답하는 줄 뒤에만 붙인다 — 앞에도 두면 여백에
+         붙은 글머리표처럼 읽힌다. -->
+    <p class="intro-catchphrase">
+      <span class="intro-catchphrase-genre">현대 로우 판타지 이종족 군상극의 세상,</span>
+      <span class="intro-catchphrase-answer">
+        <span class="intro-catchphrase-line">취향입니다만, 존중해주시죠?</span>
+        <svg class="intro-flourish" aria-hidden="true" focusable="false"><use href="#intro-flourish"></use></svg>
+      </span>
+    </p>
+    <p class="intro-copy">2030년 대한민국. 인간과 이종족이 오래된 공존의 기억과 새로운 차별 사이에서 흔들리는 시대, 서해의 인공섬 청해도에 세워진 ISM 아카데미를 중심으로 서로 다른 이름과 삶이 교차한다.</p>
+
+    <!-- 바로가기. 첫 화면에서 갈 만한 곳 셋을 미리 열어 둔다. 스크롤로도
+         닿지만, 무엇이 있는 사이트인지 여기서 한 번에 보이는 편이 낫다. -->
+    <nav class="intro-shortcuts" aria-label="주요 화면 바로가기">
+      <a class="intro-shortcut" href="#world" data-nav-target="world">
+        <span class="intro-shortcut-label">세계관</span>
+        <span class="intro-shortcut-desc">2030년의 청해도와 이종족</span>
+      </a>
+      <a class="intro-shortcut" href="#characters" data-nav-target="characters">
+        <span class="intro-shortcut-label">인물 명부</span>
+        <span class="intro-shortcut-desc">아카데미 29명 · 외부 14명</span>
+      </a>
+      <a class="intro-shortcut" href="./gallery.html">
+        <span class="intro-shortcut-label">갤러리</span>
+        <span class="intro-shortcut-desc">인물별 표정 에셋</span>
+      </a>
+    </nav>
+  </div>
+  <!-- 업데이트 기록. 최신 항목은 항상 위에 두고, 새 회차가 생기면 기존
+       article을 아래 details 안으로 옮긴 뒤 hidden을 제거한다. 기록이 하나뿐인
+       동안에는 "이전 업데이트 보기"가 나타나지 않는다. -->
+  <aside class="intro-updates" aria-labelledby="latest-update-title">
+    <div class="intro-update-heading">
+      <span>ACADEMY BULLETIN</span>
+      <span>01 · LATEST</span>
+    </div>
+    <article class="intro-update-entry intro-update-entry--latest">
+      <h2 id="latest-update-title">1차 업데이트!</h2>
+      <p class="intro-update-date"><span>업데이트</span><time datetime="2026-08-20">2026.08.20</time></p>
+      <h3>변경사항</h3>
+      <ul>
+        <li>프롬프트 최적화 및 로어북 호출어 개선</li>
+        <li>동아리 업데이트</li>
+        <li>장소 에셋 추가</li>
+        <li>커뮤니티·SNS SVG 추가</li>
+        <li>장소 추가: KS 편의점 — 청해도에서만 만나볼 수 있는 김성훈의 자체 브랜드입니다!</li>
+      </ul>
+    </article>
+    <details class="intro-update-history" hidden>
+      <summary>이전 업데이트 보기</summary>
+      <div class="intro-update-history-list">
+        <!-- 이전 회차의 .intro-update-entry를 이곳에 쌓는다. -->
+      </div>
+    </details>
+  </aside>
+  <a class="intro-scroll-cue" href="#factions" data-nav-target="factions" aria-label="세력 소개로 이동">
+    <span>아래로 내려가기</span>
+    <i aria-hidden="true"></i>
+  </a>
+</section>
+
+<!-- Factions -->
+<section class="section" id="section-factions" data-main-faction="ism">
+  <div class="main-inner main-registry" data-main-faction="ism">
+    <nav class="main-faction-nav" aria-label="세력별 메인 페이지">
+      <button class="main-faction-autoplay" type="button" data-main-faction-autoplay aria-pressed="true" aria-label="자동 전환 멈추기">
+        <span class="main-faction-autoplay-icon" aria-hidden="true">Ⅱ</span>
+        <span class="main-faction-autoplay-copy">자동 전환</span>
+        <span class="main-faction-autoplay-count" aria-hidden="true">9초</span>
+        <span class="main-faction-autoplay-progress" aria-hidden="true"></span>
+      </button>
+      <button class="main-faction-step main-faction-step--previous" type="button" data-main-faction-step="-1" aria-label="이전 세력 보기">
+        <span aria-hidden="true">←</span>
+      </button>
+      <div class="main-faction-options" role="group" aria-label="표시할 세력 선택">
+        <button class="main-faction-option active" type="button" data-main-faction-option="ism" aria-pressed="true">
+          <span class="main-faction-option-code">ISM</span>
+          <span>아카데미</span>
+        </button>
+        <button class="main-faction-option" type="button" data-main-faction-option="pbs" aria-pressed="false">
+          <span class="main-faction-option-code">PBS</span>
+          <span>원혈회</span>
+        </button>
+        <button class="main-faction-option" type="button" data-main-faction-option="hprf" aria-pressed="false">
+          <span class="main-faction-option-code">HPRF</span>
+          <span>인간보전전선</span>
+        </button>
+        <button class="main-faction-option" type="button" data-main-faction-option="wf" aria-pressed="false">
+          <span class="main-faction-option-code">W.F.</span>
+          <span>백색울타리</span>
+        </button>
+        <button class="main-faction-option" type="button" data-main-faction-option="rtn" aria-pressed="false">
+          <span class="main-faction-option-code">RTN</span>
+          <span>귀향파</span>
+        </button>
+      </div>
+      <button class="main-faction-step main-faction-step--next" type="button" data-main-faction-step="1" aria-label="다음 세력 보기">
+        <span aria-hidden="true">→</span>
+      </button>
+    </nav>
+
+    <div class="main-registry-copy" id="main-faction-panel">
+      <div class="main-registry-kicker" data-main-kicker>Integrated Species Mutualism</div>
+      <h1 class="main-title" data-main-title>
+        <span data-main-title-primary>ISM</span>
+        <span data-main-title-secondary>Academy</span>
+      </h1>
+      <p class="main-motto" id="main-motto" data-main-motto>
+        <span data-main-motto-primary>Nomen ante genus, fides ante vim</span>
+        <span class="main-motto-sub" data-main-motto-secondary>이름은 혈통보다 앞서고, 신의는 힘보다 앞선다.</span>
+      </p>
+
+      <div class="main-ledger">
+        <span class="main-ledger-heading" data-main-ledger-heading>한눈에 보기</span>
+        <dl class="main-ledger-list">
+          <div class="main-ledger-row">
+            <dt>성격</dt>
+            <dd data-main-ledger-status>공존을 위한 교육·보호 기관</dd>
+          </div>
+          <div class="main-ledger-row">
+            <dt>거점</dt>
+            <dd data-main-ledger-scope>청해도 남부</dd>
+          </div>
+          <div class="main-ledger-row">
+            <dt>역할</dt>
+            <dd data-main-ledger-reference>교육 · 기록 · 보호 · 중재</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="main-seal-field" aria-hidden="true">
+      <span class="main-seal-orbit" aria-hidden="true"></span>
+      <div class="main-logo-wrap" data-main-logo-wrap>
+        <div class="main-logo-figure" data-main-logo-figure>
+          <img id="main-logo-img" src="./assets/logo_ism_academy_transparent.webp" alt="" width="838" height="838" loading="eager" decoding="async" fetchpriority="high">
+        </div>
+      </div>
+    </div>
+
+    <p class="sr-only" id="main-faction-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  </div>
+</section>
+
+<!-- World -->
+<section class="section" id="section-world">
+  <div class="sec-header">
+    <h2 class="sec-header-title">World &amp; Lore</h2>
+    <p class="sec-header-description">여덟 항목 중 하나를 고르면 그 장만 펼쳐집니다. 좌우 화살표로도 넘길 수 있습니다.</p>
+    <div class="sec-header-line"></div>
+  </div>
+
+  <!-- 한 번에 한 장만 펼치는 구성이라 목차가 아니라 탭이다. 그래서 role도
+       tablist/tab/tabpanel을 제대로 붙인다 — 화살표로 옮기고 Tab 키는 본문으로
+       빠지는 동작을 보조기술이 알아야 한다. -->
+  <div class="world-index" role="tablist" aria-label="세계관 항목">
+    <button class="world-tab active" type="button" role="tab" id="world-tab-overview" aria-controls="world-overview" aria-selected="true" data-world-panel-target="world-overview">세계관 개요</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-academy" aria-controls="world-academy" aria-selected="false" tabindex="-1" data-world-panel-target="world-academy">ISM 아카데미</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-map" aria-controls="world-map" aria-selected="false" tabindex="-1" data-world-panel-target="world-map">청해도 지도</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-species" aria-controls="world-species" aria-selected="false" tabindex="-1" data-world-panel-target="world-species">이종족</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-stigma" aria-controls="world-stigma" aria-selected="false" tabindex="-1" data-world-panel-target="world-stigma">스티그마와 시그마</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-factions" aria-controls="world-factions" aria-selected="false" tabindex="-1" data-world-panel-target="world-factions">주요 세력</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-events" aria-controls="world-events" aria-selected="false" tabindex="-1" data-world-panel-target="world-events">주요 사건</button>
+    <button class="world-tab" type="button" role="tab" id="world-tab-docs" aria-controls="world-docs" aria-selected="false" tabindex="-1" data-world-panel-target="world-docs">상세 문서</button>
+  </div>
+
+  <div class="world-hub">
+    <section class="world-block world-block--overview world-panel active" id="world-overview" role="tabpanel" aria-labelledby="world-tab-overview" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">OVERVIEW</span>
+        <h3>세계관 개요</h3>
+      </div>
+      <div class="world-copy">
+        <p data-initial="off">ISM 세계관은 2030년 대한민국, 서해 인공섬 청해도를 중심으로 인간과 다양한 이종족이 같은 사회 안에서 공존을 다시 세워 가는 시대를 다룬다. 인간과 이종족은 오래전부터 서로의 존재를 알고 함께 살아왔으며, 사람들은 이종족 설화와 금기를 존중하고 양측의 생활권을 유지했다. 공존이 언제 시작되었는지는 아무도 모른다. 다만 그 존재를 공식적으로 인정한 것은 약 160년 전의 일이다.</p>
+        <p>그러나 1988년 8월 8일, 부산시에서 뿔 달린 흉악한 이종족 아자키엘이 인간 대량학살을 벌인 8888 참사 이후 공존의 균형은 무너졌다. 한 개인의 범죄가 이종족 전체의 위험성으로 확대되면서 차별이 심해졌고, 수가 적었던 이종족은 인간 사회에서 한발 물러났다. 서로의 존재와 생활을 모르는 것은 아니지만 실제 교류와 신뢰의 깊이는 지역과 개인의 과거에 따라 다르다. ISM 아카데미는 이런 시대 속에서 이종족이 자신의 정체성을 잃지 않으면서 인간 사회와 접점을 만들 수 있도록 교육, 기록, 보호, 중재 기능을 맡는다.</p>
+        <p>육지에서 확인된 주요 이종족 생활권은 인천 항만 빈민가, 서울 대학로 인근 주거지, 경남 산청군 시천면의 지리산 동남부 공동체 세 곳이다. 인천은 가장 다양한 종족이 일용직과 허드렛일로 생계를 잇는 열악한 거주지이며, 대학로에는 종족 특징을 감춘 채 경제적 기반을 마련한 이들이 많다. 지리산 공동체는 8888 참사 뒤 부산을 떠난 가구들이 폐산촌에 자리 잡아 만든 곳으로, 약초와 산나물, 양봉과 목공으로 생계를 잇고 가구 대표 회의와 순환 대표 세 명이 공동생활을 조정한다. 참사 발생지 부산은 2030년 현재도 대한민국에서 이종족 배척이 가장 심해, 공개적인 생활권을 만들기 특히 어려운 도시다.</p>
+      </div>
+    </section>
+
+    <section class="world-block world-block--academy world-panel" id="world-academy" role="tabpanel" aria-labelledby="world-tab-academy" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">THE ACADEMY</span>
+        <h3>ISM 아카데미</h3>
+      </div>
+      <div class="world-copy">
+        <p>김성훈은 38세이던 2012년 막대한 사재를 투입해 청해도 조성을 시작했다. 2016년 1단계 기반시설을 완공한 뒤 2017년 ISM 아카데미를 설립해 개교했다.</p>
+        <p>섬의 건설 사실은 공개되었지만 자금망과 내부 설계, 실제 목적은 비밀리에 관리되었다. 정부에는 이종족 등록·감시·교육을 위한 관리 구역으로 설명해 건설 허가를 받았고, 인간보전전선에는 인간 사회와 분리하기 위한 격리 시설로 전달해 정치적 지지와 비개입을 끌어냈다. 실제로는 이종족의 생활권과 교육·의료·자치 기반을 보장하도록 설계했다.</p>
+        <p data-initial="off">ISM 아카데미는 단순한 교육 시설이 아니라 이종족과 인간 사회 사이의 완충지대다. 아카데미생들은 보호의 대상이면서도, 각자의 종족 특성과 사회적 위치에 따라 독립적인 책임을 지닌 구성원으로 대우받는다.</p>
+        <p>교육은 동화를 강요하기보다 공존을 준비하는 데 초점을 둔다. 종족별 특성 이해, 사회 적응, 직업 교육, 예체능 활동, 재사회화 과정은 모두 한 개인이 자기 이름으로 사회 안에 설 수 있게 만드는 장치다.</p>
+        <p>청해도는 관광 목적의 상시 출입을 허용하지 않는다. 주민, 입학 예정자와 승인된 관계자는 동부 관문지구에서 입도 허가를 확인받으며, 외부 물류 인력은 북부 화물부두와 지정 구역 안에서만 활동한다.</p>
+        <p>매립 면적은 약 2.2㎢, 상주 인구는 약 1,000명이다. 들어올 수 있는 사람이 곧 인구가 되는 섬이라 도시 규모의 기반시설을 마을 규모의 인원이 돌린다. 아카데미생 약 100명도 그 안에 있다.</p>
+      </div>
+    </section>
+
+    <section class="world-block world-block--map cheonghaedo-map-section world-panel" id="world-map" role="tabpanel" aria-labelledby="world-tab-map" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">CHEONGHAEDO</span>
+        <h3>청해도 안내 지도</h3>
+      </div>
+      <p class="cheonghaedo-map-lead">청해도의 5개 권역과 ISM 아카데미의 세부 구역을 안내합니다. 색상과 번호는 오른쪽 지도 표식과 대응합니다.</p>
+
+      <div class="cheonghaedo-map-static-layout">
+        <aside class="cheonghaedo-map-legend" aria-label="청해도 구역 안내">
+          <div class="cheonghaedo-map-legend-head">
+            <span>구역 안내</span>
+            <span>5개 권역 · 교내 3개 구역</span>
+          </div>
+          <ol class="cheonghaedo-map-legend-list">
+            <li class="cheonghaedo-map-legend-item cheonghaedo-map-legend-item--blue">
+              <span class="cheonghaedo-map-legend-index">01</span>
+              <div><strong>동부 관문지구</strong><p>여객항과 터미널을 중심으로 입도 심사, 주민 등록, 행정, 안전 대응을 담당합니다.</p></div>
+            </li>
+            <li class="cheonghaedo-map-legend-item cheonghaedo-map-legend-item--orange">
+              <span class="cheonghaedo-map-legend-index">02</span>
+              <div><strong>중앙 생활지구</strong><p>중앙광장과 시장, 병원, 은행, 공공도서관, 교육·생활시설이 모여 있습니다. 생활업소는 KS 편의점과 하피 부부의 치킨집입니다. KS는 김성훈이 청해도에서만 운영하는 자체 브랜드로 섬 밖에는 점포가 없고, 이사장의 얼굴이 인쇄된 자체 상품도 여기서만 팝니다.</p></div>
+            </li>
+            <li class="cheonghaedo-map-legend-item cheonghaedo-map-legend-item--green">
+              <span class="cheonghaedo-map-legend-index">03</span>
+              <div><strong>서부 주거·생태지구</strong><p>주거 구역과 녹지, 생태 보존 구역, 비행 연습 공간이 자리합니다.</p></div>
+            </li>
+            <li class="cheonghaedo-map-legend-item cheonghaedo-map-legend-item--navy">
+              <span class="cheonghaedo-map-legend-index">04</span>
+              <div><strong>북부 기반시설지구</strong><p>화물부두와 발전·변전시설, 담수화 시설, 정비소가 섬의 운영을 지원합니다.</p></div>
+            </li>
+            <li class="cheonghaedo-map-legend-item cheonghaedo-map-legend-item--violet">
+              <span class="cheonghaedo-map-legend-index">05</span>
+              <div><strong>ISM 아카데미</strong><p>청해도 남부의 교육·연구 중심지로, 세 개의 교내 구역으로 구성됩니다.</p></div>
+              <ol class="cheonghaedo-map-academy-list" aria-label="ISM 아카데미 세부 구역">
+                <li class="cheonghaedo-map-academy-item cheonghaedo-map-academy-item--violet">
+                  <span class="cheonghaedo-map-academy-index">05-A</span>
+                  <div><strong>본관·교육지구</strong><p>본관과 교육동, 실습교육동이 모여 있는 아카데미의 행정·교육 중심 구역입니다.</p></div>
+                </li>
+                <li class="cheonghaedo-map-academy-item cheonghaedo-map-academy-item--cyan">
+                  <span class="cheonghaedo-map-academy-index">05-B</span>
+                  <div><strong>특수교육·지원지구</strong><p>스티그마 교육센터와 의료·생활지원센터, 문화예술관이 전문 교육과 회복·문화 활동을 지원합니다.</p></div>
+                </li>
+                <li class="cheonghaedo-map-academy-item cheonghaedo-map-academy-item--magenta">
+                  <span class="cheonghaedo-map-academy-index">05-C</span>
+                  <div><strong>생활·체육지구</strong><p>기숙사와 체육관, 운동장, 수영장, 비행훈련탑, 야구장이 모인 생활·체육 구역입니다.</p></div>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </aside>
+        <figure class="cheonghaedo-map-figure">
+          <img src="./assets/maps/cheonghaedo-map.webp" alt="청해도 1번부터 4번 권역과 ISM 아카데미 5-A 본관·교육지구, 5-B 특수교육·지원지구, 5-C 생활·체육지구 안내 지도" width="1536" height="1024" loading="lazy" decoding="async">
+          <figcaption>번호와 경계선 색상을 왼쪽 구역 안내와 대조해 확인할 수 있습니다.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="world-block world-block--species world-panel" id="world-species" role="tabpanel" aria-labelledby="world-tab-species" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">SPECIES</span>
+        <h3>이종족과 분류 체계</h3>
+      </div>
+      <div class="world-copy">
+        <p data-initial="off">ISM의 종족 분류 체계는 생물학적 단정이 아니라 기록, 교육, 보호 대응을 위한 실용적 기준에 가깝다. 신체 구조, 감각, 생태, 전승, 사회적 인식을 함께 참고하지만 개인의 정체성을 한 갈래로 고정하지 않는다.</p>
+        <p data-initial="off">ISM은 넓은 통칭보다 각 존재가 실제로 속한 종족명을 우선한다. 설녀, 듀라한, 늑대 수인, 백룡처럼 구체적인 이름을 사용하며, 상세한 계통과 하위 분류는 별도 문서에서 다룬다.</p>
+        <a class="world-doc-link" href="./species.html" target="_blank" rel="noopener">정식 이종족 분류 체계 보기</a>
+      </div>
+    </section>
+
+    <section class="world-block world-block--stigma world-panel" id="world-stigma" role="tabpanel" aria-labelledby="world-tab-stigma" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">STIGMA & SIGMA</span>
+        <h3>스티그마와 시그마 웨폰</h3>
+      </div>
+      <div class="world-stigma-layout">
+        <figure class="world-stigma-visual">
+          <img src="./assets/world/stigma-sigma-symbols.webp" alt="스티그마와 시그마 웨폰의 상징 표기" width="1254" height="1254" loading="lazy" decoding="async">
+          <figcaption>스티그마 · 시그마 웨폰</figcaption>
+        </figure>
+        <div class="world-copy">
+          <p>스티그마는 오직 이종족만이 지닌 채 태어나는 특수한 능력 체계다. 일반적인 과학만으로는 설명하기 어려운 신체, 감각, 생태, 영적 반응이 개인별로 다르게 발현된다.</p>
+          <p>모든 스티그마가 전투에 적합한 것은 아니며, 발현 조건과 제약도 제각각이다. ISM은 스티그마를 강화 대상이 아니라 이해, 제어, 안전, 책임의 대상으로 다룬다.</p>
+          <p>스티그마라는 이름은 지금은 잊힌 옛 문자이자 ‘낙인’을 뜻한다. 이는 이종족의 고유한 힘과, 그 차이를 이유로 사회가 부여한 낙인을 함께 상징한다. 반면 시그마는 서로 다른 힘을 하나의 규격으로 묶어 통제하는 폭력적 동화(同化)의 기호다.</p>
+          <div class="world-power-brief" role="group" aria-label="스티그마와 시그마 웨폰 안내">
+            <article class="world-power-entry world-power-entry--stigma">
+              <div class="world-power-entry-head">
+                <div>
+                  <h4>스티그마</h4>
+                  <p class="world-power-entry-meta">이종족의 선천적 능력</p>
+                </div>
+              </div>
+              <p>개인의 신체, 감각, 생태와 영적 반응에서 서로 다르게 발현한다. 같은 종족이라도 능력의 성질과 한계는 개인마다 다르다.</p>
+            </article>
+            <div class="world-sigma-weapon">
+              <p class="world-sigma-intro">인간이 초상적인 힘을 사용할 수 있도록 제작한 인공 병기를 <strong>시그마 웨폰</strong>이라 한다. 등급과 형태에 따라 서로 다른 현상을 제한적으로 재현한다.</p>
+              <article class="world-power-entry world-power-entry--sigma">
+                <div class="world-power-entry-head">
+                  <div>
+                    <h4>시그마 웨폰</h4>
+                    <p class="world-power-entry-meta">추출 반응을 고정한 인공 병기</p>
+                  </div>
+                </div>
+                <p>원본 스티그마를 완전히 재현하지는 못하며, 일부 성질만 짧고 폭력적인 형태로 발현한다.</p>
+              </article>
+              <details class="world-spoiler">
+                <summary>스포일러 · 시그마 웨폰의 제작 방식 보기</summary>
+                <p>이종족의 스티그마 발현 반응을 생체 조직, 혈액, 영적 잔향과 감각 반응 기록에서 강제로 추출해 인공 매개체에 고정한다.</p>
+                <p>추출 과정은 비인도적으로 진행되는 경우가 많아, ISM은 이를 스티그마 약탈과 중대한 인권 침해로 규정한다.</p>
+              </details>
+              <div class="world-sigma-grades" role="group" aria-label="시그마 웨폰 등급 체계">
+                <div class="world-sigma-grades-label">등급 체계</div>
+                <ol>
+                  <li><strong>4급</strong><span>이미 추출·분석된 스티그마 반응을 규격화해 양산하는 병기. 같은 계통을 반복 생산할 수 있지만 출력은 낮다.</span></li>
+                  <li><strong>3급</strong><span>양산 규격에 속하지 않는 비양산형 병기. 병기마다 별도로 제작하고 관리한다.</span></li>
+                  <li><strong>2급</strong><span>강한 반응을 전투용으로 가공한 병기. 전문 운용과 엄격한 관리가 필요하다.</span></li>
+                  <li><strong>1급</strong><span>희귀하거나 고출력인 반응을 고정한 고위험 병기. 작전 승인 없이 사용이 제한된다.</span></li>
+                  <li><strong>특급</strong><span>원본에 가까운 성질을 재현하거나 전략적 위협이 되는 병기. 소유 자체가 중대 사건으로 취급된다.</span></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="world-block world-block--factions world-panel" id="world-factions" role="tabpanel" aria-labelledby="world-tab-factions" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">FACTIONS</span>
+        <h3>주요 세력</h3>
+      </div>
+      <div class="world-faction-grid">
+        <article class="world-faction-card">
+          <h4>원혈회</h4>
+          <p>대학로 인근에서 적월극장을 운영하는 비밀 이종족 공동체. 낮에는 극단으로 위장하고, 밤에는 이종족 전용 카지노로 전환한다. 인간을 배척하지만 단속과 차별을 피해 도망친 이종족에게 은신처를 제공하기도 한다.</p>
+        </article>
+        <article class="world-faction-card">
+          <h4>인간보전전선</h4>
+          <p>8888 참사 직후 기존 이종족 혐오 세력과 정 실바노의 계략이 결합해 탄생한 단체. 인간 사회의 안전과 복지를 내세우며 정치·제도권에서 활동한다.</p>
+          <details class="world-spoiler">
+            <summary>스포일러 · 실제 이념 보기</summary>
+            <p>실제로는 인간우월주의를 바탕으로 제도권 안에서 로비와 압박을 행사하며 이종족의 권리를 제한하려 한다.</p>
+          </details>
+        </article>
+        <article class="world-faction-card">
+          <h4>백색울타리</h4>
+          <p>8888 참사 뒤 인간보전전선과 함께 만들어진 산하 조직. 직접적인 복지와 보호, 이종족 관련 현장 대응을 수행한다고 내세운다.</p>
+          <details class="world-spoiler">
+            <summary>스포일러 · 실제 역할 보기</summary>
+            <p>실제로는 이종족 납치와 폭력, 실험과 시그마 웨폰 공급망에 관여하는 현장 조직이다.</p>
+          </details>
+        </article>
+        <article class="world-faction-card">
+          <h4>귀향파</h4>
+          <p>강화도 북부 양사면과 하점면 사이, 봉천산 기슭의 은신 공동체 귀로원을 거점으로 생활권과 자치, 구조망을 지키는 이종족 집단. 인천 항만 사태에서 많은 이종족을 구하고 큰 희생을 치른 뒤 젊은 구성원들의 강경한 목소리가 커졌다.</p>
+        </article>
+        <article class="world-faction-card">
+          <h4>GBN·언론</h4>
+          <p>GBN 소속 신입 기자 한서윤이 은폐 사건과 보호 시설 비리, 후원금 흐름을 취재한다. 어느 세력의 주장도 증거 없이 받아들이지 않는 외부 기록자다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="world-block world-block--timeline world-panel" id="world-events" role="tabpanel" aria-labelledby="world-tab-events" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">CHRONICLE</span>
+        <h3>주요 사건</h3>
+      </div>
+      <ol class="world-timeline">
+        <li class="world-timeline-event world-timeline-event--contact">
+          <time>오래전부터</time>
+          <div class="world-timeline-content">
+            <h4>설화와 생활권의 공존</h4>
+            <p>인간과 이종족은 서로의 존재를 알고 설화와 금기를 존중했으며, 각자의 생활권을 유지하면서 장터와 항구, 산촌과 교역로에서 제한적으로 교류했다.</p>
+          </div>
+        </li>
+        <li class="world-timeline-event world-timeline-event--contact">
+          <time datetime="1988-08-08">1988.08.08</time>
+          <div class="world-timeline-content">
+            <h4>8888 참사</h4>
+            <p>부산시에서 뿔 달린 흉악한 이종족 아자키엘(Azachiel)이 인간을 대상으로 대량학살을 벌인 사건. 인간과 이종족의 첫 조우가 아니라, 오랫동안 이어진 공존의 균형을 무너뜨린 역사적 전환점이다.</p>
+            <details class="world-spoiler">
+              <summary>참사 이후의 변화 보기</summary>
+              <p>한 가해자의 범죄가 이종족 전체의 위험성으로 확대되면서 차별과 공포가 급격히 심해졌다. 수가 적었던 이종족은 생활권을 닫고 한발 물러났으며, 엘프 알드헤임 가문은 집단 보복과 단절을 막기 위한 타협과 중재를 시도했다. 같은 혼란 속에서 기존 혐오 세력과 정 실바노의 계략이 결합해 인간보전전선과 백색울타리가 탄생했다. 아자키엘은 사리엘의 형이며, 사리엘은 그를 실패한 지배자라고 평가한다.</p>
+            </details>
+          </div>
+        </li>
+        <li class="world-timeline-event world-timeline-event--project">
+          <time datetime="2012">2012</time>
+          <div class="world-timeline-content">
+            <h4>청해도 계획 착수</h4>
+            <p>38세의 김성훈이 사재를 종잣돈으로 투입해 인공섬 조성을 시작했다. 건설은 공개 사업으로 진행했지만 자금망과 실제 목적, 내부 설계는 비밀리에 관리했다.</p>
+          </div>
+        </li>
+        <li class="world-timeline-event world-timeline-event--academy">
+          <time datetime="2016">2016–2017</time>
+          <div class="world-timeline-content">
+            <h4>기반시설 완공과 ISM 개교</h4>
+            <p>2016년 청해도의 1단계 기반시설이 완공되었고, 이듬해 ISM 아카데미가 설립되어 문을 열었다.</p>
+          </div>
+        </li>
+        <li class="world-timeline-event world-timeline-event--incident">
+          <time datetime="2018-10-31">2018.10.31</time>
+          <div class="world-timeline-content">
+            <h4>할로윈 인천 항만 사태</h4>
+            <p>인천 항만에서 이종족 시위와 대규모 진압이 벌어진 사건. 대외적으로는 과격 시위와 폭동을 진압하는 과정에서 발생한 참사로 기록되어 있다.</p>
+            <details class="world-spoiler">
+              <summary>스포일러 · 사건의 은폐된 진상 보기</summary>
+              <p>백색울타리가 연루된 이종족 아동 치사 사건에 항만 공동체와 연결된 귀향파가 가장 크게 반발했고, 백색울타리의 강압적 대응에 자극받은 일부 무소속 이종족과 귀향파 젊은 구성원이 실제로 폭력적인 소요를 일으켰다. 백색울타리는 일부의 폭력을 현장의 모든 이종족에게 확대 적용해 정부의 진압 승인을 얻은 뒤, 소요 가담 여부를 가리지 않는 무차별 체포·살해·납치를 벌였다. 귀향파는 강화도 북부로 피난로를 열어 많은 이종족을 구했지만 후위 구성원 상당수를 잃었고, 사건은 이종족 사회에 실제 소요를 구실로 벌어진 계획적인 학살·포획으로 기억된다.</p>
+            </details>
+          </div>
+        </li>
+        <li class="world-timeline-event world-timeline-event--present">
+          <time datetime="2030">2030</time>
+          <div class="world-timeline-content">
+            <h4>현재</h4>
+            <p>청해도의 ISM 아카데미를 중심으로 이종족 보호, 교육, 기록, 사회 적응을 둘러싼 제도와 갈등이 동시에 이어지는 시기다.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="world-block world-block--docs world-panel" id="world-docs" role="tabpanel" aria-labelledby="world-tab-docs" tabindex="0">
+      <div class="world-block-head">
+        <span class="world-block-kicker">ARCHIVE</span>
+        <h3>상세 문서</h3>
+      </div>
+      <div class="world-doc-grid">
+        <a class="world-doc-card" href="./species.html" target="_blank" rel="noopener">
+          <strong>정식 이종족 분류 체계</strong>
+          <span>종족 계통과 하위 분류를 정리한 상세 설정 문서</span>
+        </a>
+      </div>
+    </section>
+  </div><!-- /world-hub -->
+
+  <!-- 라틴 모토 — 세계관을 다 읽은 자리에서 닫는 말로 쓴다. -->
+  <div class="world-motto world-motto--closing">
+    <div class="world-motto-latin">NOMEN ANTE GENVS, FIDES ANTE VIM</div>
+    <div class="world-motto-kr">이름은 혈통보다 앞서고, 신의는 힘보다 앞선다.</div>
+  </div>
+
+
+
+</section>
+
+<!-- Schedule -->
+<section class="section" id="section-schedule">
+  <div class="sec-header">
+    <h2 class="sec-header-title">Schedule</h2>
+    <p class="sec-header-description">학사 운영의 기준 시간표와 연간 행사를 확인합니다.</p>
+    <div class="sec-header-line"></div>
+  </div>
+
+  <div class="schedule-body">
+    <div class="schedule-panel">
+      <h3 class="schedule-panel-title">주간 표준 시간표</h3>
+      <div class="weekly-timetable-meta">
+        <p>2030학년도는 3월 4일 월요일 입학식 뒤 3월 5일 화요일부터 이 시간표를 적용합니다. 경제 기초와 사회 적응은 김성훈 이사장이 직접 담당합니다. 토요일 특별 활동은 사전 승인 후 자유 참가로 진행합니다.</p>
+        <div class="weekly-timetable-legend" role="group" aria-label="시간표 과목 유형">
+          <span data-kind="theory">이론</span>
+          <span data-kind="stigma">스티그마</span>
+          <span data-kind="arts">예체능·실습</span>
+          <span data-kind="common">공동시간</span>
+        </div>
+      </div>
+      <section class="weekly-timetable-scroll" aria-label="주간 표준 시간표" tabindex="0">
+        <table class="weekly-timetable">
+          <caption>일요일부터 토요일까지의 ISM 아카데미 주간 표준 시간표</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="weekly-timetable-period">교시</th>
+              <th scope="col" class="is-weekend">일</th>
+              <th scope="col">월</th>
+              <th scope="col">화</th>
+              <th scope="col">수</th>
+              <th scope="col">목</th>
+              <th scope="col">금</th>
+              <th scope="col" class="is-weekend">토</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><strong>1교시</strong><span>09:00–10:00</span></th>
+              <td class="weekly-timetable-free is-weekend" rowspan="7"><strong>자유시간</strong><span>휴식·개인 일정</span></td>
+              <td data-kind="theory">언어와 소통</td>
+              <td data-kind="theory">경제 기초</td>
+              <td data-kind="theory">공존사회</td>
+              <td data-kind="theory">공통과학</td>
+              <td data-kind="theory">기록과 문서</td>
+              <td class="weekly-timetable-free is-weekend" rowspan="7"><strong>자유시간 / 특별 활동</strong><span>자유 참가</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>2교시</strong><span>10:10–11:00</span></th>
+              <td data-kind="theory">종족학 개론</td>
+              <td data-kind="theory">공통과학</td>
+              <td data-kind="theory">한국사</td>
+              <td data-kind="theory">법과 규칙</td>
+              <td data-kind="stigma">스티그마 실습 및 제어 훈련</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>3교시</strong><span>11:10–12:00</span></th>
+              <td data-kind="stigma">스티그마 이론</td>
+              <td data-kind="theory">사회 적응</td>
+              <td data-kind="common">진로 탐색</td>
+              <td data-kind="stigma">스티그마 윤리</td>
+              <td data-kind="common">보건과 이종족 신체의 이해</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>점심</strong><span>12:00–13:30</span></th>
+              <td data-kind="common" colspan="5">점심시간 및 휴식</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>4교시</strong><span>14:00–15:20</span></th>
+              <td data-kind="arts" rowspan="2">생활체육</td>
+              <td data-kind="arts" rowspan="2">음악</td>
+              <td data-kind="arts" rowspan="2">미술</td>
+              <td data-kind="arts">선택 예체능</td>
+              <td data-kind="arts">생활기술</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>5교시</strong><span>15:30–17:00</span></th>
+              <td data-kind="stigma">개별 실습</td>
+              <td data-kind="common">진로 상담</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>방과후</strong><span>17:00 이후</span></th>
+              <td data-kind="common" colspan="5">동아리 활동 또는 자율시간</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="schedule-panel schedule-panel--events">
+      <h3 class="schedule-panel-title">연간 주요 행사</h3>
+      <p class="schedule-panel-description">서로의 생활을 나누는 내부 행사와 인간 사회에 문을 여는 공개 행사를 구분해 운영합니다.</p>
+      <div class="event-grid">
+        <article class="event-card">
+          <time datetime="2030-03-04">3월 4일 월요일</time>
+          <h4>입학식</h4>
+          <p>입학식과 교내·기숙사 안내, 환영 점심, 키류 센토의 체육 오리엔테이션을 진행합니다. 이후 공식 일정은 없으며 5일 화요일부터 정규수업을 시작합니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-03-16">3월 16일–17일</time>
+          <h4>동아리 모집</h4>
+          <p>주말 이틀 동안 신청과 모집을 함께 진행합니다. 요리부·사진부·특촬물 연구부·도서부·신체개발부가 부원을 받고, 학생이 새 동아리를 제안해 담당 교수를 구할 수도 있습니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-05">5월</time>
+          <h4>청해만상제</h4>
+          <p>종족 문화와 생활 방식, 특기와 동아리를 나누는 이틀간의 내부 축제. 체험 부스·학생 수업·야시장·작품 전시가 이어집니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-07-28">7월 28일–8월 2일</time>
+          <h4>청파합숙</h4>
+          <p>청해도 서부 해안의 별도 시설 ‘청파합숙소’에서 진행하는 자유 참가 합숙. 해양 활동·요리 당번·담력시험·캠프파이어를 함께합니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-09-15">9월 15일</time>
+          <h4>공명대제</h4>
+          <p>야구와 축구, 장애물 릴레이와 스티그마 제한 협동 미션으로 구성된 ISM식 체육 행사입니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-10-31">10월 31일</time>
+          <h4>야영가면제</h4>
+          <p>2018년 할로윈 인천 항만 사태로 중단되었다가, 학생들의 일상을 되찾기 위해 2030년 다시 여는 내부 야간 행사입니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-11-11">11월 11–12일</time>
+          <h4>청해문화제</h4>
+          <p>인간 방문객에게 캠퍼스와 이종족 문화를 소개하는 대외 행사. 투어·전시·공연·교류 토크를 진행합니다.</p>
+        </article>
+        <article class="event-card">
+          <time datetime="2030-12-25">12월 25일</time>
+          <h4>성야제</h4>
+          <p>학생과 직원이 선물 교환, 저녁 식사와 미니 공연으로 한 해를 마무리하는 내부 연말 행사입니다.</p>
+        </article>
+      </div>
+      <p class="schedule-assessment"><strong>평가 일정</strong><span>4월·10월 하순 중간고사 · 6월 19일·12월 20일 기말고사 · 6월 26일 여름방학 시작</span></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Characters -->
+<section class="section" id="section-characters">
+  <div class="characters-search-hero">
+    <div class="sec-header sec-header--compact">
+        <h2 class="sec-header-title">Characters</h2>
+      <p class="sec-header-description characters-search-lead">소속을 선택하고 명부를 펼쳐 인물을 살펴보거나 이름으로 검색할 수 있습니다.</p>
+      <div class="sec-header-line"></div>
+    </div>
+
+    <!-- 갤러리 입구. 예전에는 구간 하나가 링크 한 개를 담느라 화면 전체를
+         썼다. 인물 에셋은 결국 이 명부의 인물들이므로 여기 붙는 것이 맞다.
+         .sec-header 안에 두면 제목보다 위로 올라가므로 밖에 둔다. -->
+    <a class="gallery-entrance-link" href="./gallery.html">
+      <span class="gallery-entrance-link-label">인물 에셋 갤러리</span>
+      <span class="gallery-entrance-link-desc">표정 에셋을 인물별로 모아 둔 화면</span>
+      <span class="gallery-entrance-link-go" aria-hidden="true">→</span>
+    </a>
+
+    <div id="characters-filter-bar" class="char-filter-bar characters-global-search-bar">
+      <div class="char-search-wrap char-search-wrap--global" id="characters-search-wrap">
+        <input type="search" id="characters-search" name="characters-search" aria-label="캐릭터 검색" placeholder="이름 · 소속 · 종족 · 코드로 검색…" autocomplete="off">
+      </div>
+      <button type="button" class="filter-reset-btn" id="characters-search-reset">초기화</button>
+      <span id="characters-search-count" class="filter-count" role="status" aria-live="polite" aria-atomic="true"></span>
+    </div>
+    <div class="characters-scope-pills" role="group" aria-label="인물 빠른 필터">
+      <button type="button" class="characters-scope-pill active" data-character-scope="all">전체</button>
+      <button type="button" class="characters-scope-pill" data-character-scope="ism">ISM</button>
+      <button type="button" class="characters-scope-pill" data-character-scope="external">외부 인물</button>
+      <button type="button" class="characters-scope-pill" data-character-scope="student">아카데미생</button>
+      <button type="button" class="characters-scope-pill" data-character-scope="staff">교직원</button>
+      <button type="button" class="characters-scope-pill characters-spoiler-pill" id="characters-spoiler-toggle" aria-pressed="false">스포일러 표시</button>
+    </div>
+    <div id="characters-search-empty" class="assets-empty characters-search-empty" hidden>검색 결과가 없습니다.</div>
+  </div>
+
+  <div class="org-selector org-selector--segmented" role="group" aria-label="소속 선택">
+    <button class="org-select-card active" type="button" data-org="ism" aria-pressed="true">
+      <span class="org-select-logo"><img src="./assets/logo_ism_mark.webp" alt="" width="438" height="433" loading="lazy" decoding="async"></span>
+      <span class="org-select-copy">
+        <strong class="org-name--ism">ISM 아카데미</strong>
+        <span>아카데미 소속 명부</span>
+      </span>
+    </button>
+    <button class="org-select-card" type="button" data-org="external" aria-pressed="false">
+      <span class="org-select-logo org-select-logo--stack">
+        <span class="org-external-mark org-external-mark--pbs"><img src="./assets/logo_pbs_mark.webp" alt="" width="512" height="358" loading="lazy" decoding="async"></span>
+        <span class="org-external-mark org-external-mark--hprf"><img src="./assets/logo_hprf_mark.webp" alt="" width="300" height="319" loading="lazy" decoding="async"></span>
+        <span class="org-external-mark org-external-mark--wf"><img src="./assets/logo_wf_mark.webp" alt="" width="306" height="304" loading="lazy" decoding="async"></span>
+        <span class="org-external-mark org-external-mark--rtn"><img src="./assets/logo_rtn_mark.webp" alt="" width="353" height="371" loading="lazy" decoding="async"></span>
+      </span>
+      <span class="org-select-copy">
+        <strong>외부 인물</strong>
+        <span>외부 조직 · 언론·민간</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="char-grid-wrap">
+    <div class="org-roster active" id="org-ism">
+      <div class="roster-head">
+        <h3 class="roster-title roster-title--wordmark roster-group-title--wordmark">
+          <img class="faction-wordmark faction-wordmark--ism" src="./assets/wordmark_ism.webp" alt="ISM 아카데미" width="660" height="160" loading="lazy" decoding="async">
+          <span class="faction-wordmark-fallback">ISM 아카데미</span>
+        </h3>
+        <p class="roster-desc">ISM 아카데미 소속 아카데미생과 교직원을 확인합니다.</p>
+      </div>
+
+      <!-- 아카데미 명부는 이 사이트의 본체이므로 펼친 상태로 연다. -->
+      <section class="roster-group roster-group--students" data-roster-group="students">
+        <button class="roster-group-toggle" type="button" aria-expanded="true">
+          <span class="roster-group-copy">
+            <span class="roster-group-title">아카데미생 명부</span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="students-filter-bar" class="char-filter-bar" hidden></div>
+          <div id="students-grid"></div>
+        </div>
+      </section>
+
+      <section class="roster-group roster-group--staff" data-roster-group="staff">
+        <button class="roster-group-toggle" type="button" aria-expanded="true">
+          <span class="roster-group-copy">
+            <span class="roster-group-title">교직원 명부</span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="staff-grid" class="char-grid"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="org-roster" id="org-external">
+      <div class="roster-head roster-head--external">
+        <h3 class="roster-title">외부 인물 명부</h3>
+        <p class="roster-desc">ISM 아카데미 외부에서 활동하는 조직 인물과 언론·민간 인물을 확인합니다.</p>
+      </div>
+
+      <section class="roster-group roster-group--faction roster-group--pbs" data-roster-group="pbs">
+        <button class="roster-group-toggle faction-toggle" type="button" aria-expanded="true">
+          <span class="faction-toggle-logo"><img src="./assets/logo_pbs.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>
+          <span class="faction-toggle-copy">
+            <span class="roster-group-title roster-group-title--wordmark">
+              <img class="faction-wordmark faction-wordmark--pbs" src="./assets/wordmark_pbs.webp" alt="원혈회" width="560" height="160" loading="lazy" decoding="async">
+              <span class="faction-wordmark-fallback">원혈회</span>
+            </span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="pbs-grid" class="char-grid"></div>
+        </div>
+      </section>
+
+      <section class="roster-group roster-group--faction roster-group--hprf" data-roster-group="hprf">
+        <button class="roster-group-toggle faction-toggle" type="button" aria-expanded="true">
+          <span class="faction-toggle-logo"><img src="./assets/logo_hprf.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>
+          <span class="faction-toggle-copy">
+            <span class="roster-group-title roster-group-title--wordmark">
+              <img class="faction-wordmark faction-wordmark--hprf" src="./assets/wordmark_hprf.webp" alt="인간보전전선" width="680" height="160" loading="lazy" decoding="async">
+              <span class="faction-wordmark-fallback">인간보전전선</span>
+            </span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="hprf-grid" class="char-grid"></div>
+        </div>
+      </section>
+
+      <section class="roster-group roster-group--faction roster-group--wf" data-roster-group="wf">
+        <button class="roster-group-toggle faction-toggle" type="button" aria-expanded="true">
+          <span class="faction-toggle-logo"><img src="./assets/logo_wf.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>
+          <span class="faction-toggle-copy">
+            <span class="roster-group-title roster-group-title--wordmark">
+              <img class="faction-wordmark faction-wordmark--wf" src="./assets/wordmark_wf.webp" alt="백색울타리" width="600" height="160" loading="lazy" decoding="async">
+              <span class="faction-wordmark-fallback">백색울타리</span>
+            </span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="wf-grid" class="char-grid"></div>
+        </div>
+      </section>
+
+      <section class="roster-group roster-group--faction roster-group--rtn" data-roster-group="rtn">
+        <button class="roster-group-toggle faction-toggle" type="button" aria-expanded="true">
+          <span class="faction-toggle-logo"><img src="./assets/logo_rtn.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>
+          <span class="faction-toggle-copy">
+            <span class="roster-group-title roster-group-title--wordmark">
+              <img class="faction-wordmark faction-wordmark--rtn" src="./assets/wordmark_rtn.webp" alt="귀향파" width="560" height="160" loading="lazy" decoding="async">
+              <span class="faction-wordmark-fallback">귀향파</span>
+            </span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="rtn-grid" class="char-grid"></div>
+        </div>
+      </section>
+
+      <section class="roster-group roster-group--nf" data-roster-group="nf">
+        <button class="roster-group-toggle faction-toggle" type="button" aria-expanded="true">
+          <span class="faction-toggle-logo"><img src="./assets/logo_nf.webp" alt="" width="128" height="128" loading="lazy" decoding="async"></span>
+          <span class="faction-toggle-copy">
+            <span class="roster-group-title roster-group-title--wordmark">
+              <img class="faction-wordmark faction-wordmark--nf" src="./assets/wordmark_nf.webp" alt="언론·민간" width="560" height="160" loading="lazy" decoding="async">
+              <span class="faction-wordmark-fallback">언론·민간</span>
+            </span>
+          </span>
+          <span class="roster-group-icon" aria-hidden="true">⌄</span>
+        </button>
+        <div class="roster-group-body">
+          <div id="nf-grid" class="char-grid"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ▶ 엔딩 섹션 "당신에 대하여" — 스크롤 시 페이드인 애니메이션 -->
+  <section class="world-you world-you--epilogue" id="world-you" aria-labelledby="world-you-heading">
+    <div class="world-you-inner">
+      <div class="wy-deco" aria-hidden="true">✦ ✦ ✦</div>
+      <h3 class="wy-heading" id="world-you-heading">그리고, 당신에 대하여</h3>
+      <div class="wy-body">
+        <p>ISM 최초의 인간 교수가 되는 것도, ISM 아카데미생이 되는 것도,<br>
+        혹은 또 다른 누군가가 되어 이 세상에 뛰어드는 것도, 당신의 자유!</p>
+        <p class="wy-emphasis">
+          인간보다 더 인간다운 삶을 원한다면<br>
+          <em><strong>ISM의 문은 열려 있습니다</strong></em>
+        </p>
+      </div>
+    </div>
+  </section><!-- /world-you -->
+</main>
+
+<!-- Character Detail Overlay -->
+<div id="char-detail-overlay"></div>
+
+<!-- Character Detail -->
+<div id="char-detail" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="캐릭터 상세 정보" inert>
+  <!-- 좌우 이동 버튼 -->
+  <button class="cdp-nav cdp-nav--prev" type="button" data-detail-nav="-1" aria-label="이전 캐릭터" title="이전 캐릭터 (←)">&#8592;</button>
+  <button class="cdp-nav cdp-nav--next" type="button" data-detail-nav="1" aria-label="다음 캐릭터" title="다음 캐릭터 (→)">&#8594;</button>
+  <div class="char-detail-inner">
+    <div class="cdp-content" id="cdp-content"></div>
+  </div>
+  <!-- 명부 레일 — 상세를 닫지 않고 같은 명단 안에서 인물을 오간다. 좌우 화살표와
+       같은 순서(화면에 보이는 카드 순서)를 쓴다. 내용은 app.js가 채운다. -->
+  <nav class="cdp-roster-rail" id="cdp-roster-rail" aria-label="명부에서 다른 인물 보기" hidden></nav>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="갤러리 이미지 확대 보기" inert>
+  <button class="lightbox-close" type="button" data-lightbox-close aria-label="라이트박스 닫기">✕</button>
+  <button class="lightbox-nav lightbox-nav--prev" type="button" data-lightbox-nav="-1" aria-label="이전 에셋">‹</button>
+  <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="832" height="1216" loading="lazy" decoding="async">
+  <button class="lightbox-nav lightbox-nav--next" type="button" data-lightbox-nav="1" aria-label="다음 에셋">›</button>
+  <div class="lightbox-label" id="lightbox-label"></div>
+</div>
+
+<!-- JavaScript -->
+<script type="module" src="./app.js?__VERSION__"></script>
+<script src="./easter.js?__VERSION__" defer></script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>이종족 계통분류학</title><style>
+:root{--ink:#17191d;--muted:#606873;--paper:#e9dfca;--page:#fffdf6;--page2:#fbf6ea;--line:#b8ab8f;--line2:#d9cfbb;--rule:#6e624a;--accent:#7d1f2c;--accent2:#9b6b2e;--blue:#1f4c63;--charcoal:#292d35;--shadow:rgba(45,35,20,.18)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(circle at 18% 10%,rgba(125,31,44,.08),transparent 28%),linear-gradient(90deg,rgba(60,50,32,.06) 0 1px,transparent 1px) 0 0/32px 32px,linear-gradient(rgba(60,50,32,.045) 0 1px,transparent 1px) 0 0/32px 32px,var(--paper);font-family:"Noto Serif KR","KoPub Batang","Times New Roman",serif;line-height:1.82}.book{width:min(1180px,calc(100% - 48px));margin:0 auto;padding:48px 0 92px}.page{position:relative;background:var(--page);border:1px solid var(--line);box-shadow:0 26px 80px var(--shadow);padding:0 72px 78px;overflow:hidden}.page::before{content:"ISM ACADEMY PRESS";position:absolute;right:-72px;top:360px;transform:rotate(90deg);font-size:11px;letter-spacing:.38em;color:rgba(110,98,74,.22);font-weight:700}.page::after{content:"";position:absolute;inset:18px;border:1px solid rgba(110,98,74,.16);pointer-events:none}.cover{position:relative;margin:0 -72px 46px;padding:68px 72px 58px;background:linear-gradient(180deg,#fffaf0,#f6eddc);border-bottom:1px solid var(--line)}.cover-kicker{font-size:12px;letter-spacing:.28em;color:var(--accent2);text-transform:uppercase;font-weight:700}.cover h1{margin:18px 0 18px;padding:0;border:0;font-size:clamp(42px,5vw,68px);line-height:1.14;letter-spacing:.02em}.cover-rule{width:160px;height:4px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:22px 0}.cover-sub{max-width:720px;color:var(--muted);font-size:16px;text-align:left}.cover-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:34px}.cover-meta div{padding:13px 14px;border:1px solid var(--line2);background:rgba(255,253,246,.72)}.cover-meta b{display:block;margin-bottom:4px;color:var(--accent);font-size:12px;letter-spacing:.08em}.cover-meta span{font-size:14px;color:var(--ink)}.topnav{position:sticky;top:0;z-index:3;margin:0 0 38px;padding:12px 0;border-top:2px solid var(--rule);border-bottom:1px solid var(--line);background:rgba(255,253,246,.94);backdrop-filter:blur(8px);font-size:13px}.topnav a{display:inline-block;margin:4px 16px 4px 0;color:var(--blue);text-decoration:none}.topnav a:hover{text-decoration:underline}h2{counter-increment:chapter;margin:58px 0 20px;padding:18px 0 0;border-top:1px solid var(--rule);font-size:28px;line-height:1.34}h2::before{content:"CHAPTER " counter(chapter, decimal-leading-zero);display:block;margin-bottom:7px;color:var(--accent2);font-size:12px;letter-spacing:.18em;font-weight:700}h2:first-of-type{counter-increment:none}h2:first-of-type::before{content:"PREFACE"}h3{margin:34px 0 13px;padding-left:12px;border-left:4px solid var(--accent);font-size:21px;color:var(--accent);line-height:1.36}p{margin:12px 0;font-size:16px;text-align:justify}strong{color:var(--accent)}code{padding:1px 5px;border:1px solid rgba(121,108,80,.35);background:var(--page2);font-family:Consolas,"Cascadia Mono",monospace;font-size:.9em;color:var(--accent)}pre{overflow:auto;margin:18px 0 32px;padding:20px 24px;border:1px solid var(--line);border-left:6px solid var(--rule);background:#fbf6ea;font-size:14px;line-height:1.55;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}pre code{padding:0;border:0;background:transparent;color:var(--ink)}hr{height:1px;margin:38px 0;border:0;background:linear-gradient(90deg,transparent,var(--line),transparent)}table{width:100%;margin:18px 0 32px;border-collapse:collapse;border-top:2px solid var(--rule);border-bottom:2px solid var(--rule);background:#fffdf8;box-shadow:0 8px 22px rgba(45,35,20,.05)}th,td{padding:11px 13px;border-bottom:1px solid var(--line2);text-align:left;vertical-align:top;font-size:14.5px;line-height:1.62}th{color:#fffdf6;background:var(--charcoal);font-weight:700}tr:nth-child(even) td{background:#faf5e9}td:first-child{font-weight:600;color:#4d4332}ul,ol{margin:12px 0 22px;padding-left:27px}li{margin:5px 0}@media(max-width:760px){.book{width:min(100% - 20px,1180px);padding:20px 0 42px}.page{padding:0 20px 40px}.cover{margin:0 -20px 30px;padding:40px 20px 34px}.cover h1{font-size:36px}.cover-meta{grid-template-columns:1fr}.topnav{position:static}h2{font-size:24px}h3{font-size:19px}table{display:block;overflow-x:auto}th,td{min-width:170px;font-size:13.5px}p{text-align:left}.page::before,.page::after{display:none}}
+</style><style id="academic-redesign">
+body{background:linear-gradient(90deg,rgba(31,45,54,.08) 0 1px,transparent 1px) 0 0/46px 46px,linear-gradient(rgba(31,45,54,.06) 0 1px,transparent 1px) 0 0/46px 46px,#d8cfbc;color:#20242a}.book{width:min(1240px,calc(100% - 44px));padding:34px 0 80px}.page{background:#fffdf7;border:0;border-left:14px solid #243743;box-shadow:0 28px 90px rgba(27,30,33,.22);padding:0 70px 84px}.page::before{content:"ISM FIELD ARCHIVE";right:-82px;color:rgba(36,55,67,.18)}.page::after{inset:22px;border-color:rgba(36,55,67,.14)}.cover{min-height:520px;display:grid;align-content:center;margin:0 -70px 38px;padding:76px 76px 64px;background:linear-gradient(90deg,rgba(36,55,67,.08),transparent 32%),linear-gradient(180deg,#fffdf8 0%,#f4ecdd 100%);border-bottom:4px double #88795c}.cover::before{content:"ISM";position:absolute;right:72px;top:70px;width:118px;height:118px;display:grid;place-items:center;border:2px solid #7d1f2c;border-radius:50%;color:#7d1f2c;font:700 28px/1 Georgia,serif;letter-spacing:.14em;opacity:.78}.cover::after{content:"INTERNAL CLASSIFICATION TEXT";position:absolute;right:84px;bottom:62px;color:#6d5f46;font:700 11px/1.2 Georgia,serif;letter-spacing:.22em}.cover-kicker{color:#7d1f2c;font-size:12px;letter-spacing:.32em}.cover h1{max-width:960px;margin:20px 0 18px;color:#18242d;font-size:clamp(44px,5vw,72px);line-height:1.08;word-break:keep-all;overflow-wrap:normal}.cover-rule{width:240px;height:7px;border-top:2px solid #243743;border-bottom:1px solid #88795c}.cover-sub{max-width:760px;color:#4e5860;font-size:17px;line-height:1.85}.cover-meta{max-width:860px;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.cover-meta div{border:1px solid rgba(36,55,67,.22);border-top:4px solid #243743;background:rgba(255,253,247,.78);box-shadow:0 10px 22px rgba(27,30,33,.06)}.cover-meta b{color:#7d1f2c}.topnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 -8px 44px;padding:14px 8px;border:0;border-bottom:1px solid rgba(36,55,67,.18);background:rgba(255,253,247,.92)}.topnav::before{content:"CONTENTS";margin-right:8px;padding:5px 10px;background:#243743;color:#fffdf7;font-size:12px;font-weight:700;letter-spacing:.08em}.topnav a{margin:0;padding:6px 10px;border:1px solid rgba(36,55,67,.18);color:#243743;background:#fbf7ed;text-decoration:none;font-size:13px}.topnav a:hover{border-color:#7d1f2c;color:#7d1f2c;text-decoration:none}h2{display:grid;grid-template-columns:minmax(108px,auto) 1fr;gap:18px;align-items:end;margin:64px 0 24px;padding:22px 0 12px;border-top:2px solid #243743;border-bottom:1px solid rgba(36,55,67,.16);color:#18242d}h2::before{align-self:start;display:inline-block;margin:4px 0 0;padding:7px 9px;background:#7d1f2c;color:#fffdf7;font-size:11px;letter-spacing:.13em}h2:first-of-type::before{background:#243743}h3{position:relative;margin:34px 0 0;padding:15px 18px 14px 46px;border:1px solid rgba(36,55,67,.2);border-bottom:0;border-left:6px solid #7d1f2c;background:#f8f2e6;color:#18242d;font-size:20px}h3::before{content:"";position:absolute;left:19px;top:22px;width:12px;height:12px;border:2px solid #7d1f2c;transform:rotate(45deg)}h3+table{margin-top:0}h3+table,h3+table+table{border:1px solid rgba(36,55,67,.2);border-top:0}p{max-width:86ch;font-size:16px}pre{border:1px solid rgba(36,55,67,.22);border-left:6px solid #243743;background:#f7efe0;box-shadow:none}table{border:1px solid rgba(36,55,67,.18);border-top:3px solid #243743;background:#fffdf8;box-shadow:none}th{background:#243743;color:#fffdf7;border-bottom:0}td{border-bottom:1px solid rgba(36,55,67,.12)}td:first-child{width:180px;color:#7d1f2c}tr:nth-child(even) td{background:#fbf6ec}code{border-color:rgba(125,31,44,.26);background:#fbf6ec;color:#7d1f2c}hr{margin:46px 0;background:linear-gradient(90deg,#243743 0 110px,rgba(36,55,67,.22) 110px,transparent)}@media(max-width:760px){.book{width:min(100% - 18px,1240px);padding:16px 0 40px}.page{border-left:6px solid #243743;padding:0 18px 42px}.cover{min-height:auto;margin:0 -18px 26px;padding:42px 22px 38px}.cover::before{right:22px;top:28px;width:72px;height:72px;font-size:18px}.cover::after{display:none}.cover h1{font-size:36px;max-width:calc(100% - 84px);word-break:keep-all}.cover-meta{grid-template-columns:1fr}h2{grid-template-columns:1fr;gap:8px;font-size:24px}h3{padding-left:40px}.topnav{position:static}}
+</style><style id="academic-logo-redesign">
+:root{--ism-navy:#001f64;--ism-navy-deep:#071a35;--ism-gold:#9a8359;--ism-paper:#fbf7ed;--ism-rule:#213241}
+body{background:radial-gradient(circle at 12% 8%,rgba(0,31,100,.12),transparent 26%),linear-gradient(90deg,rgba(7,26,53,.08) 0 1px,transparent 1px) 0 0/44px 44px,linear-gradient(rgba(7,26,53,.06) 0 1px,transparent 1px) 0 0/44px 44px,#d7cfbd}.book{width:min(1260px,calc(100% - 44px));padding:32px 0 82px}.page{border-left:16px solid var(--ism-navy-deep);background:#fffdf7;box-shadow:0 30px 90px rgba(7,26,53,.22)}.page::before{content:"ISM ACADEMY ARCHIVE";color:rgba(0,31,100,.16)}.cover{min-height:610px;display:grid;grid-template-columns:minmax(0,1fr) 330px;grid-template-rows:auto auto auto auto 1fr;column-gap:54px;align-content:center;margin:0 -70px 38px;padding:74px 76px 66px;background:linear-gradient(90deg,rgba(0,31,100,.08),transparent 40%),linear-gradient(180deg,#fffdf9 0%,#f4ecdc 100%);border-bottom:5px double rgba(7,26,53,.6)}.cover::before{display:none}.cover::after{content:"INTERNAL CLASSIFICATION TEXT";right:78px;bottom:58px;color:rgba(0,31,100,.78);font:700 11px/1.2 Georgia,serif;letter-spacing:.24em}.cover-logo{grid-column:2;grid-row:1 / span 5;width:min(300px,100%);align-self:center;justify-self:center;padding:28px;border:1px solid rgba(0,31,100,.14);background:rgba(255,253,247,.64);box-shadow:0 18px 44px rgba(7,26,53,.10)}.cover-kicker,.cover h1,.cover-rule,.cover-sub,.cover-meta{grid-column:1}.cover-kicker{color:var(--ism-navy);font-size:12px;letter-spacing:.34em}.cover h1{max-width:820px;margin:22px 0 20px;color:#111b25;font-size:clamp(48px,5.4vw,76px);line-height:1.08;word-break:keep-all}.cover-rule{width:280px;height:8px;border-top:3px solid var(--ism-navy-deep);border-bottom:1px solid var(--ism-gold);margin:18px 0 28px}.cover-sub{max-width:760px;color:#374657;font-size:17px;line-height:1.9}.cover-meta{max-width:900px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:36px}.cover-meta div{border:1px solid rgba(0,31,100,.16);border-top:5px solid var(--ism-navy);background:rgba(255,253,247,.82);box-shadow:0 12px 26px rgba(7,26,53,.07)}.cover-meta b{color:var(--ism-navy);letter-spacing:.12em}.topnav::before{background:var(--ism-navy-deep)}.topnav a:hover{border-color:var(--ism-navy);color:var(--ism-navy)}h2{border-top-color:var(--ism-navy-deep)}h2::before{background:var(--ism-navy)}h2:first-of-type::before{background:var(--ism-navy-deep)}h3{border-left-color:var(--ism-navy);background:#f7f2e7}h3::before{border-color:var(--ism-navy)}th{background:var(--ism-navy-deep)}td:first-child{color:var(--ism-navy)}table{border-top-color:var(--ism-navy-deep)}code{color:var(--ism-navy);border-color:rgba(0,31,100,.25)}hr{background:linear-gradient(90deg,var(--ism-navy-deep) 0 120px,rgba(7,26,53,.22) 120px,transparent)}@media(max-width:900px){.cover{grid-template-columns:1fr;row-gap:22px}.cover-logo{grid-column:1;grid-row:auto;width:210px;justify-self:start;padding:18px}.cover h1{max-width:100%}.cover::after{display:none}}@media(max-width:760px){.book{width:min(100% - 18px,1260px)}.page{border-left-width:7px}.cover{margin:0 -18px 26px;padding:36px 22px 38px;min-height:auto}.cover-logo{width:150px}.cover h1{font-size:34px;max-width:100%}.cover-meta{grid-template-columns:1fr}.cover-kicker{letter-spacing:.22em}}
+</style><style id="taxonomy-v4">h2:first-of-type{counter-increment:chapter}h2:first-of-type::before{content:"CHAPTER " counter(chapter,decimal-leading-zero);background:var(--ism-navy)}</style></head><body><main class="book"><article class="page"><header class="cover"><img class="cover-logo" src="../../assets/logo_ism_academy_transparent.webp" alt="ISM Academy"><div class="cover-kicker">ISM Academy Press / Classification Standard</div><h1>이종족 계통분류학</h1><div class="cover-rule"></div><p class="cover-sub">안정적으로 재현되는 신체 구조, 생리, 생활사와 전승 형질을 기준으로 정리한 ISM 표준 분류 체계.</p><div class="cover-meta"><div><b>편찬</b><span>공존생태학부·종족사회학</span></div><div><b>용도</b><span>내부 강의 교재</span></div><div><b>판본</b><span>개정 제4판</span></div></div></header><nav class="topnav"><a href="#1-분류-범위">분류 범위</a><a href="#2-최상위-계통">최상위 계통</a><a href="#3-아인계">아인계</a><a href="#4-동물계">동물계</a><a href="#5-용린계">용린계</a><a href="#6-사령계">사령계</a><a href="#7-무정형계">무정형계</a><a href="#8-판정-절차">판정 절차</a><a href="#9-분류-윤리">분류 윤리</a></nav><h2 id="1-분류-범위">1. 분류 범위</h2>
+<p>이종족 계통은 안정적으로 유전·재현되는 신체 구조, 생리, 생활사와 전승
+형질을 기준으로 구분한다. 스티그마, 성격, 직업, 소속과 가문은 계통
+판정에 사용하지 않는다.</p>
+<p>분류명은 신체적 지원, 의료, 교육과 안전 설계에 필요한 공통 언어다.
+계통만으로 개인의 성향, 지능, 도덕성이나 위험도를 추정할 수 없다.</p>
+<h3 id="11-표준-분류식">1.1 표준 분류식</h3>
+<pre class="text"><code>계 - 류 - 형 - 목 - 과 - 속 - 종 - 인식권 - 아종</code></pre>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>판정 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>계</td>
+<td>존재 방식과 생명 활동의 최상위 갈래</td>
+</tr>
+<tr>
+<td>류</td>
+<td>생태·전승 형질의 주된 발생 양상</td>
+</tr>
+<tr>
+<td>형</td>
+<td>전신의 기본 체제와 체형</td>
+</tr>
+<tr>
+<td>목</td>
+<td>기관 배열과 생활사의 공통 구조</td>
+</tr>
+<tr>
+<td>과</td>
+<td>가까운 진단 형질을 공유하는 종군</td>
+</tr>
+<tr>
+<td>속</td>
+<td>과 내부의 직접적인 근연군</td>
+</tr>
+<tr>
+<td>종</td>
+<td>독립적으로 식별되는 기본 분류 단위</td>
+</tr>
+<tr>
+<td>인식권</td>
+<td>종을 해석해 온 문화·전승 환경을 표시하는 보조 표지</td>
+</tr>
+<tr>
+<td>아종</td>
+<td>종 내부에서 안정적으로 이어지는 형태·생리·전승 변이</td>
+</tr>
+</tbody>
+</table>
+<p>인식권은 혈연 서열이 아니다. 생물학적 단계와 분리해 기록하며, 같은
+종도 생활권에 따라 다른 인식권을 가질 수 있다.</p>
+<h3 id="12-인식권">1.2 인식권</h3>
+<table>
+<thead>
+<tr>
+<th>인식권</th>
+<th>적용 기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>서양환상권</td>
+<td>서양의 요정·악마·기사·용·언데드 전승과 결합한 경우</td>
+</tr>
+<tr>
+<td>동양전승권</td>
+<td>동아시아의 설화·요괴·신앙 체계와 결합한 경우</td>
+</tr>
+<tr>
+<td>혼성환상권</td>
+<td>둘 이상의 전승 체계가 중첩되어 하나로 환원하기 어려운 경우</td>
+</tr>
+<tr>
+<td>범생태권</td>
+<td>특정 전승보다 현실 동물의 생태와 감각 형질이 우선하는 경우</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-통칭과-정식명">1.3 통칭과 정식명</h3>
+<table>
+<thead>
+<tr>
+<th>통칭</th>
+<th>분류학적 취급</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>수인</td>
+<td>동물 형질을 지닌 여러 종을 묶는 편의 명칭</td>
+</tr>
+<tr>
+<td>요괴</td>
+<td>동양전승권 이종족에 붙는 사회·문화적 통칭</td>
+</tr>
+<tr>
+<td>용족</td>
+<td>용린계 진룡목의 여러 종을 묶는 상위 통칭</td>
+</tr>
+<tr>
+<td>엘프</td>
+<td>엘프과 구성원을 가리키는 통칭</td>
+</tr>
+</tbody>
+</table>
+<p>정확한 종이 확인되면 통칭보다 종명을 우선한다. 가문명, 출신지와 개인
+스티그마는 종·속·아종의 근거가 되지 않는다.</p>
+<hr />
+<h2 id="2-최상위-계통">2. 최상위 계통</h2>
+<table>
+<thead>
+<tr>
+<th>계</th>
+<th>핵심 판정 기준</th>
+<th>주요 종군</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>아인계</td>
+<td>인간형 체제를 유지하면서 수명·감각·영적 생리가 분화</td>
+<td>엘프, 천사, 임프, 몽마, 설녀, 오니, 카라스텐구</td>
+</tr>
+<tr>
+<td>동물계</td>
+<td>동물의 감각기관·부속지·골격·행동 생태가 체제의 중심</td>
+<td>각종 수인, 하피, 요호</td>
+</tr>
+<tr>
+<td>용린계</td>
+<td>용린·사행 체제, 비늘·뿔·꼬리·브레스 기관이 발달</td>
+<td>백룡, 화룡, 라미아, 시로헤비</td>
+</tr>
+<tr>
+<td>사령계</td>
+<td>선천적 사령성·영적 신체가 생명 활동의 중심</td>
+<td>흡혈귀, 듀라한, 리치</td>
+</tr>
+<tr>
+<td>무정형계</td>
+<td>고정 골격보다 유동성·물성 변화가 신체 유지의 중심</td>
+<td>슬라임</td>
+</tr>
+</tbody>
+</table>
+<pre class="text"><code>아인계
+├─ 환상류 / 인체형
+│  ├─ 장생인목
+│  ├─ 신성인목
+│  └─ 악마목
+└─ 전승류 / 인체형
+   ├─ 이매망량목
+   └─ 비익요괴목
+
+동물계
+├─ 자연류 / 수인형
+│  ├─ 식육수인목
+│  ├─ 토끼수인목
+│  ├─ 설치수인목
+│  ├─ 우제수인목
+│  ├─ 조류수인목
+│  └─ 익막수인목
+└─ 환상류 / 조인형
+   └─ 날개팔목
+
+용린계
+└─ 환상류
+   ├─ 용체형 / 진룡목
+   └─ 사행인형 / 사행인목
+
+사령계
+└─ 언데드류 / 사령형 / 언데드목
+
+무정형계
+└─ 점액류 / 유동체형 / 점액목</code></pre>
+<hr />
+<h2 id="3-아인계">3. 아인계</h2>
+<p>아인계는 인간형 골격과 보행 체계를 기본으로 하며,
+장수성·감각기관·영적 생리와 전승 형질에서 인간과 구분된다.</p>
+<table>
+<thead>
+<tr>
+<th>표준 종명</th>
+<th>류·형·목·과·속</th>
+<th>인식권</th>
+<th>진단 형질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>엘프종</td>
+<td>환상류·인체형·장생인목·엘프과·엘프속</td>
+<td>서양환상권</td>
+<td>약 150년의 수명, 길고 뾰족한 외이, 인간형 체제</td>
+</tr>
+<tr>
+<td>천사종</td>
+<td>환상류·인체형·신성인목·천사과·천사속</td>
+<td>서양환상권</td>
+<td>약 200년으로 추정되는 수명, 인간형 체제, 금색 헤일로와 흰 날개, 신성 전승에 반응하는 영적 생리</td>
+</tr>
+<tr>
+<td>임프종</td>
+<td>환상류·인체형·악마목·악마과·임프속</td>
+<td>서양환상권</td>
+<td>소형 인간형 체제, 작은 악마 뿔과 꼬리. 날개는 없다</td>
+</tr>
+<tr>
+<td>몽마종</td>
+<td>환상류·인체형·악마목·악마과·몽마속</td>
+<td>서양환상권</td>
+<td>인간형 체제, 수면·꿈·정서 감응과 연동된 생리</td>
+</tr>
+<tr>
+<td>설녀종</td>
+<td>전승류·인체형·이매망량목·설녀과·설녀속</td>
+<td>동양전승권</td>
+<td>매우 낮은 체온, 마른 체형, 저체온 환경 적응과 냉기성 생리</td>
+</tr>
+<tr>
+<td>오니종</td>
+<td>전승류·인체형·이매망량목·오니과·오니속</td>
+<td>동양전승권</td>
+<td>두부의 뿔, 높은 체온, 고밀도 골격과 근육계</td>
+</tr>
+<tr>
+<td>카라스텐구종</td>
+<td>전승류·인체형·비익요괴목·텐구과·텐구속</td>
+<td>동양전승권</td>
+<td>등에서 발달한 검은 깃털날개와 고공 적응 체계</td>
+</tr>
+</tbody>
+</table>
+<p>천사종은 신학적 존재나 도덕적 지위를 뜻하지 않는다. 흡혈귀는 인간형
+외형과 무관하게 선천적 사령성·혈액 친화 생리를 기준으로 사령계에
+둔다.</p>
+<hr />
+<h2 id="4-동물계">4. 동물계</h2>
+<p>동물계는 외이, 꼬리, 날개, 발굽, 발톱, 감각기관과 골격 등 동물성
+형질이 생리 전반을 구성하는 계통이다.</p>
+<table>
+<thead>
+<tr>
+<th>표준 종명</th>
+<th>류·형·목·과·속</th>
+<th>인식권</th>
+<th>진단 형질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>고양이수인종</td>
+<td>자연류·수인형·식육수인목·고양이수인과·고양이수인속</td>
+<td>범생태권</td>
+<td>고양이형 외이·꼬리, 야간 시각과 평형 감각</td>
+</tr>
+<tr>
+<td>표범수인종 / 흑표범수인아종</td>
+<td>자연류·수인형·식육수인목·고양이수인과·표범수인속</td>
+<td>범생태권</td>
+<td>표범형 골격·꼬리·감각계, 아종의 흑색 체모</td>
+</tr>
+<tr>
+<td>늑대수인종</td>
+<td>자연류·수인형·식육수인목·개수인과·늑대수인속</td>
+<td>범생태권</td>
+<td>늑대형 외이·꼬리, 발달한 후각과 치아</td>
+</tr>
+<tr>
+<td>여우수인종 / 요호아종</td>
+<td>자연류·수인형·식육수인목·개수인과·여우수인속</td>
+<td>범생태권 / 동양전승권</td>
+<td>여우형 외이·꼬리와 감각계, 아종의 전승성 형질</td>
+</tr>
+<tr>
+<td>곰수인종</td>
+<td>자연류·수인형·식육수인목·곰수인과·곰수인속</td>
+<td>범생태권</td>
+<td>큰 체격, 높은 골격 밀도와 근육량</td>
+</tr>
+<tr>
+<td>토끼수인종</td>
+<td>자연류·수인형·토끼수인목·토끼수인과·토끼수인속</td>
+<td>범생태권</td>
+<td>긴 외이, 넓은 청각 범위와 도약형 하지</td>
+</tr>
+<tr>
+<td>쥐수인종 / 흰쥐수인아종</td>
+<td>자연류·수인형·설치수인목·쥐수인과·쥐수인속</td>
+<td>범생태권</td>
+<td>설치류형 외이·꼬리·치열, 아종의 백색 체모</td>
+</tr>
+<tr>
+<td>산양수인종</td>
+<td>자연류·수인형·우제수인목·염소수인과·산양수인속</td>
+<td>범생태권</td>
+<td>산양형 뿔·발굽과 경사 지형 적응</td>
+</tr>
+<tr>
+<td>황소수인종</td>
+<td>자연류·수인형·우제수인목·소수인과·소수인속</td>
+<td>범생태권</td>
+<td>소과형 뿔·발굽, 큰 체격과 높은 근육량</td>
+</tr>
+<tr>
+<td>독수리수인종</td>
+<td>자연류·수인형·조류수인목·맹금수인과·독수리수인속</td>
+<td>범생태권</td>
+<td>인간형 팔과 손을 유지하며 등에 발달한 깃털날개</td>
+</tr>
+<tr>
+<td>박쥐수인종</td>
+<td>자연류·수인형·익막수인목·박쥐수인과·박쥐수인속</td>
+<td>범생태권</td>
+<td>인간형 팔과 손을 유지하며 등에 발달한 막질날개</td>
+</tr>
+<tr>
+<td>하피종</td>
+<td>환상류·조인형·날개팔목·하피과·하피속</td>
+<td>서양환상권</td>
+<td>팔이 날개로 분화하고 조류형 하지가 발달한 체제</td>
+</tr>
+</tbody>
+</table>
+<p>요호아종은 여우수인종이 동양전승권에서 안정된 전승 형질을 보이는
+경우다. 흑표범수인아종과 흰쥐수인아종은 색채만이 아니라 해당 형태가
+지속적으로 재현될 때 구분한다.</p>
+<h3 id="41-날개-구조-감별">4.1 날개 구조 감별</h3>
+<table>
+<thead>
+<tr>
+<th>분류</th>
+<th>상지 구조</th>
+<th>날개 위치</th>
+<th>손 사용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>하피종</td>
+<td>팔 자체가 날개팔로 분화</td>
+<td>상지</td>
+<td>인간형 손 없음</td>
+</tr>
+<tr>
+<td>조류수인종군</td>
+<td>인간형 팔과 손 유지</td>
+<td>등</td>
+<td>가능</td>
+</tr>
+<tr>
+<td>박쥐수인종</td>
+<td>인간형 팔과 손 유지</td>
+<td>등</td>
+<td>가능</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-용린계">5. 용린계</h2>
+<p>용린계는 비늘·뿔·꼬리·브레스 기관 또는 사행형 하체가 생리의 중심을
+이루는 계통이다.</p>
+<table>
+<thead>
+<tr>
+<th>표준 종명</th>
+<th>류·형·목·과·속</th>
+<th>인식권</th>
+<th>진단 형질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>백룡종</td>
+<td>환상류·용체형·진룡목·용과·백룡속</td>
+<td>서양환상권</td>
+<td>백색 용린, 뿔·꼬리와 결정성 브레스 기관</td>
+</tr>
+<tr>
+<td>화룡종</td>
+<td>환상류·용체형·진룡목·용과·화룡속</td>
+<td>서양환상권</td>
+<td>내열성 용린, 뿔·꼬리와 화염성 브레스 기관</td>
+</tr>
+<tr>
+<td>라미아종 / 시로헤비아종</td>
+<td>환상류·사행인형·사행인목·라미아과·라미아속</td>
+<td>혼성환상권 / 동양전승권</td>
+<td>인간형 상체와 뱀형 하체, 비늘·독성 생리; 아종의 백색 비늘</td>
+</tr>
+</tbody>
+</table>
+<p>브레스와 독의 유무·성질은 신체 기관으로 확인한다. 개인 스티그마와
+혼동하지 않는다.</p>
+<hr />
+<h2 id="6-사령계">6. 사령계</h2>
+<p>사령계는 선천적 사령성 또는 영적 신체가 생명 활동의 핵심을 이루는
+계통이다. 모두 현재 종족의 신체로 태어나며 사망·부활을 거쳐 형성되지
+않는다. 일반적인 사망을 겪지 않으며 약 120~150년을 살면 영혼이 마모되어
+천천히 재로 변한다. 외형보다 생명 유지 방식과 영적 반응을 우선해 판정한다.</p>
+<table>
+<thead>
+<tr>
+<th>표준 종명</th>
+<th>류·형·목·과·속</th>
+<th>인식권</th>
+<th>진단 형질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>흡혈귀종</td>
+<td>언데드류·사령형·언데드목·흡혈귀과·흡혈귀속</td>
+<td>서양환상권</td>
+<td>혈액 친화 생리(현대는 우유로 대체), 야간 적응, 송곳니와 뾰족한 귀, 작은 흡혈귀 날개와 가느다란 꼬리</td>
+</tr>
+<tr>
+<td>듀라한종</td>
+<td>언데드류·사령형·언데드목·기사령과·듀라한속</td>
+<td>서양환상권</td>
+<td>기사령형 영적 신체와 두경부 분리 생리</td>
+</tr>
+<tr>
+<td>리치종</td>
+<td>언데드류·사령형·언데드목·사령과·리치속</td>
+<td>서양환상권</td>
+<td>육체와 분리 가능한 영적 중심, 사령성 생명 유지</td>
+</tr>
+</tbody>
+</table>
+<p>체페쉬·바토리·알카드와 같은 가문명은 분류 단계가 아니다.</p>
+<hr />
+<h2 id="7-무정형계">7. 무정형계</h2>
+<p>무정형계는 고정된 골격보다 유동성, 응집력과 물성 변화로 신체를
+유지한다.</p>
+<table>
+<thead>
+<tr>
+<th>표준 종명</th>
+<th>류·형·목·과·속</th>
+<th>인식권</th>
+<th>진단 형질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>슬라임종</td>
+<td>점액류·유동체형·점액목·슬라임과·슬라임속</td>
+<td>혼성환상권</td>
+<td>유동성 신체, 자가 응집과 형태·점도 조절</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-판정-절차">8. 판정 절차</h2>
+<ol type="1">
+<li><strong>기본 체제 확인:</strong> 골격, 상지·하지, 날개, 꼬리, 비늘과
+외이 구조를 기록한다.</li>
+<li><strong>생리 확인:</strong> 체온, 호흡, 섭식, 재생, 사령성 등 생명
+유지 방식을 확인한다.</li>
+<li><strong>생활사 확인:</strong> 성장, 유전과 반복되는 형태적 특성을
+비교한다.</li>
+<li><strong>전승권 분리:</strong> 생물학적 종을 먼저 판정한 뒤 인식권과
+아종을 기록한다.</li>
+<li><strong>불확실성 표시:</strong> 근거가 부족하면 통칭만 사용하고 세부
+단계를 보류한다.</li>
+</ol>
+<p>스티그마는 개인 고유의 발현이므로 계통 판정의 일차 근거로 사용하지
+않는다. 검사는 당사자의 설명과 동의를 우선하며, 불필요한 능력 발현이나
+표본 채취를 요구하지 않는다.</p>
+<h2 id="9-분류-윤리">9. 분류 윤리</h2>
+<ul>
+<li>자기 정체성 표기를 존중하되 의료·안전상 필요한 해부학적 정보와
+구분해 기록한다.</li>
+<li>종족명으로 성격, 지능, 범죄 가능성이나 사회적 역할을 예단하지
+않는다.</li>
+<li>능력, 색채, 가문과 출신지만으로 새로운 아종을 만들지 않는다.</li>
+<li>신체 측정과 시료 채취는 목적, 범위, 보관 기간을 설명하고 동의를 받은
+경우에만 시행한다.</li>
+<li>분류 결과는 당사자가 열람·정정할 수 있어야 한다.</li>
+</ul></article></main></body></html>

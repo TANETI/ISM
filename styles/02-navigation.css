@@ -1,0 +1,238 @@
+/* ISM Academy stylesheet module: 02-navigation.css */
+/* Single-scroll page navigation and section flow. */
+
+/* 스크롤 스냅은 걷어냈다. 구간 높이가 900px~5700px으로 제각각인데 스냅 지점은
+   구간의 start 한 곳뿐이라, 5700px짜리 명부 한가운데를 읽는 중에도 "가장 가까운
+   스냅 지점"이 그 구간의 머리였다. 휠을 24번 굴려도(2880px) 최종 scrollY가 0으로
+   되돌아왔다 — 계측에서 뒤로 끌린 프레임이 76~89개, 한 번에 최대 56px씩 밀렸다.
+   스냅을 끄면 같은 입력에서 최종 2880px, 뒤로 끌린 프레임 0이다.
+   `scroll-behavior: smooth`는 범인이 아니었으므로(끄고 재도 되돌아옴) 남긴다 —
+   색인 점 이동이 이걸로 부드러워진다. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0;
+}
+
+body {
+  overflow-x: clip;
+}
+
+.scroll-index {
+  position: fixed;
+  z-index: 9200;
+  top: 50%;
+  left: clamp(0.72rem, 2vw, 1.8rem);
+  display: grid;
+  gap: 0.12rem;
+  transform: translateY(-50%);
+  padding: 0.85rem 0.62rem;
+  border: 1px solid rgba(45, 86, 139, 0.16);
+  border-radius: var(--radius-pill);
+  /* backdrop-filter는 쓰지 않는다. position: fixed인 요소에 걸면 스크롤하는
+     모든 프레임마다 뒤 배경을 다시 읽어 흐려야 해서 합성기가 프레임을 흘린다.
+     계측: 이 레일의 blur만 꺼도 32ms 넘는 프레임이 157 → 70으로 줄었다.
+     같은 인상은 알파를 올린 단색으로 낸다. */
+  background: rgba(239, 246, 255, 0.95);
+  box-shadow: 0 12px 32px rgba(25, 57, 101, 0.13);
+}
+
+.scroll-index-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  text-decoration: none;
+  color: var(--academy-ink);
+}
+
+.scroll-index-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  background: #6b84a3;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.82);
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.scroll-index-dot:hover::before,
+.scroll-index-dot:focus-visible::before {
+  transform: scale(1.45);
+  background: var(--academy-line-strong);
+}
+
+.scroll-index-dot.active::before {
+  transform: scale(1.55);
+  background: var(--academy-ink-strong);
+  box-shadow: 0 0 0 4px rgba(45, 86, 139, 0.15);
+}
+
+.scroll-index-label {
+  position: absolute;
+  left: calc(100% + 0.8rem);
+  top: 50%;
+  min-width: max-content;
+  padding: 0.34rem 0.56rem;
+  border: 1px solid rgba(45, 86, 139, 0.16);
+  border-radius: var(--radius-sm);
+  color: var(--academy-navy-deep);
+  background: rgba(249, 252, 255, 0.94);
+  box-shadow: 0 8px 20px rgba(25, 57, 101, 0.12);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(5px, -50%);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.scroll-index-dot:hover .scroll-index-label,
+.scroll-index-dot:focus-visible .scroll-index-label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.section {
+  position: relative;
+  display: block;
+  min-height: 100svh;
+  padding-top: 0;
+  z-index: 1;
+}
+
+.section[hidden] {
+  display: block !important;
+}
+
+body.js-loading .section {
+  visibility: hidden;
+}
+
+.section.section-scroll-ready {
+  opacity: 0.985;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section.section-scroll-ready.is-scroll-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 넓은 화면에서는 색인이 늘 펼쳐져 있고 여는 단추가 필요 없다. */
+.scroll-index-toggle {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  /* 접힌 상태가 기본이다. 점 6개를 44px로 늘 펼쳐 두면 60×286px —
+     화면 가로의 15%, 세로의 34% — 를 한가운데서 가려서 모든 구간의 본문과
+     조작부(세계관 목차·초기화·소속 선택)를 덮었다. */
+  /* 모바일에서는 고정 단추도 세계관 본문·시간표·명부 조작부를 계속 덮는다.
+     첫 화면 우상단에만 두고 문서와 함께 흘려 보내면 이동 기능은 남고 침범은 끝난다. */
+  .scroll-index {
+    position: absolute;
+    top: max(0.5rem, env(safe-area-inset-top));
+    right: max(0.42rem, env(safe-area-inset-right));
+    bottom: auto;
+    left: auto;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    transform: none;
+  }
+
+  .scroll-index-toggle {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    place-items: center;
+    gap: 2px;
+    border: 1px solid rgba(45, 86, 139, 0.16);
+    border-radius: var(--radius-circle);
+    /* 본문 글자가 비쳐 보이면 작은 단추 안의 숫자가 읽히지 않는다. */
+    background: rgba(240, 246, 255, 0.94);
+    color: var(--academy-ink-soft);
+    box-shadow: 0 8px 22px rgba(25, 57, 101, 0.18);
+    cursor: pointer;
+  }
+
+  .scroll-index-toggle-mark {
+    width: 14px;
+    height: 2px;
+    border-radius: var(--radius-pill);
+    background: currentColor;
+    box-shadow: 0 4px 0 currentColor, 0 -4px 0 currentColor;
+  }
+
+  .scroll-index-toggle-count {
+    /* 펼치지 않아도 지금 몇 번째 구간인지 읽힌다. 단추 밖에 두면 본문 위에
+       글자가 떠서 지저분하므로 원 안에 넣는다. */
+    font-family: var(--font-meta);
+    font-size: var(--text-label);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--academy-ink-soft);
+  }
+
+  .scroll-index-dot {
+    width: 44px;
+    height: 44px;
+    /* 접혀 있을 때는 자리도 차지하지 않아야 가리지 않는다. */
+    display: none;
+  }
+
+  .scroll-index.is-open {
+    gap: 0;
+    padding: 0.5rem 0.45rem;
+    border: 1px solid rgba(45, 86, 139, 0.16);
+    border-radius: var(--radius-pill);
+    background: rgba(239, 246, 255, 0.96);
+    box-shadow: 0 12px 32px rgba(25, 57, 101, 0.2);
+  }
+
+  .scroll-index.is-open .scroll-index-dot {
+    display: grid;
+  }
+
+  .scroll-index.is-open .scroll-index-toggle {
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    height: 30px;
+  }
+
+  .scroll-index.is-open .scroll-index-toggle-count {
+    display: none;
+  }
+
+  .scroll-index-label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .section.section-scroll-ready,
+  .section.section-scroll-ready.is-scroll-visible,
+  .scroll-index-dot::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,558 @@
+/* ISM Academy stylesheet module: 10-cross-cutting.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* Top-level navigation should feel immediate; local components own their richer motion. */
+.section.is-scroll-visible {
+  animation: sectionFadeIn 180ms ease-out both;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section.is-scroll-visible {
+    animation: none;
+  }
+}
+
+/* Typography refinement: keep controls readable,
+reserve decorative fonts for lore and organization names. */
+.org-select-card,
+.roster-group-toggle,
+.char-search-wrap input,
+.filter-reset-btn {
+  font-family: var(--font-ui);
+}
+
+.main-motto,
+.world-motto-latin,
+.motto-latin {
+  font-family: var(--font-inscription);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.main-motto-sub,
+.world-motto-kr {
+  font-family: var(--font-lore);
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+}
+
+.world-motto-latin {
+  letter-spacing: 0.08em;
+}
+
+.org-select-card[data-org="external"] .org-select-copy strong,
+#org-external .roster-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.28rem, 2.6vw, 1.86rem);
+  line-height: 1.14;
+  letter-spacing: 0.025em;
+}
+
+.org-select-card[data-org="external"] .org-select-copy strong {
+  font-size: clamp(1.12rem, 2vw, 1.45rem);
+  line-height: 1.16;
+}
+
+.roster-group-title--wordmark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  line-height: 1;
+}
+
+.roster-group-title--wordmark .faction-wordmark-fallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.roster-group-title--wordmark.wordmark-failed .faction-wordmark-fallback {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--white);
+}
+
+.char-card[class*="char-card--org-"] .char-card-code,
+.char-card[class*="char-card--org-"] .char-card-id-head b {
+  font-family: var(--font-display);
+  letter-spacing: var(--org-letter-spacing, 0.025em);
+}
+
+.char-card--org-pbs { --org-letter-spacing: 0.035em; }
+.char-card--org-rtn { --org-letter-spacing: 0.03em; }
+.char-card--org-nf { --org-letter-spacing: 0.02em; }
+
+
+.org-select-copy span,
+.roster-desc,
+.roster-group-title,
+.char-card-hover-overlay {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+code {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.char-card-hover-overlay {
+  max-width: min(220px, 72vw);
+}
+
+.org-select-copy span {
+  max-width: 42em;
+  line-height: 1.5;
+}
+
+.org-select-copy strong {
+  font-size: clamp(1rem, 1.8vw, 1.24rem);
+  line-height: 1.18;
+}
+
+.world-motto-latin {
+  font-size: clamp(0.88rem, 2vw, 1.22rem);
+}
+
+.roster-group-toggle {
+  min-width: 0;
+}
+
+.roster-group-copy,
+.faction-toggle-copy {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .org-select-copy span {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .world-motto-latin {
+    letter-spacing: 0.045em;
+    font-size: var(--text-xs);
+  }
+
+  .org-select-copy strong,
+.roster-group-title {
+    font-size: clamp(0.98rem, 4.5vw, 1.14rem);
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (max-width: 640px) {
+  .filter-reset-btn {
+    min-height: 36px;
+    padding: 0.48rem 0.9rem;
+  }
+}
+
+/* External roster polish and detail modal stability */
+.org-select-card {
+  grid-template-columns: 76px 1fr;
+  min-height: 88px;
+  --org-select-logo-size: 64px;
+}
+
+.org-select-logo {
+  width: var(--org-select-logo-size);
+  height: var(--org-select-logo-size);
+}
+
+.org-select-card[data-org="external"] .org-select-logo {
+  --org-select-logo-size: 76px;
+}
+
+.org-select-logo--stack {
+  gap: 0.28rem;
+  padding: 0.34rem;
+}
+
+.org-select-logo--stack img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.faction-toggle {
+  min-height: 76px;
+  gap: 0.85rem;
+  align-items: center;
+  --faction-logo-size: 48px;
+  --faction-logo-img-scale: 92%;
+}
+
+.faction-toggle-logo {
+  width: var(--faction-logo-size);
+  height: var(--faction-logo-size);
+  flex: 0 0 var(--faction-logo-size);
+  border-radius: var(--radius-md);
+}
+
+.faction-toggle-logo img {
+  width: var(--faction-logo-img-scale);
+  height: var(--faction-logo-img-scale);
+  object-fit: contain;
+}
+
+.roster-group--pbs,
+.roster-group--rtn,
+.roster-group--nf {
+  --faction-logo-size: 76px;
+}
+
+.roster-group--hprf,
+.roster-group--wf {
+  --faction-logo-size: 72px;
+}
+
+.roster-group--nf { --faction-logo-img-scale: 118%; }
+
+.faction-toggle-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: grid;
+  gap: 0.32rem;
+  align-content: center;
+}
+
+.roster-group-icon {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.roster-group-title--wordmark {
+  max-width: 100%;
+  line-height: 1.1;
+}
+
+.roster-title--wordmark {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.faction-wordmark {
+  display: block;
+  width: auto;
+  max-width: min(300px, 60vw);
+  max-height: 54px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 2px 8px rgba(0,0,0,0.24))
+    drop-shadow(0 0 12px rgba(185,154,82,0.08));
+}
+
+.faction-wordmark--ism {
+  max-width: min(330px, 64vw);
+  max-height: 56px;
+  filter:
+    drop-shadow(0 2px 8px rgba(0,0,0,0.24))
+    drop-shadow(0 0 16px rgba(106,176,255,0.10));
+}
+
+.faction-wordmark--hprf {
+  max-width: min(340px, 64vw);
+  max-height: 50px;
+}
+
+.faction-wordmark--wf {
+  max-width: min(300px, 60vw);
+  max-height: 50px;
+}
+
+.faction-wordmark--pbs,
+.faction-wordmark--rtn {
+  max-width: min(280px, 58vw);
+  max-height: 56px;
+}
+
+.faction-wordmark--nf {
+  max-width: min(280px, 58vw);
+  max-height: 56px;
+}
+
+.faction-wordmark-fallback {
+  font-family: 'Noto Serif KR', var(--font-ui), serif;
+  font-size: clamp(1.24rem, 2.7vw, 1.72rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1.15;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.roster-group-title--wordmark.wordmark-failed .faction-wordmark-fallback {
+  font-family: 'Noto Serif KR', var(--font-ui), serif;
+  line-height: 1.15;
+}
+
+.roster-title--wordmark.wordmark-failed .faction-wordmark-fallback {
+  color: #dbeeff;
+  text-shadow: 0 0 14px rgba(106,176,255,0.18);
+}
+
+.roster-group--pbs .faction-wordmark-fallback {
+  color: #f3d6d6;
+  text-shadow: 0 0 14px rgba(179,19,34,0.18);
+}
+
+.roster-group--hprf .faction-wordmark-fallback {
+  color: #dbe8f5;
+}
+
+.roster-group--wf .faction-wordmark-fallback {
+  color: #f2f0e8;
+}
+
+.roster-group--rtn .faction-wordmark-fallback {
+  color: #e6d8b8;
+}
+
+.roster-group--nf .faction-wordmark-fallback {
+  color: #e8e0cd;
+}
+
+.roster-group--pbs .roster-group-meta {
+  color: rgba(243,214,214,0.64);
+}
+
+.faction-toggle .roster-group-meta {
+  opacity: 0.55;
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .faction-toggle .roster-group-meta {
+    opacity: 0.45;
+    font-size: var(--text-label);
+  }
+}
+
+.org-select-copy,
+.roster-head,
+.roster-group-copy,
+.faction-toggle-copy,
+.char-card,
+.schedule-panel {
+  min-width: 0;
+}
+
+.org-select-copy span,
+.roster-desc,
+.roster-group-title,
+.faction-wordmark-fallback {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+code {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .org-select-card {
+    grid-template-columns: 58px 1fr;
+    min-height: 78px;
+  }
+
+  .org-select-logo,
+.org-select-card[data-org="external"] .org-select-logo {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* Integrated readability,
+palette,
+and mobile stability pass */
+#section-characters.char-bg-external .roster-head,
+#section-characters.char-bg-external .roster-group,
+#section-characters.char-bg-external .char-card {
+  background: rgba(23,10,16,0.58);
+  border-color: rgba(220,184,197,0.12);
+}
+
+.char-card-info {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: rgba(231,240,236,0.80);
+  text-shadow: none;
+  opacity: 1;
+  line-height: 1.55;
+}
+
+.char-card img,
+.char-card-img img,
+.assets-char-item-img img,
+.emo-asset-img img,
+.nsfw-asset-img img {
+  display: block;
+  filter: none;
+  opacity: 1;
+  image-rendering: auto;
+  backface-visibility: hidden;
+}
+
+.org-selector,
+.char-grid-wrap,
+.roster-head,
+.roster-group,
+.roster-group-toggle,
+.faction-toggle,
+.faction-toggle-copy,
+.roster-group-copy,
+.char-grid,
+.char-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .char-card,
+.char-card:hover,
+.char-card.card-visible,
+.char-card.card-visible:hover,
+.char-card--student:hover,
+.char-card--staff:hover,
+.char-card--civilian:hover,
+.char-card--external:hover {
+    --card-y: 0px;
+    transform: none;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+  }
+
+  .char-card:hover .char-card-img img {
+    transform: none;
+  }
+
+  .char-card--student:hover .char-card-info,
+.char-card--staff:hover .char-card-info,
+.char-card--civilian:hover .char-card-info,
+.char-card--external:hover .char-card-info {
+    max-height: 220px;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .char-card--student .char-card-hover-overlay,
+.char-card--staff .char-card-hover-overlay,
+.char-card--civilian .char-card-hover-overlay,
+.char-card--external .char-card-hover-overlay,
+.char-card-hover-overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .char-card.card-visible:hover {
+    --card-y: 0px;
+  }
+
+  .char-card-hover-overlay {
+    display: none !important;
+  }
+
+  .org-selector,
+.char-grid-wrap,
+.roster-head,
+.roster-group {
+    width: min(calc(100% - 0.85rem), var(--roster-frame-max));
+  }
+
+  .faction-toggle {
+    min-height: 78px;
+    gap: 0.72rem;
+    padding: 0.92rem 0.9rem;
+    --faction-logo-size: 54px;
+  }
+
+  .faction-toggle-logo,
+.roster-group--pbs .faction-toggle-logo,
+.roster-group--rtn .faction-toggle-logo,
+.roster-group--hprf .faction-toggle-logo,
+.roster-group--wf .faction-toggle-logo,
+.roster-group--nf .faction-toggle-logo {
+    width: var(--faction-logo-size);
+    height: var(--faction-logo-size);
+    flex: 0 0 var(--faction-logo-size);
+    border-radius: var(--radius-md);
+  }
+
+  .faction-toggle-copy {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .faction-wordmark {
+    max-width: min(230px, 58vw);
+    max-height: 40px;
+  }
+
+  .faction-toggle .roster-group-meta {
+    font-size: var(--text-label);
+    opacity: 0.45;
+    overflow-wrap: anywhere;
+  }
+
+  .roster-group-icon {
+    flex: 0 0 auto;
+  }
+
+  .char-grid,
+#staff-grid,
+#pbs-grid,
+#hprf-grid,
+#wf-grid,
+#rtn-grid,
+#nf-grid {
+    display: grid;
+    /* 한 칸이던 것을 두 칸으로. 이 규칙이 04와 09의 1열 규칙을 모두 이기는
+       마지막 선언이라 여기를 고쳐야 실제로 바뀐다(브라우저에 물어 확인했다). */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: var(--char-card-gap);
+  }
+
+  .char-card {
+    width: 100%;
+    max-width: var(--char-card-mobile-width);
+    justify-self: center;
+    min-height: auto;
+  }
+
+  .char-card-img,
+.char-card--student .char-card-img,
+.char-card--staff .char-card-img {
+    min-height: 0;
+  }
+}
+
+

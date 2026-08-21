@@ -1,0 +1,808 @@
+/* ISM Academy stylesheet module: 11-mobile.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* ──────────────────────────────────────────────────
+   Mobile layout cleanup 20260705k
+   - fixed-body scroll lock for mobile overlays
+   - detail modal as a full-screen mobile sheet
+   - gallery sidebar as horizontal selector chips
+   - lighter hover/animation on touch devices
+────────────────────────────────────────────────── */
+body.page-scroll-locked {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+}
+
+#lightbox,
+.assets-sidebar {
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 760px) {
+  .section {
+    min-height: calc(100dvh - var(--nav-h));
+  }
+}
+
+@media (max-width: 700px) {
+  #section-gallery {
+    padding-bottom: 3.2rem;
+  }
+
+  .assets-sub-tabs {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 12;
+    width: 100%;
+    max-width: none;
+    /* sticky + backdrop-filter는 스크롤 프레임마다 뒤 배경을 다시 흐린다.
+       이미 알파 0.94라 흐림이 보태는 것이 거의 없으므로 불투명으로 끝낸다. */
+    background: rgba(5,11,24,0.985);
+  }
+
+  .assets-sub-btn {
+    flex: 1 1 0;
+    min-height: 44px;
+    padding: 0.72rem 0.4rem;
+    font-size: var(--text-label);
+    letter-spacing: 0.14em;
+  }
+
+  .assets-panel.active {
+    display: block;
+  }
+
+  /* 가로 스트립 자체는 이제 07-gallery.css의 기본값이다. 여기서는 좁은 화면에만
+     필요한 것만 덮는다 — 데스크톱용 레일 회피 여백을 그대로 두면 20%를 잘라먹고,
+     이 폭에서 레일은 콘텐츠 위에 떠 있는 반투명 오버레이라 비켜줄 필요가 없다. */
+  .assets-layout {
+    min-height: 0;
+    padding-left: var(--page-gutter);
+  }
+
+  .assets-sidebar {
+    top: calc(var(--nav-h) + 44px);
+    padding: 0.72rem 0.75rem;
+    gap: 0.55rem;
+    background: linear-gradient(180deg, rgba(5,11,24,0.98), rgba(7,17,15,0.96));
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .assets-sidebar::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .assets-sidebar-label {
+    display: none !important;
+  }
+
+  .assets-sidebar-controls {
+    position: sticky;
+    left: 0;
+    top: auto;
+    z-index: 4;
+    flex: 0 0 min(64vw, 240px);
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    background: rgba(5,11,24,0.96);
+  }
+
+  .assets-sidebar-search {
+    min-height: 68px;
+    height: 100%;
+    border-radius: var(--radius-md);
+    font-size: var(--text-md);
+  }
+
+  .assets-sidebar-empty {
+    flex: 0 0 180px;
+    min-height: 68px;
+    display: grid;
+    place-items: center;
+    padding: 0.5rem;
+    border: 1px solid rgba(200,216,232,0.10);
+    border-radius: var(--radius-md);
+    background: rgba(10,18,36,0.48);
+  }
+
+  .assets-org-group {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: stretch;
+    gap: 0.48rem;
+    margin: 0;
+  }
+
+  .assets-org-toggle {
+    flex: 0 0 76px;
+    width: 76px;
+    min-height: 112px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.48rem 0.38rem;
+    border-left-width: 2px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    scroll-snap-align: start;
+  }
+
+  .assets-org-name {
+    width: 100%;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .assets-org-count { margin-left: 0; }
+
+  .assets-org-items {
+    display: flex;
+    align-items: stretch;
+    gap: 0.55rem;
+  }
+
+  .assets-char-item {
+    flex: 0 0 86px;
+    width: 86px;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.44rem;
+    padding: 0.48rem 0.38rem;
+    margin: 0;
+    border-radius: var(--radius-md);
+    scroll-snap-align: start;
+    background: rgba(10,18,36,0.46);
+  }
+
+  .assets-char-item-img {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--radius-sm);
+  }
+
+  .assets-char-item-name {
+    width: 100%;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    font-size: var(--text-label);
+    line-height: 1.25;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .assets-char-item-name small {
+    display: none;
+  }
+
+  .assets-char-item.active {
+    background: rgba(106,176,255,0.16);
+    border-color: rgba(106,176,255,0.52);
+  }
+
+  /* A typed query turns the horizontal picker into a document-flow result grid. */
+  .assets-sidebar.is-searching {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+    align-items: stretch;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .assets-sidebar.is-searching .assets-sidebar-controls,
+.assets-sidebar.is-searching .assets-spoiler-toggle,
+.assets-sidebar.is-searching .assets-sidebar-empty {
+    position: static;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .assets-sidebar.is-searching .assets-org-group {
+    grid-column: 1 / -1;
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .assets-sidebar.is-searching .assets-org-toggle {
+    width: 100%;
+    min-height: 44px;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 0.48rem;
+    text-align: left;
+  }
+
+  .assets-sidebar.is-searching .assets-org-name { width: auto; }
+  .assets-sidebar.is-searching .assets-org-count { margin-left: auto; }
+
+  .assets-sidebar.is-searching .assets-org-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+    gap: 0.48rem;
+  }
+
+  .assets-sidebar.is-searching .assets-char-item {
+    width: 100%;
+    min-width: 0;
+    min-height: 112px;
+    margin: 0;
+  }
+
+  .assets-main {
+    width: 100%;
+    padding: 1rem 0.75rem 2.8rem;
+  }
+
+  .char-search-wrap input {
+    font-size: var(--text-md);
+  }
+
+  .assets-viewer-header {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .assets-viewer-title {
+    font-size: var(--text-label);
+    letter-spacing: 0.16em;
+  }
+
+  .assets-viewer-subtitle {
+    font-size: var(--text-xs);
+  }
+
+  .emo-asset-grid,
+.nsfw-asset-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    gap: 0.72rem;
+  }
+
+  .emo-asset-card,
+.nsfw-asset-card {
+    border-radius: var(--radius-sm);
+  }
+
+  .assets-empty {
+    min-height: 180px;
+    padding: 3rem 1rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .assets-empty[hidden] {
+    display: none !important;
+  }
+}
+
+/* Restore the original dark roster identity inside the light site shell. */
+#section-characters .org-roster .roster-head,
+#section-characters .org-roster .roster-group {
+  color: #f0f5f2;
+  background: rgba(8, 16, 31, 0.94);
+  border-color: rgba(142, 175, 211, 0.34);
+  box-shadow: 0 16px 36px rgba(11, 31, 58, 0.28);
+}
+
+#section-characters .org-roster .roster-head {
+  background:
+    radial-gradient(ellipse 72% 120% at 0% 0%, rgba(46, 96, 154, 0.24), transparent 66%),
+    linear-gradient(145deg, rgba(16, 34, 61, 0.98), rgba(6, 14, 28, 0.98));
+}
+
+#section-characters .org-roster .roster-title,
+#section-characters .org-roster .roster-group-title,
+#section-characters .org-roster .char-card-name {
+  color: #f4f8f5;
+}
+
+#section-characters .org-roster .roster-desc,
+#section-characters .org-roster .roster-group-meta,
+#section-characters .org-roster .char-card-subline {
+  color: rgba(220, 232, 243, 0.74);
+}
+
+#section-characters .org-roster .faction-wordmark {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.28));
+}
+
+#section-characters .org-roster .roster-group-toggle {
+  color: #f0f5f2;
+  background: linear-gradient(135deg, rgba(22, 43, 76, 0.98), rgba(7, 16, 31, 0.98));
+  border-bottom-color: rgba(142, 175, 211, 0.28);
+}
+
+#section-characters .org-roster .roster-group-toggle:hover {
+  background: linear-gradient(135deg, rgba(31, 58, 99, 0.98), rgba(10, 23, 43, 0.98));
+}
+
+#section-characters .org-roster .char-filter-bar {
+  background: rgba(10, 20, 40, 0.88);
+  border-color: rgba(142, 175, 211, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#section-characters .org-roster .char-filter-label {
+  color: var(--gold2);
+}
+
+#section-characters .org-roster .filter-btn,
+#section-characters .org-roster .char-search-wrap input {
+  color: #cbd9e8;
+  background: rgba(5, 11, 24, 0.76);
+  border-color: rgba(166, 190, 216, 0.30);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#section-characters .org-roster .filter-btn:hover,
+#section-characters .org-roster .filter-btn.active {
+  color: #ffffff;
+  background: rgba(47, 98, 154, 0.58);
+  border-color: var(--blue-accent);
+}
+
+#section-characters .org-roster .char-card--student,
+#section-characters .org-roster .char-card--staff {
+  color: #f0f5f2;
+  border-color: rgba(164, 194, 222, 0.38);
+  background:
+    linear-gradient(90deg, var(--id-accent, var(--blue-accent)) 0 5px, transparent 5px),
+    linear-gradient(180deg, rgba(245, 250, 255, 0.14), rgba(245, 250, 255, 0.035) 36%, transparent 66%),
+    linear-gradient(180deg, rgba(28, 42, 67, 0.98), rgba(10, 18, 32, 0.99));
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045);
+}
+
+#section-characters .org-roster .char-card-code,
+#section-characters .org-roster .char-card-id-chip,
+#section-characters .org-roster .badge-species {
+  color: #b8cbe0;
+}
+
+/* External roster: faction accents. 환경 배경 자체는 13-final-theme.css가
+   단독으로 소유한다(--env-* 토큰). 여기서 다시 선언하면 램프가 덮인다. */
+#section-characters.char-bg-external {
+  color: #f0f5f2;
+}
+
+#section-characters.char-bg-external .characters-search-hero {
+  color: #f0f5f2;
+  background:
+    radial-gradient(ellipse 60% 100% at 12% 0%, rgba(176, 90, 114, 0.16), transparent 66%),
+    linear-gradient(145deg, rgba(43, 20, 32, 0.98), rgba(19, 9, 13, 0.98));
+  border-color: rgba(220, 184, 197, 0.28);
+}
+
+#section-characters.char-bg-external .sec-header-title,
+#section-characters.char-bg-external .characters-search-lead {
+  color: #f4edf0;
+}
+
+#section-characters.char-bg-external .sec-header-eyebrow {
+  color: #d9a7b8;
+}
+
+#section-characters.char-bg-external .characters-global-search-bar {
+  background: rgba(19, 9, 13, 0.78);
+  border-color: rgba(220, 184, 197, 0.24);
+}
+
+#section-characters.char-bg-external .characters-global-search-bar input {
+  color: #f0e5e9;
+  background: rgba(10, 6, 8, 0.78);
+  border-color: rgba(220, 184, 197, 0.30);
+}
+
+#section-characters.char-bg-external .characters-global-search-bar input::placeholder {
+  color: rgba(231, 210, 218, 0.58);
+}
+
+#section-characters.char-bg-external .characters-scope-pill {
+  color: #dbc4cc;
+  background: rgba(35, 16, 25, 0.88);
+  border-color: rgba(220, 184, 197, 0.28);
+}
+
+#section-characters.char-bg-external .characters-scope-pill:hover,
+#section-characters.char-bg-external .characters-scope-pill.active {
+  color: #ffffff;
+  background: #763044;
+  border-color: #b05a72;
+}
+
+#section-characters.char-bg-external .characters-scope-pill.characters-spoiler-pill {
+  color: #f0b8c2;
+  background: rgba(60, 18, 28, 0.88);
+  border-color: rgba(226, 116, 116, 0.42);
+}
+
+#section-characters.char-bg-external .characters-scope-pill.characters-spoiler-pill:hover,
+#section-characters.char-bg-external .characters-scope-pill.characters-spoiler-pill.active {
+  color: #ffffff;
+  background: #a8323f;
+  border-color: #d0596b;
+}
+
+#section-characters.char-bg-external .org-selector--segmented {
+  background: rgba(14, 8, 11, 0.88);
+  border-color: rgba(220, 184, 197, 0.26);
+}
+
+#section-characters.char-bg-external .org-selector--segmented .org-select-card,
+#section-characters.char-bg-external .org-selector--segmented .org-select-card[data-org="external"] {
+  color: #eadde2;
+  background: rgba(35, 16, 25, 0.88);
+  border-color: rgba(220, 184, 197, 0.16);
+}
+
+#section-characters.char-bg-external .org-selector--segmented .org-select-card.active {
+  background: linear-gradient(145deg, rgba(92, 37, 54, 0.96), rgba(29, 13, 20, 0.98));
+  border-color: #b05a72;
+}
+
+#section-characters.char-bg-external .org-selector--segmented .org-select-copy strong,
+#section-characters.char-bg-external .org-selector--segmented .org-select-copy span {
+  color: #eadde2;
+}
+
+#section-characters.char-bg-external .org-roster .roster-head,
+#section-characters.char-bg-external .org-roster .roster-group {
+  background: rgba(23, 10, 16, 0.88);
+  border-color: rgba(220, 184, 197, 0.22);
+}
+
+#section-characters.char-bg-external #org-external .roster-group {
+  border-color: color-mix(in srgb, var(--faction-accent-muted) 42%, rgba(220, 184, 197, 0.20));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--faction-surface) 34%, transparent), transparent 44%),
+    rgba(23, 10, 16, 0.90);
+}
+
+#section-characters.char-bg-external .org-roster .char-card--external {
+  color: #f0f5f2;
+  border-color: color-mix(in srgb, var(--faction-accent-muted, var(--gold)) 48%, rgba(200, 216, 232, 0.14));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--faction-accent-muted, var(--gold)) 18%, transparent), transparent 48%),
+    linear-gradient(180deg, rgba(12, 21, 40, 0.98), rgba(5, 11, 24, 0.99));
+}
+
+#section-characters.char-bg-external #org-external .roster-group-toggle {
+  color: var(--faction-text);
+  border-bottom-color: color-mix(in srgb, var(--faction-accent-muted) 44%, transparent);
+  background: linear-gradient(135deg, var(--faction-surface), rgba(8, 16, 31, 0.92));
+}
+
+@media (max-width: 640px) {
+
+  #lightbox {
+    padding: calc(3.2rem + env(safe-area-inset-top)) 0.7rem calc(1.1rem + env(safe-area-inset-bottom));
+  }
+
+  #lightbox img {
+    max-width: calc(100vw - 1.4rem);
+    max-height: calc(100dvh - 6.5rem);
+  }
+
+  .lightbox-close {
+    top: calc(0.75rem + env(safe-area-inset-top));
+    right: 0.75rem;
+    width: 42px;
+    height: 42px;
+    background: rgba(5,11,24,0.82);
+  }
+
+  .lightbox-nav {
+    width: 42px;
+    height: 58px;
+    font-size: 2.3rem;
+    background: rgba(5,11,24,0.72);
+  }
+
+  .lightbox-nav--prev { left: 0.45rem; }
+  .lightbox-nav--next { right: 0.45rem; }
+
+  .lightbox-label {
+    width: min(100%, 560px);
+    max-width: calc(100vw - 1.4rem);
+    min-height: 50px;
+    padding: 0.8rem 1rem 0.82rem;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-base);
+    line-height: 1.4;
+  }
+
+  .lightbox-label::before {
+    top: 8px;
+    width: min(92px, 32%);
+  }
+}
+
+@media (max-width: 700px) {
+  .lightbox-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .filter-btn,
+.filter-reset-btn,
+.characters-scope-pill {
+    min-height: 44px;
+  }
+
+  .lightbox-nav {
+    min-width: 44px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .org-select-card:hover,
+.roster-group-toggle:hover,
+.faction-toggle:hover,
+.assets-char-item:hover,
+.emo-asset-card:hover,
+.nsfw-asset-card:hover {
+    transform: none;
+    box-shadow: inherit;
+  }
+
+  .emo-asset-card:hover,
+.nsfw-asset-card:hover {
+    border-color: var(--border);
+  }
+}
+
+@media (max-width: 640px) {
+  /* 명부 머리글 164px 중 61px이 여백이었다(위 43.2px). 좁은 화면에서는
+     구간 사이가 이미 떨어져 있어 이만큼 벌릴 이유가 없다. 제목도 390px
+     화면에서 46.8px은 과하다. */
+  #section-characters .sec-header {
+    padding-top: 1.5rem;
+    padding-bottom: 0.8rem;
+  }
+
+  #section-characters .sec-header-title {
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+  }
+
+  /* 소속 선택 카드 78px 중 로고가 56px이다. 고르는 단추이지 전시물이 아니므로
+     로고를 줄이면 카드가 따라 낮아진다. */
+  /* 소속 선택 카드(92px)도 줄이려 했으나 그만뒀다. 이 카드 하나에 폭·높이
+     규칙이 열한 개 겹쳐 있고 12·13이 뒤에서 다시 덮어, 11에서 쓰는 규칙은
+     특이도를 맞춰도 진다. 회수량은 20px뿐이라 소유 모듈까지 거슬러 올라가
+     흔들 값어치가 없다. 손대려면 12-feature-refinements.css의
+     `.org-selector--segmented .org-select-card`부터 봐야 한다. */
+
+  /* 그룹 토글은 글자 22px에 위아래 여백이 30px이었다. */
+  #section-characters .roster-group-toggle {
+    min-height: 0;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  /* 전역 검색 막대는 검색창(44)과 초기화(44)가 세로로 쌓여 121px이었다.
+     초기화는 글자 두 자라 검색창 옆에 붙어도 눌리지 않는다. */
+  .characters-search-hero .char-filter-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .characters-search-hero .char-search-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .characters-search-hero .filter-reset-btn {
+    flex: 0 0 auto;
+  }
+
+  .characters-search-hero .filter-count {
+    grid-column: 1 / -1;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  /* 명부 배너의 설명문("ISM 아카데미 소속 아카데미생과 교직원을 확인합니다")은
+     바로 위 소속 선택 카드가 이미 하는 말이다. 좁은 화면에서는 덜어낸다. */
+  #section-characters .roster-head {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+
+  #section-characters .roster-desc {
+    display: none;
+  }
+
+  /* 필터 막대가 flex row인데 라벨·알약·구분선이 저마다 줄을 차지해 여섯 줄로
+     접혔다. 라벨과 알약을 한 줄로 짝지어 두 줄로 만든다. 구분선은 줄이
+     나뉘면 뜻을 잃으므로 감춘다. */
+  #section-characters .org-roster .char-filter-bar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.4rem 0.55rem;
+    padding: 0.7rem;
+  }
+
+  #section-characters .org-roster .char-filter-sep {
+    display: none;
+  }
+
+  /* 접기 단추. 접힌 동안에는 자기만 남고 나머지는 사라진다.
+     176px -> 약 50px. */
+  #section-characters .org-roster .char-filter-toggle {
+    display: inline-flex;
+    grid-column: 1 / -1;
+    justify-self: start;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 44px;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid rgba(142, 175, 211, 0.34);
+    border-radius: var(--radius-pill);
+    background: rgba(5, 11, 24, 0.6);
+    color: #cbd9e8;
+    font-family: var(--font-ui);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  #section-characters .org-roster .char-filter-toggle.is-active {
+    border-color: var(--gold2);
+    color: var(--gold2);
+  }
+
+  /* 필터가 켜져 있으면 단추가 잠긴다(app.js). 잠긴 것이 눈에도 보여야 한다. */
+  #section-characters .org-roster .char-filter-toggle:disabled {
+    cursor: default;
+    opacity: 1;
+  }
+
+  #section-characters .org-roster .char-filter-bar.is-collapsed > *:not(.char-filter-toggle) {
+    display: none;
+  }
+
+  #section-characters .org-roster .char-filter-bar.is-collapsed {
+    gap: 0;
+    padding: 0.5rem 0.7rem;
+  }
+
+  #section-characters .org-roster .filter-reset-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  /* 학년 3개 + 종족 9개 알약이 줄바꿈으로 쌓여 필터 막대가 342px를 상시
+     점유했다. 모바일에서 첫 카드까지 1284px을 지나야 했던 가장 큰 덩어리다.
+     세계관 목차와 같은 처방 — 한 줄로 눕히고 가로로 민다. 넘침 검사는
+     overflow-x: auto인 조상을 건너뛰므로 걸리지 않는다. */
+  .char-filter-group {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+    scrollbar-width: none;
+  }
+
+  .char-filter-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .char-filter-group .filter-btn {
+    flex: 0 0 auto;
+  }
+
+  /* 명부가 두 칸이 되면서 카드가 146px(360px 화면에서는 더)로 좁아졌다.
+     ID 카드 머리글("ISM ACADEMY" + "ACADEMY ID CARD")이 그 폭에 안 들어가
+     카드 밖으로 넘쳤다. 자간을 없애고 잘라 봐도 12px 하한 때문에 들어가지
+     않는다 — 좁은 카드에서 이 장식은 값을 못 하므로 통째로 접는다.
+     카드마다 38px이 더 빠지는 덤도 있다.
+     04-characters.css가 소속별 선택자로 display: flex를 주므로 같은 특이도로
+     맞받아야 이긴다. */
+  .char-card--student .char-card-id-head,
+  .char-card--staff .char-card-id-head,
+  .char-card--civilian .char-card-id-head,
+  .char-card--external .char-card-id-head {
+    display: none;
+  }
+
+  .char-card,
+.section.active,
+.main-registry-copy,
+.main-seal-field {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .char-card,
+.emo-asset-card,
+.nsfw-asset-card,
+.assets-char-item {
+    transition-duration: 0.12s !important;
+  }
+}
+
+/* Unified Characters search (20260705k,
+cleaned) */
+.characters-global-search-bar {
+  width: min(var(--roster-frame-max), calc(100% - 2rem));
+  margin: 0 auto 1rem;
+  padding: 1rem clamp(0.9rem, 2vw, 1.2rem);
+  border-color: rgba(106,176,255,0.18);
+  background:
+    radial-gradient(ellipse 70% 140% at 0% 50%, rgba(106,176,255,0.08), transparent 62%),
+    radial-gradient(ellipse 70% 140% at 100% 50%, rgba(179,19,34,0.08), transparent 62%),
+    rgba(10,18,36,0.58);
+}
+
+.char-search-wrap--global {
+  flex: 1 1 360px;
+  max-width: none;
+}
+
+.characters-search-empty {
+  width: min(var(--roster-frame-max), calc(100% - 2rem));
+  margin: 0 auto 1rem;
+  border-color: rgba(106,176,255,0.18);
+}
+
+#section-characters.characters-search-active .org-selector {
+  opacity: 0.72;
+}
+
+#section-characters.characters-search-active .org-select-card.active {
+  border-color: rgba(200,216,232,0.22);
+}
+
+@media (max-width: 640px) {
+  .characters-global-search-bar {
+    width: calc(100% - 1rem);
+    margin-bottom: 0.75rem;
+    padding: 0.8rem;
+  }
+
+  .char-search-wrap--global {
+    flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .characters-global-search-bar .filter-reset-btn,
+.characters-global-search-bar .filter-count {
+    margin-left: 0;
+  }
+
+  .characters-search-empty {
+    width: calc(100% - 1rem);
+  }
+}
+
+
+/* Single-scroll mobile safety */
+@media (max-width: 760px) {
+  .section {
+    min-height: 100svh;
+  }
+
+  .scroll-index {
+    max-height: calc(100svh - 2rem);
+  }
+}

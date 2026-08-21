@@ -1,0 +1,1237 @@
+/* ISM Academy stylesheet module: 05-character-detail.css */
+/* Two-screen character record: business card first, profile record second. */
+
+#char-detail {
+  /* 조작부 토큰의 기본값. 세력별 값은 .character-profile-page--*가 갖고 있는데,
+     좌우 화살표와 명부 레일은 그 요소 바깥(#char-detail 직계)이라 값을 못 받아
+     var()가 통째로 무효가 됐다. 레일은 여러 세력을 한 줄에 늘어놓는 색인이라
+     한 세력의 색을 입는 것도 맞지 않는다 — 중립 크롬으로 두고 세력색은
+     칩마다 --rail-chip-accent로 준다. */
+  --cdp-control-bg: rgba(8, 25, 46, 0.8);
+  --cdp-control-bg-hover: rgba(22, 55, 91, 0.96);
+  --cdp-control-line: rgba(224, 237, 255, 0.42);
+  --cdp-control-ink: #f6faff;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  background: #e7f0ff;
+  color: var(--academy-ink);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(26, 65, 112, 0.46) transparent;
+  /* 스냅은 걷어냈다. 명함 면은 100dvh지만 프로필 면은 1422px이라 스냅 지점이
+     0과 902 두 곳뿐이었고, 그 사이를 읽으려 하면 늘 0으로 되끌렸다.
+     계측: 휠 24번을 굴려도 scrollTop이 2로 끝났고 뒤로 끌린 프레임이 98개였다.
+     스냅을 끄면 같은 입력에서 1424px, 되끌림 0이다.
+     프로필로 건너뛰는 일은 detail-scroll.js의 moveToProfile()이 하므로
+     스냅이 없어도 두 면 구성은 그대로다. */
+  overscroll-behavior: contain;
+  transition: opacity 0.22s ease;
+}
+
+#char-detail::-webkit-scrollbar { width: 6px; }
+#char-detail::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-pill);
+  background: rgba(26, 65, 112, 0.46);
+}
+
+#char-detail.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+#char-detail.closing { opacity: 0; }
+
+#char-detail.open,
+#char-detail.closing { transform: none; }
+
+#char-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(3, 8, 18, 0.84);
+  transition: opacity 0.22s ease;
+}
+
+#char-detail-overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+#char-detail-overlay.closing { opacity: 0; }
+
+.char-detail-inner,
+.cdp-content,
+.character-profile-page {
+  min-height: 100%;
+}
+
+.character-profile-page {
+  --cdp-dark: #071425;
+  --cdp-dark-soft: #0d213a;
+  --cdp-accent: #2f78c4;
+  --cdp-accent-soft: rgba(47, 120, 196, 0.24);
+  --cdp-paper: #e7f0ff;
+  --cdp-paper-soft: #f6f9ff;
+  --cdp-ink: var(--academy-ink);
+  --cdp-muted: #4e6786;
+  --cdp-line: rgba(25, 66, 112, 0.24);
+  --cdp-stage-top: rgba(108, 176, 245, 0.13);
+  --cdp-stage-halo: #174a7d;
+  --cdp-stage-glow: #0d2b4d;
+  --cdp-stage-edge: #071425;
+  --cdp-stage-frame: rgba(133, 180, 232, 0.62);
+  --cdp-stage-surface: rgba(2, 7, 15, 0.64);
+  --cdp-bottom-glow: #89bff0;
+  --cdp-control-bg: rgba(8, 25, 46, 0.8);
+  --cdp-control-bg-hover: rgba(22, 55, 91, 0.96);
+  --cdp-control-line: rgba(224, 237, 255, 0.42);
+  --cdp-control-ink: #f6faff;
+  --cdp-guide: rgba(235, 243, 255, 0.84);
+  container-type: inline-size;
+}
+
+.character-profile-page--pbs {
+  --cdp-dark: #17070a;
+  --cdp-dark-soft: #351018;
+  --cdp-accent: #c51e31;
+  --cdp-accent-soft: rgba(197, 30, 49, 0.2);
+  --cdp-paper: #f2e9eb;
+  --cdp-paper-soft: #fbf7f8;
+  --cdp-ink: #35151b;
+  --cdp-muted: #74545a;
+  --cdp-line: rgba(108, 39, 51, 0.23);
+  --cdp-stage-top: rgba(216, 189, 109, 0.13);
+  --cdp-stage-halo: #671323;
+  --cdp-stage-glow: #3d0c16;
+  --cdp-stage-edge: #100306;
+  --cdp-stage-frame: rgba(216, 189, 109, 0.72);
+  --cdp-stage-surface: rgba(12, 3, 6, 0.7);
+  --cdp-bottom-glow: #d6a55f;
+  --cdp-control-bg: rgba(34, 7, 12, 0.84);
+  --cdp-control-bg-hover: rgba(91, 16, 27, 0.96);
+  --cdp-control-line: rgba(231, 207, 151, 0.5);
+  --cdp-control-ink: #fff7e9;
+  --cdp-guide: rgba(244, 222, 179, 0.9);
+}
+
+.character-profile-page--hprf {
+  --cdp-dark: #08111c;
+  --cdp-dark-soft: #193652;
+  --cdp-accent: #347fdc;
+  --cdp-accent-soft: rgba(52, 127, 220, 0.2);
+  --cdp-paper: #e9eff5;
+  --cdp-paper-soft: #f7f9fc;
+  --cdp-ink: #142d43;
+  --cdp-muted: #536a7e;
+  --cdp-line: rgba(45, 83, 116, 0.23);
+  --cdp-stage-top: rgba(126, 183, 244, 0.14);
+  --cdp-stage-halo: #1c5686;
+  --cdp-stage-glow: #123752;
+  --cdp-stage-edge: #070e17;
+  --cdp-stage-frame: rgba(126, 174, 231, 0.72);
+  --cdp-stage-surface: rgba(5, 14, 24, 0.68);
+  --cdp-bottom-glow: #8dbce8;
+  --cdp-control-bg: rgba(10, 31, 52, 0.84);
+  --cdp-control-bg-hover: rgba(23, 73, 124, 0.96);
+  --cdp-control-line: rgba(190, 219, 249, 0.5);
+  --cdp-control-ink: #f4f9ff;
+  --cdp-guide: rgba(218, 235, 255, 0.9);
+}
+
+.character-profile-page--wf {
+  --cdp-dark: #0b1214;
+  --cdp-dark-soft: #30444a;
+  --cdp-accent: #367d86;
+  --cdp-accent-soft: rgba(54, 125, 134, 0.2);
+  --cdp-paper: #edf1f0;
+  --cdp-paper-soft: #fafcfc;
+  --cdp-ink: #21332f;
+  --cdp-muted: #5d716a;
+  --cdp-line: rgba(72, 101, 91, 0.23);
+  --cdp-stage-top: rgba(157, 213, 220, 0.14);
+  --cdp-stage-halo: #285b62;
+  --cdp-stage-glow: #18383d;
+  --cdp-stage-edge: #090f11;
+  --cdp-stage-frame: rgba(203, 214, 220, 0.68);
+  --cdp-stage-surface: rgba(7, 14, 16, 0.68);
+  --cdp-bottom-glow: #9bcbd0;
+  --cdp-control-bg: rgba(18, 37, 42, 0.84);
+  --cdp-control-bg-hover: rgba(52, 88, 96, 0.96);
+  --cdp-control-line: rgba(223, 235, 239, 0.5);
+  --cdp-control-ink: #f4f9fa;
+  --cdp-guide: rgba(229, 239, 242, 0.9);
+}
+
+.character-profile-page--rtn {
+  --cdp-dark: #10180e;
+  --cdp-dark-soft: #253620;
+  --cdp-accent: #789744;
+  --cdp-accent-soft: rgba(120, 151, 68, 0.2);
+  --cdp-paper: #f0f1e9;
+  --cdp-paper-soft: #fafbf7;
+  --cdp-ink: #293523;
+  --cdp-muted: #65705b;
+  --cdp-line: rgba(91, 112, 67, 0.24);
+  --cdp-stage-top: rgba(177, 207, 126, 0.13);
+  --cdp-stage-halo: #3e592b;
+  --cdp-stage-glow: #263b1d;
+  --cdp-stage-edge: #0b1109;
+  --cdp-stage-frame: rgba(165, 187, 126, 0.66);
+  --cdp-stage-surface: rgba(8, 15, 7, 0.68);
+  --cdp-bottom-glow: #b2cd82;
+  --cdp-control-bg: rgba(22, 35, 18, 0.84);
+  --cdp-control-bg-hover: rgba(66, 89, 49, 0.96);
+  --cdp-control-line: rgba(213, 229, 190, 0.48);
+  --cdp-control-ink: #f4f8ec;
+  --cdp-guide: rgba(221, 234, 203, 0.9);
+}
+
+.character-profile-page--nf {
+  --cdp-dark: #17130d;
+  --cdp-dark-soft: #342a1d;
+  --cdp-accent: #aa792f;
+  --cdp-accent-soft: rgba(170, 121, 47, 0.2);
+  --cdp-paper: #f2eee6;
+  --cdp-paper-soft: #fbfaf7;
+  --cdp-ink: #3b3021;
+  --cdp-muted: #75664f;
+  --cdp-line: rgba(120, 95, 56, 0.23);
+  --cdp-stage-top: rgba(222, 184, 116, 0.13);
+  --cdp-stage-halo: #60451f;
+  --cdp-stage-glow: #3b2b18;
+  --cdp-stage-edge: #110e09;
+  --cdp-stage-frame: rgba(212, 190, 148, 0.64);
+  --cdp-stage-surface: rgba(13, 11, 8, 0.68);
+  --cdp-bottom-glow: #d5ad69;
+  --cdp-control-bg: rgba(40, 31, 20, 0.84);
+  --cdp-control-bg-hover: rgba(103, 78, 43, 0.96);
+  --cdp-control-line: rgba(231, 216, 185, 0.48);
+  --cdp-control-ink: #fffaf0;
+  --cdp-guide: rgba(239, 228, 204, 0.9);
+}
+
+.cdp-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+.cdp-page--business-card {
+  display: grid;
+  place-items: center;
+  padding: clamp(5rem, 9vh, 7rem) clamp(4rem, 8vw, 7rem);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--cdp-stage-top), transparent 28%),
+    radial-gradient(
+      ellipse at 50% 42%,
+      var(--cdp-stage-halo) 0%,
+      var(--cdp-stage-glow) 48%,
+      var(--cdp-stage-edge) 80%
+    );
+}
+
+.cdp-page--business-card::before {
+  content: "";
+  position: absolute;
+  inset: 1.1rem;
+  pointer-events: none;
+  border: 1px solid var(--cdp-stage-frame);
+  opacity: 0.5;
+}
+
+.cdp-page--business-card::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(110px, 16vh, 160px);
+  background:
+    radial-gradient(
+      ellipse 72% 120% at 50% 112%,
+      color-mix(in srgb, var(--cdp-bottom-glow) 38%, transparent) 0%,
+      color-mix(in srgb, var(--cdp-accent) 18%, transparent) 42%,
+      transparent 74%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--cdp-paper) 16%, transparent) 0%,
+      color-mix(in srgb, var(--cdp-accent) 7%, transparent) 38%,
+      transparent 100%
+    );
+  opacity: 0.9;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.cdp-page-controls {
+  position: absolute;
+  z-index: 4;
+  top: max(1.25rem, env(safe-area-inset-top));
+  left: max(1.25rem, env(safe-area-inset-left));
+}
+
+.cdp-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.55rem 0.82rem;
+  border: 1px solid var(--cdp-control-line);
+  border-radius: var(--radius-xs);
+  background: var(--cdp-control-bg);
+  color: var(--cdp-control-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.cdp-back:hover {
+  border-color: color-mix(in srgb, var(--cdp-control-line) 72%, white);
+  background: var(--cdp-control-bg-hover);
+  color: var(--cdp-control-ink);
+}
+
+.cdp-business-card-stage {
+  --cdp-stage-max-width: 1120px;
+  --cdp-stage-inline-limit: calc(100vw - 10rem);
+  --cdp-stage-block-limit: calc(100svh - 10rem);
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: min(var(--cdp-stage-max-width), var(--cdp-stage-inline-limit));
+  max-height: var(--cdp-stage-block-limit);
+  aspect-ratio: 1216 / 832;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--cdp-stage-frame);
+  border-radius: var(--radius-xs);
+  background: var(--cdp-stage-surface);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.48),
+    0 0 0 8px color-mix(in srgb, var(--cdp-accent) 8%, transparent);
+}
+
+/* Constrain both axes together so a low viewport cannot flatten the frame.
+   The fallback above remains usable in older browsers; the image itself is
+   independently bounded below, so future source ratios can never be cropped. */
+@supports (width: calc((100svh - 1px) * 1.461538)) {
+  .cdp-business-card-stage {
+    width: min(
+      var(--cdp-stage-max-width),
+      var(--cdp-stage-inline-limit),
+      calc(var(--cdp-stage-block-limit) * 1.461538)
+    );
+    max-height: none;
+  }
+}
+
+.cdp-business-card-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.cdp-image-placeholder {
+  display: none;
+  padding: 1rem;
+  color: rgba(234, 242, 255, 0.72);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.is-missing-image > .cdp-image-placeholder { display: block; }
+
+.cdp-identity-seal {
+  position: absolute;
+  z-index: 3;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.52rem 0.68rem;
+  border: 1px solid rgba(216, 189, 109, 0.5);
+  border-left: 3px solid var(--signal-accent);
+  background: rgba(8, 8, 13, 0.8);
+  color: #f4f0e4;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.cdp-identity-seal span { font-size: var(--text-label); color: var(--gold2); }
+.cdp-identity-seal strong { font-size: var(--text-xs); }
+
+.cdp-scroll-guide {
+  position: absolute;
+  z-index: 3;
+  bottom: max(2.25rem, calc(env(safe-area-inset-bottom) + 1rem));
+  left: 50%;
+  display: grid;
+  place-content: center;
+  width: 96px;
+  height: 108px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cdp-guide);
+  font-family: var(--font-ui);
+  font-size: 4.5rem;
+  line-height: 0.46;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+  animation: cdpScrollGuideFloat 1.8s ease-in-out infinite;
+  transition: opacity 0.28s ease;
+}
+
+.cdp-scroll-guide span {
+  display: block;
+  animation: cdpScrollGuidePulse 1.8s ease-in-out infinite;
+}
+
+.cdp-scroll-guide span + span {
+  animation-delay: 0.12s;
+}
+
+.cdp-scroll-guide:focus-visible {
+  outline: 2px solid var(--cdp-guide);
+  outline-offset: 2px;
+}
+
+#char-detail.has-detail-scroll .cdp-scroll-guide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes cdpScrollGuideFloat {
+  0%, 100% { transform: translateX(-50%) translateY(-5px); }
+  50% { transform: translateX(-50%) translateY(9px); }
+}
+
+@keyframes cdpScrollGuidePulse {
+  0%, 100% { opacity: 0.38; }
+  50% { opacity: 1; }
+}
+
+.cdp-nav {
+  position: fixed;
+  z-index: 10004;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--cdp-control-line);
+  border-radius: var(--radius-circle);
+  background: var(--cdp-control-bg);
+  color: var(--cdp-control-ink);
+  font-size: var(--text-md);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  backdrop-filter: blur(9px);
+  transition: opacity 0.18s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+#char-detail.open .cdp-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cdp-nav--prev { left: 1.1rem; }
+.cdp-nav--next { right: 1.1rem; }
+
+.cdp-nav:hover {
+  border-color: color-mix(in srgb, var(--cdp-control-line) 72%, white);
+  background: var(--cdp-control-bg-hover);
+}
+
+.cdp-page--profile {
+  display: flex;
+  align-items: center;
+  padding: clamp(4.5rem, 8vh, 7rem) clamp(1.2rem, 5vw, 4rem);
+  background:
+    radial-gradient(ellipse at 92% 0, color-mix(in srgb, var(--cdp-accent) 17%, transparent), transparent 48%),
+    linear-gradient(105deg, var(--cdp-accent-soft), transparent 36%),
+    var(--cdp-paper);
+  color: var(--cdp-ink);
+}
+
+.cdp-profile-inner {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.cdp-profile-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: clamp(2rem, 6cqi, 5.5rem);
+  align-items: center;
+  min-height: 50vh;
+}
+
+.cdp-profile-heading { min-width: 0; }
+
+.cdp-profile-meta {
+  margin-bottom: 1.1rem;
+  color: var(--cdp-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.cdp-profile-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.04em 0.22em;
+  max-width: min(100%, 13ch);
+  margin: 0;
+  color: var(--cdp-ink);
+  font-family: var(--font-title-ko);
+  font-size: clamp(2.9rem, 8.4cqi, 5.9rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+
+.cdp-profile-name-part {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.cdp-profile-english-name {
+  margin-top: 0.75rem;
+  color: var(--cdp-muted);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: clamp(1.08rem, 2.7cqi, 1.6rem);
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.cdp-profile-quote {
+  box-sizing: border-box;
+  inline-size: min(100%, 42rem);
+  min-width: 0;
+  margin: 2rem 0 0;
+  padding: 0 0 0 1.15rem;
+  border-left: 2px solid var(--cdp-accent);
+  color: var(--cdp-ink);
+  font-family: var(--font-lore);
+  font-size: clamp(1.1rem, 1.65cqi, 1.3rem);
+  font-style: normal;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  white-space: normal;
+}
+
+.cdp-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.cdp-assets-btn,
+.cdp-spoiler-toggle {
+  width: fit-content;
+  min-width: 160px;
+  min-height: 38px;
+  padding: 0.5rem 0.82rem;
+  border: 1px solid var(--cdp-line);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--cdp-paper-soft) 72%, white);
+  color: var(--cdp-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.cdp-assets-btn:hover,
+.cdp-spoiler-toggle:hover {
+  border-color: var(--cdp-accent);
+  background: var(--cdp-paper-soft);
+  color: var(--cdp-ink);
+}
+
+.cdp-spoiler-toggle.is-revealed {
+  border-color: var(--signal-accent);
+  background: rgba(138, 18, 32, 0.09);
+  color: #70101b;
+}
+
+.cdp-signature-asset {
+  --cdp-signature-rotation: -1.2deg;
+  position: relative;
+  justify-self: center;
+  width: min(100%, 360px);
+  margin: 0;
+  padding: 0.65rem 0.65rem 2.4rem;
+  border: 1px solid var(--cdp-line);
+  background: var(--cdp-paper-soft);
+  box-shadow: 0 20px 50px color-mix(in srgb, var(--cdp-accent) 18%, transparent);
+  transform: rotate(var(--cdp-signature-rotation));
+}
+
+.cdp-signature-asset.is-tilted-right { --cdp-signature-rotation: 1.2deg; }
+
+.cdp-signature-asset img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 832 / 1216;
+  object-fit: contain;
+  object-position: center;
+  background: var(--cdp-paper);
+}
+
+.cdp-signature-asset.is-missing-image {
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+}
+
+.cdp-signature-asset .cdp-image-placeholder { color: var(--cdp-muted); }
+
+.cdp-signature-asset figcaption {
+  position: absolute;
+  right: 0.72rem;
+  bottom: 0.62rem;
+  left: 0.72rem;
+  color: var(--cdp-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.cdp-profile-information {
+  margin-top: clamp(3.5rem, 7vh, 6rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--cdp-line);
+}
+
+.cdp-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--cdp-line);
+  background: var(--cdp-paper);
+}
+
+.cdp-stat {
+  min-width: 0;
+  min-height: 84px;
+  padding: 0.9rem 1rem;
+  background: color-mix(in srgb, var(--cdp-paper-soft) 88%, white);
+}
+
+.cdp-stat-label,
+.cdp-section-label,
+.cdp-tmi-label {
+  margin-bottom: 0.4rem;
+  color: var(--cdp-accent);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.cdp-stat-val {
+  color: var(--cdp-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+
+.cdp-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 2rem;
+  margin-top: 2.2rem;
+}
+
+.cdp-section {
+  min-width: 0;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--cdp-line);
+}
+
+.cdp-section--wide { grid-column: 1 / -1; }
+
+.cdp-power-section {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--cdp-accent) 42%, var(--cdp-line));
+  border-left: 4px solid var(--cdp-accent);
+  background: color-mix(in srgb, var(--cdp-paper-soft) 82%, var(--cdp-accent));
+}
+
+.cdp-power-section--sigma {
+  border-left-color: color-mix(in srgb, var(--cdp-accent) 68%, #a56e17);
+  background: color-mix(in srgb, var(--cdp-paper-soft) 89%, var(--gold2));
+}
+
+.cdp-power-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.cdp-power-label {
+  color: var(--cdp-accent);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.cdp-power-name {
+  margin-top: 0.14rem;
+  color: var(--cdp-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.cdp-power-description {
+  margin: 0.75rem 0 0 2.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid color-mix(in srgb, var(--cdp-accent) 20%, transparent);
+  color: var(--cdp-ink-soft);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.cdp-section-val,
+.cdp-tmi-body {
+  color: var(--cdp-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+
+.cdp-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  min-width: 0;
+}
+
+.cdp-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  max-width: 100%;
+  padding: 0.35rem 0.62rem;
+  border: 1px solid var(--cdp-line);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--cdp-paper-soft) 68%, white);
+  color: var(--cdp-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.cdp-section--tag-list { align-content: start; }
+
+.cdp-section--likes .cdp-tag {
+  border-color: rgba(106, 176, 255, 0.22);
+  background: rgba(106, 176, 255, 0.08);
+}
+
+.cdp-section--dislikes .cdp-tag {
+  border-color: rgba(176, 90, 114, 0.2);
+  background: rgba(176, 90, 114, 0.075);
+}
+
+.cdp-section--ability .cdp-tag {
+  border-color: rgba(216, 189, 109, 0.2);
+  background: rgba(216, 189, 109, 0.075);
+}
+
+.cdp-profile-tmi {
+  margin-top: 2.7rem;
+  padding: 1.2rem 0 0 1.1rem;
+  border-top: 1px solid var(--cdp-line);
+  border-left: 3px solid color-mix(in srgb, var(--cdp-accent) 48%, transparent);
+}
+
+.cdp-stat--role .cdp-stat-val {
+  font-family: var(--font-title-ko);
+  font-weight: 700;
+}
+
+body.char-detail-open #section-characters .char-hover-card,
+#section-characters.detail-overlay-open .char-hover-card {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.cdp-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(3px);
+  transition:
+    opacity 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.62s ease;
+}
+
+.cdp-page--profile.is-visible .cdp-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.cdp-reveal--signature {
+  transform: translateY(24px) rotate(var(--cdp-signature-rotation)) scale(0.985);
+}
+
+.cdp-page--profile.is-visible .cdp-reveal--signature {
+  transform: translateY(0) rotate(var(--cdp-signature-rotation)) scale(1);
+}
+
+.cdp-stat,
+.cdp-section,
+.cdp-power-section {
+  --cdp-detail-delay: 0s;
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(1.5px);
+  transition:
+    opacity 0.48s ease,
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.42s ease;
+  transition-delay: var(--cdp-detail-delay);
+}
+
+.cdp-page--profile.is-visible .cdp-stat,
+.cdp-page--profile.is-visible .cdp-section,
+.cdp-page--profile.is-visible .cdp-power-section {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.cdp-stat-label,
+.cdp-stat-val,
+.cdp-section-label,
+.cdp-section-val,
+.cdp-tag-list,
+.cdp-power-heading,
+.cdp-power-description {
+  opacity: 0;
+  transform: translateY(7px);
+  filter: blur(1px);
+  transition:
+    opacity 0.72s ease,
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.62s ease;
+  transition-delay: calc(var(--cdp-detail-delay) + 0.08s);
+}
+
+.cdp-stat-val,
+.cdp-section-val,
+.cdp-tag-list,
+.cdp-power-description {
+  transition-delay: calc(var(--cdp-detail-delay) + 0.15s);
+}
+
+.cdp-page--profile.is-visible .cdp-stat-label,
+.cdp-page--profile.is-visible .cdp-stat-val,
+.cdp-page--profile.is-visible .cdp-section-label,
+.cdp-page--profile.is-visible .cdp-section-val,
+.cdp-page--profile.is-visible .cdp-tag-list,
+.cdp-page--profile.is-visible .cdp-power-heading,
+.cdp-page--profile.is-visible .cdp-power-description {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.cdp-page--profile.is-visible .cdp-stat:nth-child(1),
+.cdp-page--profile.is-visible .cdp-section:nth-child(1),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(1) { --cdp-detail-delay: 0.04s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(2),
+.cdp-page--profile.is-visible .cdp-section:nth-child(2),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(2) { --cdp-detail-delay: 0.1s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(3),
+.cdp-page--profile.is-visible .cdp-section:nth-child(3),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(3) { --cdp-detail-delay: 0.16s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(4),
+.cdp-page--profile.is-visible .cdp-section:nth-child(4),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(4) { --cdp-detail-delay: 0.22s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(5),
+.cdp-page--profile.is-visible .cdp-section:nth-child(5),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(5) { --cdp-detail-delay: 0.28s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(6),
+.cdp-page--profile.is-visible .cdp-section:nth-child(6),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(6) { --cdp-detail-delay: 0.34s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(7),
+.cdp-page--profile.is-visible .cdp-section:nth-child(7),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(7) { --cdp-detail-delay: 0.4s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(8),
+.cdp-page--profile.is-visible .cdp-section:nth-child(8),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(8) { --cdp-detail-delay: 0.46s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(9),
+.cdp-page--profile.is-visible .cdp-section:nth-child(9),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(9) { --cdp-detail-delay: 0.52s; }
+.cdp-page--profile.is-visible .cdp-stat:nth-child(n+10),
+.cdp-page--profile.is-visible .cdp-section:nth-child(n+10),
+.cdp-page--profile.is-visible .cdp-power-section:nth-child(n+10) { --cdp-detail-delay: 0.58s; }
+
+.cdp-page--profile.is-visible .cdp-reveal--name { transition-delay: 0.06s; }
+.cdp-page--profile.is-visible .cdp-reveal--quote { transition-delay: 0.12s; }
+
+.cdp-page--profile.is-visible .cdp-reveal--signature { transition-delay: 0.18s; }
+.cdp-page--profile.is-visible .cdp-reveal--information { transition-delay: 0.08s; }
+.cdp-page--profile.is-visible .cdp-reveal--tmi { transition-delay: 0.3s; }
+
+@media (max-width: 900px) {
+  .cdp-page--business-card {
+    padding: 5.2rem 4rem;
+  }
+
+  .cdp-business-card-stage {
+    --cdp-stage-max-width: 100%;
+    --cdp-stage-inline-limit: calc(100vw - 7rem);
+    --cdp-stage-block-limit: calc(100svh - 8rem);
+  }
+
+  .cdp-profile-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.62fr);
+    gap: 2rem;
+  }
+
+  .cdp-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 759px) {
+  .cdp-sections { grid-template-columns: 1fr; gap: 0.5rem; }
+  .cdp-tag-list { gap: 0.3rem; }
+  .cdp-section--wide,
+  .cdp-power-section { grid-column: auto; }
+}
+
+@media (max-width: 680px) {
+  .cdp-page--business-card {
+    padding: 4.8rem 1rem 3.8rem;
+  }
+
+  .cdp-page--business-card::before { inset: 0.5rem; }
+
+  .cdp-business-card-stage {
+    --cdp-stage-inline-limit: 100%;
+    --cdp-stage-block-limit: calc(100dvh - 9rem);
+  }
+
+  .cdp-page-controls {
+    top: max(0.78rem, env(safe-area-inset-top));
+    left: max(0.78rem, env(safe-area-inset-left));
+  }
+
+  .cdp-nav {
+    top: auto;
+    bottom: max(0.8rem, env(safe-area-inset-bottom));
+    width: 44px;
+    height: 44px;
+    transform: none;
+  }
+
+  .cdp-nav--prev { left: 0.8rem; }
+  .cdp-nav--next { right: 0.8rem; }
+
+  .cdp-page--profile {
+    align-items: flex-start;
+    padding: 4.6rem 1.15rem 3.5rem;
+  }
+
+  .cdp-profile-hero {
+    grid-template-columns: 1fr;
+    gap: 2.6rem;
+    min-height: 0;
+  }
+
+  .cdp-profile-name {
+    max-width: none;
+    font-size: clamp(2.55rem, 13.5cqi, 4.1rem);
+  }
+
+  .cdp-assets-btn,
+  .cdp-spoiler-toggle {
+    min-height: 44px;
+    flex: 1 0 100%;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .cdp-signature-asset {
+    width: min(82%, 330px);
+    order: 2;
+  }
+
+  .cdp-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cdp-power-description { margin-left: 0; }
+}
+
+@media (max-width: 390px) {
+  .cdp-stat-grid { grid-template-columns: 1fr; }
+  .cdp-signature-asset { width: 92%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #char-detail,
+  #char-detail-overlay,
+  .cdp-reveal,
+  .cdp-stat,
+  .cdp-section,
+  .cdp-stat-label,
+  .cdp-stat-val,
+  .cdp-section-label,
+  .cdp-section-val,
+  .cdp-tag-list {
+    transition: none;
+  }
+
+  .cdp-scroll-guide,
+  .cdp-scroll-guide span { animation: none; }
+
+  .cdp-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .cdp-stat,
+  .cdp-section,
+  .cdp-stat-label,
+  .cdp-stat-val,
+  .cdp-section-label,
+  .cdp-section-val,
+  .cdp-tag-list {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .cdp-signature-asset,
+  .cdp-signature-asset.is-tilted-right { transform: none; }
+}
+
+/* ──────────────────────────────────────────────────
+   명부 레일 — 상세를 닫지 않고 같은 명단 안을 오간다.
+
+   좌우 화살표는 한 칸씩만 움직여서 멀리 있는 인물로 가려면 계속 눌러야 했다.
+   레일은 명단을 그대로 깔아 두고 아무 데나 바로 짚게 한다. 카드 색인의 탭을
+   훑는 감각을 노렸다 — 현재 항목만 위로 한 칸 올라오고 세력색 밑줄이 켜진다.
+   화살표와 같은 --cdp-control-* 토큰을 써서 두 조작이 같은 부속으로 읽힌다.
+────────────────────────────────────────────────── */
+.cdp-roster-rail {
+  position: fixed;
+  z-index: 10004;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  gap: 0.34rem;
+  align-items: flex-end;
+  justify-content: flex-start;
+  /* 아래 여백은 이름의 내림선이 화면 끝에 잘리지 않을 만큼 둔다. */
+  padding: 0.5rem clamp(0.75rem, 4vw, 4.5rem) 0.9rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--cdp-control-bg) 58%);
+  scrollbar-width: thin;
+  transition: opacity 0.2s ease;
+}
+
+#char-detail.open .cdp-roster-rail {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#char-detail.closing .cdp-roster-rail {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cdp-rail-chip {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 0.22rem;
+  justify-items: center;
+  width: 62px;
+  padding: 0.3rem 0.22rem 0.34rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--cdp-control-ink);
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+/* 칩 전체를 흐리게 하면 이름까지 같이 죽어 읽히지 않는다. 초점은 초상으로
+   주고 이름은 또렷하게 남긴다. */
+.cdp-rail-chip:not(.is-current) .cdp-rail-chip-thumb {
+  opacity: 0.68;
+  transition: opacity 0.16s ease;
+}
+
+.cdp-rail-chip:hover .cdp-rail-chip-thumb,
+.cdp-rail-chip:focus-visible .cdp-rail-chip-thumb {
+  opacity: 1;
+}
+
+.cdp-rail-chip-thumb {
+  display: grid;
+  overflow: hidden;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--cdp-control-line);
+  border-radius: var(--radius-circle);
+  background: var(--cdp-control-bg-hover);
+  place-items: center;
+  font-size: var(--text-label);
+}
+
+.cdp-rail-chip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 명함 이미지는 인물이 위쪽에 있어 가운데를 자르면 턱만 남는다. */
+  object-position: 50% 18%;
+}
+
+.cdp-rail-chip-name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: var(--text-label);
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* 레일 밑은 세력마다 바탕이 달라 그림자 한 겹으로 바닥을 깔아 준다. */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.cdp-rail-chip:hover,
+.cdp-rail-chip:focus-visible {
+  background: var(--cdp-control-bg-hover);
+}
+
+.cdp-rail-chip.is-current {
+  border-color: var(--cdp-control-line);
+  background: var(--cdp-control-bg-hover);
+  cursor: default;
+  transform: translateY(-4px);
+}
+
+.cdp-rail-chip.is-current .cdp-rail-chip-thumb {
+  border-color: var(--rail-chip-accent, var(--cdp-control-ink));
+  box-shadow: 0 0 0 2px var(--rail-chip-accent, transparent);
+}
+
+/* 레일이 프로필 마지막 줄을 덮지 않도록 자리를 비운다. */
+#char-detail.open .cdp-page--profile {
+  padding-bottom: 6.5rem;
+}
+
+@media (max-width: 700px) {
+  .cdp-roster-rail {
+    gap: 0.24rem;
+    padding: 0.4rem 0.6rem 0.5rem;
+  }
+
+  .cdp-rail-chip { width: 54px; }
+  .cdp-rail-chip-thumb { width: 32px; height: 32px; }
+
+  #char-detail.open .cdp-page--profile {
+    padding-bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdp-rail-chip,
+  .cdp-rail-chip.is-current {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* 명함 두드리기 반응. 누를 때마다 통 튀어야 "한 번 더" 누르고 싶어진다.
+   눌린 횟수는 data-easter-progress로 명함에 남는데, 표시로 드러내지는
+   않는다 — 숨은 것을 찾는 재미를 계기판이 대신해 버리면 안 된다. */
+@keyframes cdpCardBounce {
+  0% { transform: scale(1); }
+  28% { transform: scale(0.955) rotate(-0.8deg); }
+  58% { transform: scale(1.035) rotate(0.6deg); }
+  100% { transform: scale(1); }
+}
+
+.cdp-business-card-stage.is-easter-bouncing {
+  animation: cdpCardBounce 340ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdp-business-card-stage.is-easter-bouncing { animation: none; }
+}

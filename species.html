@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISM 상세 설정</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --font-ui: 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
+      --font-title-ko: 'Noto Serif KR', 'Pretendard', serif;
+      --navy: #ccdeff;
+      --navy2: #d9e7ff;
+      --white: #10284e;
+      --white2: #23466f;
+      --gold: #b99a52;
+      --gold2: #d8bd6d;
+      --academy-line: #6685ad;
+      --academy-panel: rgba(241, 246, 255, 0.92);
+      --academy-panel-strong: rgba(250, 252, 255, 0.96);
+      --academy-shadow: 0 18px 48px rgba(36, 68, 112, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--white);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.62), transparent 38%),
+        radial-gradient(circle at 80% 80%, rgba(104,144,205,0.18), transparent 42%),
+        linear-gradient(135deg, var(--navy2), var(--navy));
+    }
+
+    main {
+      width: min(520px, 100%);
+      padding: 28px;
+      border: 1px solid var(--academy-line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, var(--academy-panel-strong), var(--academy-panel));
+      box-shadow: var(--academy-shadow), inset 0 1px 0 rgba(255,255,255,0.68);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: var(--white);
+      font-family: var(--font-title-ko);
+      font-size: 24px;
+      letter-spacing: 0.02em;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: var(--white2);
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid rgba(45, 86, 139, 0.34);
+      border-radius: 10px;
+      color: var(--white);
+      background: rgba(255,255,255,0.58);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      border-color: #2d568b;
+      background: rgba(255,255,255,0.82);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>상세 설정으로 이동 중</h1>
+    <p>자동으로 열리지 않으면 아래 버튼을 눌러주세요.</p>
+    <div class="actions">
+      <a id="primary-link" href="./docs/세계관/이종족_계통분류학.html">상세 설정 열기</a>
+      <a href="./docs/세계관/">문서 폴더로 열기</a>
+    </div>
+  </main>
+
+  <script>
+    const target = './docs/세계관/이종족_계통분류학.html';
+    document.getElementById('primary-link').href = target;
+    setTimeout(() => {
+      window.location.replace(target);
+    }, 800);
+  </script>
+</body>
+</html>

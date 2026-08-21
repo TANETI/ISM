@@ -1,0 +1,818 @@
+/* ISM Academy stylesheet module: 12-feature-refinements.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* ──────────────────────────────────────────────────
+   ▶ Characters design refresh 20260705k
+   통합 검색을 Characters의 탐색 허브로 올리고,
+소속 전환/카드/상세 정보의 위계를 정리한다.
+   상세 모달의 명함 이미지 패널과 01번 썸네일 DOM 구조는 유지한다.
+────────────────────────────────────────────────── */
+.characters-search-hero {
+  width: min(var(--roster-frame-max), calc(100% - 2rem));
+  margin: 0 auto 1.15rem;
+  padding: clamp(1rem, 2.6vw, 1.45rem);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.sec-header--compact {
+  width: 100%;
+  padding: clamp(3.2rem, 7vw, 5.8rem) 0 1.5rem;
+}
+
+.sec-header--compact .sec-header-line {
+  margin-top: 0;
+}
+
+.characters-search-lead {
+  margin: 0.85rem 0 0;
+  max-width: 680px;
+  color: rgba(235,242,248,0.68);
+  font-size: clamp(0.86rem, 1.8vw, 0.98rem);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.characters-global-search-bar {
+  width: 100%;
+  margin: 0;
+  padding: 0.8rem;
+  border-color: rgba(106,176,255,0.22);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(90deg, rgba(106,176,255,0.08), transparent 44%, rgba(179,19,34,0.06)),
+    rgba(5,11,24,0.58);
+}
+
+.char-search-wrap--global input {
+  min-height: 46px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  background: rgba(3,9,20,0.78);
+  border-color: rgba(200,216,232,0.22);
+}
+
+.characters-scope-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.46rem;
+  flex-wrap: wrap;
+  margin-top: 0.86rem;
+}
+
+.characters-scope-pill {
+  min-height: 34px;
+  padding: 0.42rem 0.82rem;
+  border: 1px solid rgba(200,216,232,0.15);
+  border-radius: var(--radius-pill);
+  background: rgba(5,11,24,0.42);
+  color: rgba(235,242,248,0.68);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.18s;
+}
+
+.characters-scope-pill:hover,
+.characters-scope-pill.active {
+  color: #f7fbff;
+  border-color: rgba(106,176,255,0.48);
+  background: rgba(106,176,255,0.14);
+}
+
+.characters-scope-pill.active {
+  box-shadow: inset 0 0 0 1px rgba(106,176,255,0.12), 0 8px 22px rgba(0,0,0,0.18);
+}
+
+.characters-search-empty {
+  width: 100%;
+  margin: 0.8rem 0 0;
+}
+
+.org-selector--segmented {
+  max-width: 820px;
+  margin: 1.15rem auto 1.55rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0.36rem;
+  border: 1px solid rgba(200,216,232,0.11);
+  border-radius: var(--radius-lg);
+  background: rgba(5,11,24,0.42);
+}
+
+.org-selector--segmented .org-select-card {
+  min-height: 64px;
+  grid-template-columns: 44px 1fr;
+  gap: 0.72rem;
+  padding: 0.62rem 0.82rem;
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  background: transparent;
+}
+
+.org-selector--segmented .org-select-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.org-selector--segmented .org-select-card.active {
+  background:
+    radial-gradient(ellipse 80% 110% at 20% 0%, color-mix(in srgb, var(--org-accent) 18%, transparent), transparent 72%),
+    rgba(12,23,43,0.76);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--org-accent) 20%, transparent);
+}
+
+.org-selector--segmented .org-select-logo,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+}
+
+.org-selector--segmented .org-select-copy {
+  gap: 0.08rem;
+}
+
+.org-selector--segmented .org-select-copy strong {
+  font-size: clamp(0.94rem, 1.7vw, 1.08rem);
+}
+
+.org-selector--segmented .org-select-copy span {
+  font-size: var(--text-label);
+  line-height: 1.35;
+}
+
+.roster-group-toggle {
+  position: relative;
+}
+
+.roster-group-count {
+  margin-left: auto;
+  margin-right: 0.45rem;
+  padding: 0.22rem 0.58rem;
+  border: 1px solid rgba(200,216,232,0.14);
+  border-radius: var(--radius-pill);
+  background: rgba(5,11,24,0.36);
+  color: rgba(235,242,248,0.64);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.roster-group-count.is-filtered {
+  border-color: rgba(106,176,255,0.34);
+  color: var(--academy-ink-on-navy);
+  background: rgba(106,176,255,0.10);
+}
+
+.char-card-info {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.char-card-code {
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 0.02rem;
+  padding: 0.12rem 0.42rem;
+  border: 1px solid rgba(216,189,109,0.16);
+  border-radius: var(--radius-pill);
+  background: rgba(216,189,109,0.07);
+  color: rgba(216,189,109,0.92);
+  font-size: var(--text-label);
+  line-height: 1.35;
+}
+
+.char-card-name {
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+}
+
+.char-card-subline {
+  color: rgba(235,242,248,0.68);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.char-badges {
+  margin-top: 0.22rem;
+}
+
+.badge {
+  border-radius: var(--radius-pill);
+  padding: 0.13rem 0.44rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.char-card--external .char-card-info,
+.char-card--civilian .char-card-info {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--org-file-accent, var(--id-accent, var(--gold))) 7%, transparent), transparent 60%);
+}
+
+@media (max-width: 760px) {
+  .characters-search-hero {
+    width: calc(100% - 1rem);
+    margin-bottom: 0.72rem;
+    padding: 0.78rem;
+  }
+
+  .sec-header--compact {
+    padding: 2.7rem 0 1.1rem;
+  }
+
+  .sec-header--compact .sec-header-line {
+    margin-top: 0;
+  }
+
+  .characters-search-lead {
+    margin-top: 0.7rem;
+    font-size: var(--text-xs);
+    line-height: 1.45;
+  }
+
+  .characters-global-search-bar {
+    padding: 0.64rem;
+  }
+
+  .char-search-wrap--global input {
+    min-height: 44px;
+    font-size: var(--text-sm);
+  }
+
+  .characters-scope-pills {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.12rem;
+    scrollbar-width: none;
+  }
+  .characters-scope-pills::-webkit-scrollbar { display: none; }
+
+  .characters-scope-pill {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0.34rem 0.68rem;
+    font-size: var(--text-xs);
+  }
+
+  .org-selector--segmented {
+    width: calc(100% - 1rem);
+    margin: 0.72rem auto 0.92rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 0.9rem;
+  }
+
+  .org-selector--segmented .org-select-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 0.42rem;
+    padding: 0.6rem 0.44rem;
+  }
+
+  .org-selector--segmented .org-select-copy span {
+    display: none;
+  }
+
+  .roster-group-count {
+    font-size: var(--text-label);
+    margin-right: 0.2rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .char-card-subline {
+    font-size: var(--text-label);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────
+   ▶ Visual readability polish 20260705m
+   - segmented selector typography unified
+   - gallery mobile search shielded from horizontal chips
+   - surface/contrast balance refined while preserving academy tone
+────────────────────────────────────────────────── */
+body {
+  color: var(--readable-text);
+}
+.assets-viewer-title {
+  color: rgba(144, 196, 255, 0.88);
+}
+
+.roster-desc,
+.characters-search-lead,
+.char-card-subline,
+.assets-viewer-subtitle,
+.org-select-copy span {
+  color: var(--readable-muted);
+}
+
+.roster-head,
+.roster-group,
+.org-selector--segmented,
+.schedule-panel {
+  border-color: var(--readable-line);
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.characters-global-search-bar {
+  background:
+    linear-gradient(90deg, rgba(106,176,255,0.075), transparent 48%, rgba(185,154,82,0.045)),
+    rgba(4, 10, 22, 0.82);
+}
+
+.char-search-wrap input,
+.assets-sidebar-search {
+  color: var(--readable-text);
+  background: rgba(2, 7, 17, 0.92);
+  border-color: rgba(200,216,232,0.24);
+}
+
+.char-search-wrap input::placeholder,
+.assets-sidebar-search::placeholder {
+  color: rgba(205, 219, 214, 0.54);
+}
+
+.char-search-wrap input:focus,
+.assets-sidebar-search:focus {
+  border-color: rgba(106,176,255,0.58);
+  box-shadow: 0 0 0 2px rgba(106,176,255,0.14), 0 0 24px rgba(106,176,255,0.08);
+}
+
+/* ISM/외부 인물 세그먼트 버튼의 글꼴·크기·높이 통일 */
+.org-selector--segmented {
+  background: rgba(4, 10, 22, 0.72);
+}
+
+.org-selector--segmented .org-select-card,
+.org-selector--segmented .org-select-card[data-org="external"] {
+  min-height: 68px;
+  align-items: center;
+}
+
+.org-selector--segmented .org-select-copy,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy {
+  gap: 0.1rem;
+  justify-content: center;
+}
+
+.org-selector--segmented .org-select-copy strong,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy strong {
+  font-family: var(--font-ui);
+  font-size: clamp(0.96rem, 1.6vw, 1.06rem);
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--readable-text);
+  white-space: nowrap;
+}
+
+.org-selector--segmented .org-select-copy span,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy span {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  line-height: 1.35;
+  color: var(--readable-dim);
+}
+
+.org-selector--segmented .org-select-card.active {
+  border-color: color-mix(in srgb, var(--org-accent) 46%, transparent);
+  background:
+    radial-gradient(ellipse 80% 110% at 20% 0%, color-mix(in srgb, var(--org-accent) 16%, transparent), transparent 72%),
+    rgba(13, 27, 48, 0.84);
+}
+
+.org-selector--segmented .org-select-logo,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-logo {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+}
+
+.char-card,
+.emo-asset-card,
+.nsfw-asset-card,
+.assets-char-item {
+  border-color: rgba(200,216,232,0.14);
+}
+
+.char-card {
+  background:
+    linear-gradient(180deg, rgba(14, 27, 48, 0.72), rgba(5, 11, 24, 0.58));
+}
+
+.char-card-name,
+.roster-group-title {
+  color: #f7f4e9;
+}
+
+.char-card-code,
+.badge {
+  text-shadow: none;
+}
+
+.roster-group-count {
+  border-color: rgba(200,216,232,0.18);
+  color: rgba(226,235,231,0.72);
+  background: rgba(5,11,24,0.48);
+}
+
+/* Gallery desktop sidebar: 검색 영역을 더 뚜렷한 카드형으로 분리 */
+.assets-sidebar-controls {
+  margin-right: 0.65rem;
+  padding: 0.05rem 0 0.78rem;
+  background:
+    linear-gradient(180deg, rgba(5,11,24,1) 0%, rgba(5,11,24,0.98) 72%, rgba(5,11,24,0.88) 100%);
+}
+
+.assets-sidebar-search {
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 760px) {
+  .org-selector--segmented .org-select-card,
+.org-selector--segmented .org-select-card[data-org="external"] {
+    min-height: 62px;
+  }
+
+  .org-selector--segmented .org-select-copy strong,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy strong {
+    font-size: clamp(0.88rem, 3.5vw, 0.98rem);
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 700px) {
+  .assets-sub-tabs {
+    background: rgba(5, 11, 24, 0.98);
+    border-bottom: 1px solid rgba(200,216,232,0.16);
+  }
+
+  .assets-sidebar {
+    gap: 0.58rem;
+    padding: 0.72rem 0.75rem;
+    border-bottom-color: rgba(200,216,232,0.18);
+    background:
+      linear-gradient(180deg, rgba(5,11,24,1), rgba(6,14,25,0.99));
+    box-shadow: 0 12px 28px rgba(0,0,0,0.30);
+    isolation: isolate;
+  }
+
+  .assets-sidebar-controls {
+    position: sticky;
+    left: 0;
+    z-index: 30;
+    isolation: isolate;
+    flex: 0 0 min(66vw, 252px);
+    min-height: 74px;
+    padding: 0.22rem;
+    margin: -0.22rem 0 -0.22rem -0.22rem;
+    border: 1px solid rgba(200,216,232,0.16);
+    border-radius: var(--radius-md);
+    background: rgba(4, 10, 22, 1);
+    box-shadow:
+      14px 0 24px rgba(5,11,24,0.96),
+      1px 0 0 rgba(200,216,232,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.035);
+  }
+
+  .assets-sidebar-controls::before {
+    content: '';
+    position: absolute;
+    inset: -0.38rem -1.1rem -0.38rem -0.38rem;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(5,11,24,1) 0%, rgba(5,11,24,1) 74%, rgba(5,11,24,0) 100%);
+    pointer-events: none;
+  }
+
+  .assets-sidebar-search {
+    min-height: 70px;
+    height: 100%;
+    border-radius: var(--radius-md);
+    background: rgba(2, 7, 17, 1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+  }
+
+  .assets-spoiler-toggle {
+    flex: 0 0 118px;
+    width: 118px;
+    min-height: 70px;
+    margin: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .assets-char-item {
+    background: rgba(12, 23, 43, 0.72);
+  }
+
+  .assets-char-item.active {
+    background:
+      radial-gradient(ellipse 110% 90% at 50% 0%, rgba(106,176,255,0.22), transparent 70%),
+      rgba(12,23,43,0.92);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────
+   ▶ Design refinement 20260705m
+   - segment label copy shortened and typography locked
+   - Gallery mobile search layer made slimmer and opaque
+   - external faction accent adjusted to low-saturation document style
+   - detail info converted to readable tag pills
+   - World section gains document-like quick navigation and numbering
+────────────────────────────────────────────────── */
+.org-selector--segmented .org-select-card,
+.org-selector--segmented .org-select-card[data-org="external"] {
+  min-height: 64px;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 0.68rem;
+}
+
+.org-selector--segmented .org-select-copy strong,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy strong {
+  font-size: clamp(0.95rem, 1.45vw, 1.02rem);
+  line-height: 1.18;
+}
+
+.org-selector--segmented .org-select-copy span,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy span {
+  font-size: var(--text-label);
+  line-height: 1.28;
+  white-space: nowrap;
+}
+
+/* External cards inherit the active roster group's complete faction palette. */
+.char-card--external {
+  border-color: color-mix(in srgb, var(--faction-accent-muted, var(--gold)) 42%, rgba(200,216,232,0.14));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--faction-accent-muted, var(--gold)) 14%, transparent), transparent 48%),
+    linear-gradient(180deg, rgba(12,21,40,0.98), rgba(5,11,24,0.99));
+}
+
+.char-card--external::before {
+  height: 3px;
+  background: linear-gradient(90deg, var(--faction-accent-muted, var(--gold)), transparent 76%);
+  opacity: 0.92;
+}
+
+.roster-group--pbs .roster-group-toggle,
+.roster-group--hprf .roster-group-toggle,
+.roster-group--wf .roster-group-toggle,
+.roster-group--rtn .roster-group-toggle,
+.roster-group--nf .roster-group-toggle {
+  background:
+    linear-gradient(135deg, var(--faction-surface), transparent 74%),
+    rgba(8,16,31,0.88);
+}
+
+.world-hub {
+  counter-reset: world-section;
+  gap: 1.2rem;
+}
+
+.world-block {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(200,216,232,0.14);
+  background:
+    linear-gradient(145deg, rgba(15,26,53,0.52), rgba(5,11,24,0.34)),
+    rgba(8,16,31,0.58);
+}
+
+.world-block::before {
+  counter-increment: world-section;
+  content: counter(world-section, decimal-leading-zero);
+  position: absolute;
+  top: 1rem;
+  right: 1.15rem;
+  color: rgba(216,189,109,0.18);
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.world-block-head,
+.world-copy,
+.world-faction-grid,
+.world-timeline,
+.world-doc-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.world-copy p,
+.world-timeline p,
+.world-faction-card p,
+.world-doc-card span {
+  color: rgba(226,235,231,0.78);
+}
+
+@media (max-width: 760px) {
+  .org-selector--segmented .org-select-card,
+.org-selector--segmented .org-select-card[data-org="external"] {
+    grid-template-columns: 1fr;
+    min-height: 58px;
+    gap: 0.32rem;
+  }
+
+  .org-selector--segmented .org-select-copy span,
+.org-selector--segmented .org-select-card[data-org="external"] .org-select-copy span {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .assets-sidebar-controls {
+    flex-basis: min(64vw, 238px);
+    min-height: 64px;
+    padding: 0.18rem;
+  }
+
+  .assets-sidebar-controls::before {
+    inset: -0.34rem -0.95rem -0.34rem -0.34rem;
+    background: linear-gradient(90deg, rgba(5,11,24,1) 0%, rgba(5,11,24,1) 78%, rgba(5,11,24,0) 100%);
+  }
+
+  .assets-sidebar-search {
+    min-height: 58px;
+    padding-inline: 0.75rem;
+  }
+}
+
+
+/* Lightweight rendering pass 20260707b */
+.emo-asset-card,
+.nsfw-asset-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 360px;
+}
+
+.char-card {
+  content-visibility: visible;
+  overflow: visible;
+}
+
+.emo-asset-card--wide,
+.emo-asset-card[data-asset-code="19"],
+.emo-asset-card[data-asset-code="20"] {
+  contain-intrinsic-size: 1px 260px;
+}
+
+@media (max-width: 640px) {
+  .emo-asset-card,
+.nsfw-asset-card {
+    contain-intrinsic-size: 1px 280px;
+  }
+}
+
+/* Gallery D/19 and D/20 use the same landscape ratio as D/00 명함. */
+.emo-asset-card[data-asset-code="19"],
+.emo-asset-card[data-asset-code="20"] {
+  grid-column: span 2;
+}
+.emo-asset-card[data-asset-code="19"] .emo-asset-img,
+.emo-asset-card[data-asset-code="20"] .emo-asset-img {
+  aspect-ratio: 1216 / 832;
+}
+@media (max-width: 700px) {
+  .emo-asset-card--wide,
+.emo-asset-card[data-asset-code="19"],
+.emo-asset-card[data-asset-code="20"] {
+    grid-column: auto;
+  }
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 15% 10%, rgba(255, 255, 255, 0.62) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(104, 144, 205, 0.20) 0%, transparent 55%);
+}
+
+#section-characters,
+#section-schedule,
+#section-gallery,
+#section-world {
+  background: linear-gradient(180deg, rgba(230, 239, 255, 0.72), rgba(204, 222, 255, 0.92));
+}
+
+/* ISM 셸 환경. 위의 갤러리도 아래의 엔딩도 같은 셸 색이라 색이 뒤집히지는
+   않지만,
+갤러리가 --env-shell로 끝나는데 여기서 곧장 밝은 --env-academy-top으로
+   시작하면 경계에 옅은 단차가 남는다. 셸 색에서 출발해 올라가게 해 이어 붙인다.
+   외부 세력 환경은 13-final-theme.css가 소유한다. */
+#section-characters.char-bg-academy {
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 0%, rgba(255, 255, 255, 0.72), transparent 62%),
+    linear-gradient(
+      180deg,
+      var(--env-shell) 0,
+      var(--env-academy-top) var(--env-ramp),
+      var(--env-academy-deep) 100%
+    );
+}
+
+#section-characters.char-bg-civilian {
+  background:
+    radial-gradient(ellipse 82% 48% at 50% 0%, rgba(255, 247, 222, 0.70), transparent 66%),
+    linear-gradient(180deg, #e7efff, var(--env-academy-deep));
+}
+
+.assets-sub-tabs,
+.assets-sidebar-controls {
+  background: var(--surface-deep);
+}
+
+.roster-head,
+.roster-group,
+.char-filter-bar,
+.schedule-panel,
+.assets-sidebar-empty,
+.assets-char-item,
+.world-block,
+.world-faction-card,
+.world-doc-card,
+.world-doc-link {
+  background-color: var(--surface);
+}
+
+.roster-group-toggle,
+.filter-btn:hover,
+.org-selector--segmented .org-select-card.active,
+.char-card,
+.world-block {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(202, 220, 248, 0.84));
+}
+
+.characters-global-search-bar {
+  background-color: var(--surface);
+}
+
+.filter-btn,
+.char-search-wrap input,
+.assets-sidebar-search,
+.roster-group-count {
+  background-color: var(--surface-field);
+}
+
+.assets-sidebar,
+.assets-sub-tabs {
+  border-color: rgba(31, 72, 126, 0.20);
+}
+
+/* 캐릭터 선택기가 위쪽 sticky 스트립이 되면서 배경이 필요해졌다. 투명하면
+   아래 에셋 격자가 스트립을 뚫고 지나간다. 폭을 가리지 않고 전 구간에 준다. */
+.assets-sidebar {
+  background: var(--surface-deep);
+}
+
+.char-card-name,
+.roster-group-title {
+  color: var(--academy-ink);
+}
+
+@media (max-width: 700px) {
+  .assets-sidebar,
+.assets-sidebar-controls,
+.assets-sidebar-controls::before,
+.assets-sub-tabs {
+    background: var(--surface-deep);
+  }
+
+  .assets-sidebar-search {
+    background: var(--surface-field);
+  }
+}
+
+
+/* Motion preference: refined controls keep color feedback and drop the lift. */
+@media (prefers-reduced-motion: reduce) {
+  .characters-scope-pill {
+    transition-property: color, border-color, background;
+  }
+
+  .characters-scope-pill:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .characters-scope-pills {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}

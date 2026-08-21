@@ -1,0 +1,704 @@
+/* ISM Academy stylesheet module: 07-gallery.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* Gallery */
+#section-gallery { padding-bottom: 5rem; }
+
+.assets-sub-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  max-width: 660px;
+  margin: 0 auto;
+}
+.assets-sub-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--silver3);
+  font-family: var(--font-display);
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  padding: 0.65rem 2.2rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  text-transform: uppercase;
+  margin-bottom: -1px;
+}
+.assets-sub-btn:hover { color: var(--silver); }
+.assets-sub-btn.active { color: var(--academy-ink-on-navy); border-bottom-color: var(--navy-accent); }
+
+.assets-panel { display: none; }
+.assets-panel.active { display: flex; }
+
+/* 갤러리만 섹션 프레임을 벗어나 x=0에서 시작했다. 그래서 좌측 스크롤 색인
+   레일(fixed, 29~83px)이 사이드바 검색창과 상위 두 조직 행을 덮었고, 자기
+   섹션 제목(x=100)과도 어긋나 있었다. 다른 구간과 같은 프레임에 넣는다.
+   레일은 fixed라 문서 흐름을 밀어내지 않으므로 비켜주는 쪽이 콘텐츠다. */
+/* 캐릭터 선택기는 왼쪽 세로 열이 아니라 위쪽 가로 스트립이다.
+   세로 열은 43명을 훑는 데 스크롤이 길었고, 오른쪽 뷰어의 폭도 286px 깎았다.
+   좁은 화면에서 쓰던 가로 스트립이 이미 검증되어 있어 그 구성을 전 폭으로 올린다
+   (11-mobile.css는 이제 좁은 화면용 치수만 덮는다). */
+.assets-layout {
+  display: block;
+  width: 100%;
+  padding-left: max(var(--page-gutter), var(--rail-clearance));
+  padding-right: var(--page-gutter);
+  min-height: calc(100vh - var(--nav-h) - 180px);
+}
+
+.assets-sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 0.5rem);
+  z-index: 11;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+  padding: 0.85rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 1px solid var(--border);
+  /* 배경색은 12-feature-refinements.css가 밝은 아카데미 테마로 소유한다.
+     여기서 어두운 값을 박으면 데스크톱에서 남색 띠가 남는다. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(106,176,255,0.18) transparent;
+}
+.assets-sidebar::-webkit-scrollbar { height: 4px; }
+.assets-sidebar::-webkit-scrollbar-thumb { background: rgba(106,176,255,0.22); }
+
+/* 스트립에서는 '캐릭터' 머리글이 한 줄을 통째로 쓰면서도 아무것도 알려주지
+   않는다. 검색창 placeholder가 같은 일을 한다. */
+.assets-sidebar-label {
+  display: none;
+}
+
+.assets-sidebar-controls {
+  position: sticky;
+  left: 0;
+  top: auto;
+  z-index: 4;
+  flex: 0 0 236px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.42rem;
+  padding: 0 0.85rem 0 0;
+  margin: 0;
+  background: linear-gradient(90deg, rgba(5,11,24,0.99) 82%, rgba(5,11,24,0));
+}
+
+.assets-sidebar-search {
+  width: 100%;
+  min-height: 40px;
+  padding: 0.58rem 0.75rem;
+  border: 1px solid rgba(106,176,255,0.20);
+  border-radius: var(--radius-sm);
+  background: rgba(3,8,18,0.72);
+  color: var(--silver);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  outline: none;
+}
+
+.assets-sidebar-search::placeholder {
+  color: rgba(200,216,232,0.42);
+}
+
+.assets-sidebar-search:focus {
+  border-color: rgba(106,176,255,0.52);
+  box-shadow: 0 0 0 2px rgba(106,176,255,0.10);
+}
+
+.assets-spoiler-toggle {
+  width: 100%;
+  min-height: 34px;
+  margin-top: 0.48rem;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid rgba(216,189,109,0.24);
+  border-radius: var(--radius-sm);
+  background: rgba(61,23,33,0.28);
+  color: rgba(229,207,150,0.82);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  cursor: pointer;
+}
+
+.assets-spoiler-toggle:hover,
+.assets-spoiler-toggle.is-revealed {
+  border-color: rgba(216,189,109,0.48);
+  background: rgba(122,57,45,0.30);
+  color: #f1ddb0;
+}
+
+.assets-sidebar-empty {
+  padding: 0.7rem 0.55rem 0.85rem;
+  color: rgba(200,216,232,0.48);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.assets-char-item[hidden],
+.assets-sidebar-empty[hidden] {
+  display: none !important;
+}
+
+.assets-org-group {
+  --asset-org-accent: var(--navy-accent);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.assets-org-group[hidden] { display: none !important; }
+.assets-org-group--pbs { --asset-org-accent: var(--faction-pbs-accent); }
+.assets-org-group--hprf { --asset-org-accent: var(--faction-hprf-accent); }
+.assets-org-group--wf { --asset-org-accent: var(--faction-wf-accent); }
+.assets-org-group--rtn { --asset-org-accent: var(--faction-rtn-accent); }
+.assets-org-group--nf { --asset-org-accent: var(--faction-nf-accent); }
+
+.assets-org-toggle {
+  flex: 0 0 88px;
+  width: 88px;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.36rem;
+  margin: 0;
+  padding: 0.52rem 0.4rem;
+  border: 1px solid rgba(106,176,255,0.15);
+  border-left: 2px solid var(--asset-org-accent);
+  border-radius: var(--radius-md);
+  background: rgba(10,18,36,0.54);
+  color: var(--silver);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 750;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.assets-org-toggle:hover {
+  border-color: color-mix(in srgb, var(--asset-org-accent) 58%, transparent);
+  background: rgba(18,33,58,0.72);
+}
+
+.assets-org-name {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.assets-org-count {
+  color: rgba(200,216,232,0.62);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 600;
+}
+
+.assets-org-icon {
+  color: var(--asset-org-accent);
+  font-size: var(--text-sm);
+  transition: transform 0.18s ease;
+}
+
+.assets-org-group.is-collapsed .assets-org-icon { transform: rotate(-90deg); }
+.assets-org-group.is-collapsed .assets-org-items { display: none; }
+
+.assets-org-items {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.assets-char-item {
+  flex: 0 0 98px;
+  width: 98px;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  padding: 0.55rem 0.4rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  border: 1px solid transparent;
+  margin: 0;
+  background: rgba(10,18,36,0.46);
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  appearance: none;
+}
+.assets-char-item:hover { background: rgba(106,176,255,0.07); border-color: rgba(106,176,255,0.18); }
+.assets-char-item.is-spoiler-asset {
+  border-color: rgba(216,189,109,0.16);
+  background: linear-gradient(90deg, rgba(179,19,34,0.08), rgba(216,189,109,0.04));
+}
+.assets-char-item.active {
+  background: rgba(106,176,255,0.13);
+  border-color: rgba(106,176,255,0.48);
+  box-shadow: inset 0 0 0 1px rgba(106,176,255,0.08);
+}
+.assets-char-item.is-spoiler-asset.active {
+  background: linear-gradient(90deg, rgba(179,19,34,0.16), rgba(216,189,109,0.10));
+  border-color: rgba(216,189,109,0.48);
+  box-shadow: inset 0 0 0 1px rgba(216,189,109,0.10);
+}
+
+.assets-char-item-img {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--navy3);
+  flex-shrink: 0;
+  border: 1px solid rgba(200,216,232,0.12);
+}
+.assets-char-item-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.assets-char-item-name {
+  width: 100%;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--silver);
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  transition: color 0.18s;
+}
+
+/* 세로 칩에는 코드까지 넣을 자리가 없다. 이름이 두 줄로 잘리는 쪽이 낫다. */
+.assets-char-item-name small {
+  display: none;
+}
+.assets-char-item.active .assets-char-item-name { color: var(--academy-ink-on-navy); }
+
+.assets-main {
+  width: 100%;
+  min-width: 0;
+  padding: 1.5rem 2rem 3rem 2rem;
+}
+
+.assets-viewer-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.assets-viewer-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.assets-viewer-subtitle {
+  font-family: var(--font-lore);
+  font-size: var(--text-sm);
+  color: var(--silver3);
+  font-style: italic;
+  margin-left: auto;
+}
+
+.emo-asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+.emo-asset-card {
+  width: 100%;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.22s, box-shadow 0.22s;
+  position: relative;
+  align-self: start;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  appearance: none;
+}
+.emo-asset-card:hover {
+  border-color: rgba(201,168,76,0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+}
+.emo-asset-card.broken,
+.nsfw-asset-card.broken {
+  opacity: 0.42;
+  cursor: default;
+  pointer-events: none;
+}
+
+.emo-asset-card.broken .emo-asset-img::after,
+.nsfw-asset-card.broken .nsfw-asset-img::after {
+  content: 'IMAGE MISSING';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(235,242,248,0.58);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  background: rgba(5,11,24,0.62);
+}
+
+.emo-asset-img {
+  width: 100%;
+  aspect-ratio: 832 / 1216;
+  background: var(--navy3);
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.emo-asset-card--wide {
+  grid-column: span 2;
+}
+.emo-asset-card--wide .emo-asset-img {
+  aspect-ratio: 1216 / 832;
+}
+.emo-asset-img img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  display: block;
+  transition: transform 0.35s;
+  position: relative;
+}
+.emo-asset-card:hover .emo-asset-img img { transform: none; }
+
+.emo-asset-name {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.2rem 0.8rem 0.6rem;
+  background: linear-gradient(0deg, rgba(5,11,24,0.92) 0%, transparent 100%);
+  font-family: var(--font-display);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  color: var(--white2);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.nsfw-asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+.nsfw-asset-card {
+  width: 100%;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.22s, box-shadow 0.22s;
+  position: relative;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  appearance: none;
+}
+
+.assets-char-item:focus-visible,
+.emo-asset-card:focus-visible,
+.nsfw-asset-card:focus-visible {
+  outline: 2px solid var(--navy-accent);
+  outline-offset: 3px;
+}
+.nsfw-asset-card:hover {
+  border-color: rgba(201,168,76,0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+}
+.nsfw-asset-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--navy3);
+  overflow: hidden;
+  position: relative;
+}
+.nsfw-asset-img img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  display: block;
+  transition: transform 0.35s;
+  position: relative;
+}
+.nsfw-asset-card:hover .nsfw-asset-img img { transform: none; }
+
+.nsfw-asset-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.2rem 0.8rem 0.6rem;
+  background: linear-gradient(0deg, rgba(5,11,24,0.92) 0%, transparent 100%);
+  text-align: center;
+}
+.nsfw-asset-name {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  color: var(--white2);
+  display: block;
+}
+.nsfw-asset-code {
+  font-family: var(--font-lore);
+  font-size: var(--text-label);
+  color: var(--silver3);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+.assets-empty {
+  padding: 6rem 2rem;
+  font-family: var(--font-lore);
+  font-style: italic;
+  color: var(--silver3);
+  font-size: var(--text-md);
+  letter-spacing: 0.08em;
+  text-align: center;
+  width: 100%;
+}
+
+.char-grade-heading {
+  user-select: none;
+}
+.char-grade-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.18rem;
+}
+.grade-heading-number {
+  font-size: 1.22em;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  transform: translateY(0.01em);
+}
+.grade-heading-unit {
+  font-size: 1em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.grade-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-circle);
+  border: 1px solid rgba(200,216,232,0.22);
+  background: rgba(5,11,24,0.45);
+  opacity: 0.82;
+  font-size: 0;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), opacity 0.2s;
+  margin-left: auto;
+  line-height: 1;
+}
+.grade-toggle-icon::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid currentColor;
+  transform: translateY(1px);
+}
+.char-grade-toggle:hover .grade-toggle-icon { opacity: 1; }
+.char-grade-section.collapsed .grade-toggle-icon { transform: rotate(-90deg); }
+
+.char-grade-grid-wrap {
+  overflow: visible;
+  transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1),
+              opacity 0.32s ease;
+  max-height: none;
+  opacity: 1;
+}
+.char-grade-section.is-collapsing .char-grade-grid-wrap,
+.char-grade-section.collapsed .char-grade-grid-wrap {
+  overflow: hidden;
+}
+.char-grade-section.collapsed .char-grade-grid-wrap {
+  max-height: 0 !important;
+  opacity: 0;
+}
+#students-grid[data-filter-active="1"] .char-grade-section .char-grade-grid-wrap {
+  max-height: none !important;
+  opacity: 1;
+  overflow: visible;
+}
+#students-grid[data-filter-active="1"] .char-grade-toggle {
+  cursor: default;
+  opacity: 0.72;
+}
+
+
+/* Motion preference: asset browsing keeps its hover feedback in color, not movement. */
+@media (prefers-reduced-motion: reduce) {
+  .assets-org-icon,
+  .emo-asset-card,
+  .emo-asset-img img,
+  .nsfw-asset-card,
+  .nsfw-asset-img img,
+  .grade-toggle-icon {
+    transition-property: border-color, background, box-shadow, opacity;
+  }
+
+  .emo-asset-card:hover .emo-asset-img img,
+  .nsfw-asset-card:hover .nsfw-asset-img img {
+    transform: none;
+  }
+}
+
+/* 에셋 사이드바의 인물별 소속 표식.
+   그룹 헤더의 세력색과 별개로, 각 인물이 자기 학년색 또는 세력색을 갖는다.
+   아카데미 그룹 안에서도 1·2·3학년이 색으로 구분된다. */
+.assets-char-item {
+  --asset-item-accent: var(--asset-org-accent, var(--navy-accent));
+  position: relative;
+}
+
+.assets-char-item::after {
+  content: '';
+  position: absolute;
+  top: 0.32rem;
+  bottom: 0.32rem;
+  left: 0;
+  width: 3px;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  background: var(--asset-item-accent);
+  opacity: 0.62;
+  pointer-events: none;
+}
+
+.assets-char-item:hover::after,
+.assets-char-item.active::after {
+  opacity: 1;
+}
+
+.assets-char-item.active {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--asset-item-accent) 46%, transparent);
+}
+
+/* 갤러리 페이지의 돌아가는 길 — 제목보다 먼저 온다. 별도 화면에서 가장 먼저
+   필요한 것은 "여기서 어떻게 나가나"이다. */
+.gallery-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--academy-ink-soft);
+  text-decoration: none;
+}
+
+.gallery-back:hover,
+.gallery-back:focus-visible {
+  color: var(--academy-ink);
+  text-decoration: underline;
+}
+
+/* 갤러리 페이지는 구간 하나뿐이라 스크롤 스냅이 필요 없다. */
+.gallery-page #section-gallery {
+  min-height: auto;
+  scroll-snap-align: none;
+}
+
+/* 명부 안의 갤러리 입구.
+
+   예전에는 구간 하나가 링크 한 개를 담느라 100svh를 썼다. 담은 정보에 비해
+   자리가 과했다. 인물 에셋은 결국 이 명부의 인물들이므로 명부 머리글에
+   한 줄로 붙인다 — 여기서 인물을 고르던 사람이 곧바로 알아본다. */
+.gallery-entrance-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid var(--academy-line);
+  border-radius: var(--radius-pill);
+  background: rgba(250, 252, 255, 0.7);
+  color: var(--academy-ink);
+  text-decoration: none;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.gallery-entrance-link:hover,
+.gallery-entrance-link:focus-visible {
+  border-color: var(--academy-line-strong);
+  background: #ffffff;
+  box-shadow: var(--academy-shadow-soft);
+}
+
+.gallery-entrance-link-label {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.gallery-entrance-link-desc {
+  color: var(--academy-ink-soft);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+}
+
+.gallery-entrance-link-go {
+  color: var(--academy-line-strong);
+  font-weight: 800;
+}
+
+/* 외부 세력 명부는 와인 환경이라 밝은 셸용 잉크가 사라진다. */
+#section-characters.char-bg-external .gallery-entrance-link {
+  border-color: rgba(220, 184, 197, 0.28);
+  background: rgba(19, 9, 13, 0.55);
+  color: #f0e5e9;
+}
+
+#section-characters.char-bg-external .gallery-entrance-link-desc {
+  color: rgba(231, 210, 218, 0.8);
+}
+
+#section-characters.char-bg-external .gallery-entrance-link-go {
+  color: #d8bcc7;
+}
+
+@media (max-width: 700px) {
+  .gallery-entrance-link {
+    flex-wrap: wrap;
+    gap: 0.2rem 0.5rem;
+  }
+}

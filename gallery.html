@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" data-version="__VERSION_VALUE__">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ISM 아카데미와 외부 세력 인물들의 표정 에셋을 인물별로 살펴보는 갤러리입니다.">
+<meta name="theme-color" content="#d9e7ff">
+<title>Gallery · 이종족은 좋아하세요?</title>
+<link rel="icon" type="image/webp" sizes="64x64" href="assets/favicon-ism-moon.webp">
+<link rel="preload" as="image" href="./assets/logo.webp" fetchpriority="high">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- 스크롤 페이지와 같은 모듈을 같은 순서로 쓴다. 갤러리만 다른 규칙을 갖게
+     되면 두 화면의 색과 간격이 갈라진다. -->
+<!-- CSS_MODULES_START -->
+<link rel="stylesheet" href="./styles/00-tokens.css?__VERSION__">
+<link rel="stylesheet" href="./styles/01-foundation.css?__VERSION__">
+<link rel="stylesheet" href="./styles/02-navigation.css?__VERSION__">
+<link rel="stylesheet" href="./styles/03-home.css?__VERSION__">
+<link rel="stylesheet" href="./styles/04-characters.css?__VERSION__">
+<link rel="stylesheet" href="./styles/05-character-detail.css?__VERSION__">
+<link rel="stylesheet" href="./styles/06-schedule.css?__VERSION__">
+<link rel="stylesheet" href="./styles/07-gallery.css?__VERSION__">
+<link rel="stylesheet" href="./styles/08-world.css?__VERSION__">
+<link rel="stylesheet" href="./styles/09-overlays.css?__VERSION__">
+<link rel="stylesheet" href="./styles/10-cross-cutting.css?__VERSION__">
+<link rel="stylesheet" href="./styles/11-mobile.css?__VERSION__">
+<link rel="stylesheet" href="./styles/12-feature-refinements.css?__VERSION__">
+<link rel="stylesheet" href="./styles/13-final-theme.css?__VERSION__">
+<!-- CSS_MODULES_END -->
+
+</head>
+<body class="js-loading gallery-page" data-page="gallery">
+
+<a class="skip-link" href="#site-content">본문으로 건너뛰기</a>
+
+<div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="ISM Academy loading">
+  <div class="site-loader-inner">
+    <img class="site-loader-logo" src="./assets/logo.webp" alt="ISM Academy Logo" width="360" height="360" loading="eager" decoding="async" fetchpriority="high">
+    <div class="site-loader-line"></div>
+    <div class="site-loader-text">ISM ACADEMY</div>
+  </div>
+</div>
+
+<main id="site-content">
+<section class="section active" id="section-gallery">
+  <div class="sec-header">
+    <!-- 돌아가는 길을 제목보다 먼저 둔다. 별도 페이지에서 가장 먼저 필요한 것은
+         "여기서 어떻게 나가나"이다. -->
+    <a class="gallery-back" href="./index.html#gallery">← 이종족은 좋아하세요?</a>
+    <h2 class="sec-header-title">Gallery</h2>
+    <p class="sec-header-description">인물들의 표정과 다양한 모습을 살펴봅니다.</p>
+    <div class="sec-header-line"></div>
+  </div>
+
+  <!-- 서브탭 -->
+  <div class="assets-sub-tabs">
+    <button class="assets-sub-btn active" type="button" data-assets-tab="emotions">감정 에셋</button>
+    <button class="assets-sub-btn" type="button" data-assets-tab="nsfw">NSFW 에셋</button>
+  </div>
+
+  <!-- 감정 에셋 패널 -->
+  <div class="assets-panel active" id="assets-emotions">
+    <div class="assets-layout">
+      <div class="assets-sidebar" id="emo-sidebar">
+        <div class="assets-sidebar-label">캐릭터</div>
+      </div>
+      <div class="assets-main" id="emo-viewer">
+        <div class="assets-empty">위 명단에서 인물을 선택하세요.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NSFW 에셋 패널 -->
+  <div class="assets-panel" id="assets-nsfw">
+    <div class="assets-layout">
+      <div class="assets-sidebar" id="nsfw-sidebar">
+        <div class="assets-sidebar-label">캐릭터</div>
+      </div>
+      <div class="assets-main" id="nsfw-viewer">
+        <div class="assets-empty">위 명단에서 인물을 선택하세요.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="갤러리 이미지 확대 보기" inert>
+  <button class="lightbox-close" type="button" data-lightbox-close aria-label="라이트박스 닫기">✕</button>
+  <button class="lightbox-nav lightbox-nav--prev" type="button" data-lightbox-nav="-1" aria-label="이전 에셋">‹</button>
+  <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="832" height="1216" loading="lazy" decoding="async">
+  <button class="lightbox-nav lightbox-nav--next" type="button" data-lightbox-nav="1" aria-label="다음 에셋">›</button>
+  <div class="lightbox-label" id="lightbox-label"></div>
+</div>
+
+<script type="module" src="./app.js?__VERSION__"></script>
+</body>
+</html>

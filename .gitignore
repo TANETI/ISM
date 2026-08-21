@@ -1,0 +1,76 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+
+# Local shortcuts / executables
+*.exe
+!tools/releases/*.exe
+*.lnk
+shortcuts/
+
+# Backups and local generated assets
+/backups/
+/assets/backup/
+/assets/logo_*_transparent_4x.png
+/assets/logo_pbs_hanja_transparent_v2.png
+/assets/logo_rtn_hanja_transparent_v2.png
+/characters/
+/estimation/
+/site/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tool build outputs (release binaries live in tools/releases/)
+# .exe 도구는 프로젝트 폴더 안에 두고 실행하라고 안내하므로(tools/releases/README.md)
+# 어느 하위 폴더에서든 작업 캐시가 생길 수 있다. 경로를 고정하지 않는다.
+**/.build_deps/
+/.pet-runs/
+tools/**/build*/
+tools/**/dist/
+tools/**/*.spec
+prompt-viewer/build*/
+prompt-viewer/dist/
+prompt-viewer/*.spec
+
+# Local browser smoke-test screenshots
+/.smoke-map*/
+
+# Qt/C++ editor build outputs
+character_editor_qt/build/
+character_editor_qt/dist/
+/characters.json.bak
+
+# Internal planning notes
+/docs/세계관/내부자료/긴급보호_역할참고.txt
+/main prompt.txt
+
+# 로컬 권한 설정은 기계마다 다르므로 공유하지 않는다.
+.claude/settings.local.json
+
+# 사이트 에셋은 webp만 추적한다. assets/의 PNG는 webp를 만들기 위한 원본이며
+# index.html·main-factions.js·static.yml·optimize_site_logos.py 모두 webp만 참조한다.
+/assets/*.png
+
+# 제목 로고 변형 등 이미지 작업 산출물과 중간물.
+/output/
+/tmp/
+
+# 프롬뷰어 개인 설정 (창 크기·읽던 문서)
+/prompt-viewer-ui.json
+
+# Cloudflare Worker 로컬 캐시
+.wrangler/
+
+# 아바타 원본(1024px 등). 변환하면 96~256px webp만 avatar/에 남는다
+avatar_src/
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

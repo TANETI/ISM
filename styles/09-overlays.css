@@ -1,0 +1,741 @@
+/* ISM Academy stylesheet module: 09-overlays.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* Lightbox */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  z-index: 10100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--radius-xs);
+}
+.lightbox-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(72vw, 680px);
+  max-width: calc(100vw - 2rem);
+  min-height: 54px;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1.35rem 0.9rem;
+  border: 1px solid rgba(216,189,109,0.22);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(246,249,251,0.98) 0%, rgba(233,239,243,0.96) 100%);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.26),
+    0 0 0 1px rgba(255,255,255,0.25) inset,
+    0 1px 0 rgba(255,255,255,0.82) inset;
+  font-family: var(--font-ui);
+  font-size: clamp(0.95rem, 0.46vw + 0.86rem, 1.12rem);
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17352f;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.lightbox-label::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(120px, 36%);
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, rgba(185,154,82,0.82), transparent);
+  opacity: 0.9;
+}
+.lightbox-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-circle);
+  width: 30px; height: 30px;
+  color: var(--silver2);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+.lightbox-close:hover { border-color: var(--navy-accent); color: var(--academy-ink-on-navy); }
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: clamp(44px, 5vw, 58px);
+  height: clamp(58px, 8vw, 78px);
+  border: 1px solid rgba(200,216,210,0.16);
+  border-radius: var(--radius-pill);
+  background: rgba(5,11,24,0.54);
+  color: rgba(235,242,248,0.82);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.2em;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.lightbox-nav--prev { left: clamp(0.8rem, 4vw, 3rem); }
+.lightbox-nav--next { right: clamp(0.8rem, 4vw, 3rem); }
+.lightbox-nav:hover {
+  border-color: rgba(106,176,255,0.52);
+  color: var(--academy-ink-on-navy);
+  background: rgba(10,18,36,0.76);
+}
+.lightbox-nav:active { transform: translateY(-50%) scale(0.96); }
+.lightbox-nav:disabled,
+.lightbox-nav[hidden] {
+  display: none;
+}
+
+#lightbox img {
+  user-select: none;
+}
+
+body.konami-pulse-active::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(255,218,94,0.62), transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(151,70,255,0.34), transparent 48%),
+    rgba(255,255,255,0.10);
+  transform: scale(1);
+  mix-blend-mode: screen;
+}
+
+body.konami-pulse-hit::after {
+  animation: konamiScreenPulse 0.48s cubic-bezier(0.08, 0.84, 0.16, 1) both;
+}
+
+body.konami-pulse-hit .section.active,
+body.konami-pulse-hit #char-detail.open {
+  animation: konamiContentThump 0.48s cubic-bezier(0.08, 0.84, 0.16, 1) both;
+}
+
+#konami-overlay.konami-overlay-thump {
+  animation: konamiOverlayThump 0.48s cubic-bezier(0.08, 0.84, 0.16, 1) both;
+}
+
+.konami-easter-title {
+  position: fixed;
+  left: 50%;
+  top: 46%;
+  z-index: 100001;
+  width: min(92vw, 980px);
+  transform: translate(-50%, -50%);
+  color: var(--gold2);
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 7vw, 5.2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.08;
+  text-align: center;
+  text-shadow:
+    0 0 3px rgba(5,11,24,0.98),
+    0 0 18px rgba(5,11,24,0.96),
+    0 0 34px rgba(201,168,76,0.9),
+    0 0 72px rgba(201,168,76,0.45);
+  pointer-events: none;
+}
+
+.konami-easter-title span,
+.konami-easter-title .easter-subtitle {
+  color: var(--gold2);
+  font-size: 0.82em;
+  opacity: 0.94;
+}
+
+.konami-master-scarlet {
+  position: fixed;
+  left: 50%;
+  bottom: -76vh;
+  z-index: 100003;
+  width: min(92vw, 920px);
+  max-height: 118vh;
+  object-fit: contain;
+  transform: translateX(-50%) scale(0.84);
+  opacity: 0;
+  filter: drop-shadow(0 0 52px rgba(201,168,76,0.62)) drop-shadow(0 26px 80px rgba(0,0,0,0.88));
+  transition:
+    bottom 1.55s cubic-bezier(0.12,0.78,0.12,1),
+    transform 1.55s cubic-bezier(0.12,0.78,0.12,1),
+    opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.konami-master-scarlet.rise {
+  bottom: -6vh;
+  transform: translateX(-50%) scale(1.12);
+  opacity: 1;
+}
+
+body.konami-finale-active::after {
+  opacity: 1;
+  animation: konamiFinaleGlow 1.8s ease-in-out infinite alternate;
+}
+
+.redmoon-easter {
+  position: fixed;
+  inset: 0;
+  z-index: 100010;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255, 244, 90, 0.28), transparent 32%),
+    repeating-conic-gradient(from 12deg at 50% 50%, #ff2c39 0 8deg, #165ccc 8deg 16deg, #ffd928 16deg 24deg),
+    #10234c;
+  transition: opacity 0.16s ease;
+  isolation: isolate;
+}
+
+.redmoon-easter::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  background: repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0 42px, rgba(255,255,255,0.24) 44px 48px);
+  animation: redMoonBackdrop 1.1s linear infinite;
+}
+
+.redmoon-easter.is-visible { opacity: 1; }
+.redmoon-easter.is-leaving { opacity: 0; }
+
+.redmoon-poster {
+  width: min(82vw, 1080px);
+  max-height: 84vh;
+  object-fit: contain;
+  border: clamp(4px, 0.5vw, 8px) solid #fff15d;
+  outline: 4px solid #101010;
+  box-shadow:
+    0 0 0 10px #ec1733,
+    0 0 54px 18px rgba(255, 238, 61, 0.72),
+    0 30px 80px rgba(0,0,0,0.72);
+  transform-origin: 50% 55%;
+  animation: redMoonPosterBoom 0.72s cubic-bezier(0.18, 0.88, 0.2, 1.2) infinite;
+  will-change: transform, filter;
+}
+
+.redmoon-louise {
+  position: fixed;
+  right: clamp(8px, 2.2vw, 38px);
+  bottom: 0;
+  z-index: 3;
+  width: clamp(170px, 23vw, 350px);
+  max-height: 48vh;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 12px rgba(0,0,0,0.72));
+  transform-origin: 50% 100%;
+  animation: redMoonLouiseJudge 0.88s ease-in-out infinite;
+}
+
+.redmoon-burst {
+  position: fixed;
+  z-index: 4;
+  top: 13%;
+  display: block;
+  width: clamp(110px, 15vw, 220px);
+  height: auto;
+  max-height: 42vh;
+  object-fit: contain;
+  border: clamp(2px, 0.3vw, 5px) solid #fff15d;
+  outline: 3px solid #111;
+  box-shadow:
+    7px 7px 0 #ed1734,
+    0 16px 34px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+}
+
+.redmoon-burst--left { left: 2vw; transform: rotate(-14deg); }
+.redmoon-burst--right { right: 2vw; transform: rotate(12deg); }
+.redmoon-easter.is-beat .redmoon-burst { animation: redMoonBurst 0.46s steps(2, end) both; }
+.redmoon-easter.is-beat .redmoon-burst--right { animation-delay: 0.08s; }
+
+@keyframes redMoonPosterBoom {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.7deg) scale(1); filter: saturate(1.08); }
+  18% { transform: translate3d(-8px, 5px, 0) rotate(1.2deg) scale(1.065, 0.95); filter: saturate(1.5) contrast(1.08); }
+  38% { transform: translate3d(7px, -13px, 0) rotate(-1.4deg) scale(0.98, 1.055); filter: saturate(1.22); }
+  58% { transform: translate3d(-4px, 2px, 0) rotate(0.8deg) scale(1.035, 0.98); filter: saturate(1.42); }
+  78% { transform: translate3d(3px, -5px, 0) rotate(-0.4deg) scale(0.995, 1.02); filter: saturate(1.15); }
+}
+
+@keyframes redMoonLouiseJudge {
+  0%, 100% { transform: rotate(-2deg) translateY(3px) scale(1); }
+  50% { transform: rotate(2deg) translateY(-13px) scale(1.035); }
+}
+
+@keyframes redMoonBurst {
+  0% { opacity: 0; transform: rotate(-12deg) scale(0.25); }
+  35% { opacity: 1; transform: rotate(8deg) scale(1.2); }
+  75% { opacity: 1; transform: rotate(-5deg) scale(0.96); }
+  100% { opacity: 0; transform: rotate(3deg) scale(1.38); }
+}
+
+@keyframes redMoonBackdrop {
+  from { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  to { transform: rotate(12deg) scale(1.08); filter: hue-rotate(28deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .redmoon-easter::before,
+.redmoon-poster,
+.redmoon-louise,
+.redmoon-burst {
+    animation: none !important;
+  }
+  .redmoon-burst { display: none; }
+}
+
+@keyframes konamiScreenPulse {
+  0%   { opacity: 0; transform: scale(0.985); }
+  16%  { opacity: 1; transform: scale(1.075); }
+  32%  { opacity: 0.72; transform: scale(0.968); }
+  52%  { opacity: 0.38; transform: scale(1.026); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes konamiContentThump {
+  0%   { filter: none; transform: translateZ(0) scale(1); }
+  15%  { filter: saturate(1.65) brightness(1.26) contrast(1.12); transform: translateZ(0) scale(1.032); }
+  34%  { filter: saturate(1.25) brightness(0.92) contrast(1.08); transform: translateZ(0) scale(0.982); }
+  55%  { filter: saturate(1.18) brightness(1.08); transform: translateZ(0) scale(1.012); }
+  100% { filter: none; transform: translateZ(0) scale(1); }
+}
+
+@keyframes konamiOverlayThump {
+  0%   { transform: scale(1); filter: none; }
+  16%  { transform: scale(1.09); filter: saturate(1.6) brightness(1.24); }
+  34%  { transform: scale(0.965); filter: saturate(1.18) brightness(0.9); }
+  58%  { transform: scale(1.025); filter: saturate(1.25) brightness(1.08); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes konamiFinaleGlow {
+  from {
+    background:
+      radial-gradient(circle at 50% 58%, rgba(255,218,94,0.34), transparent 28%),
+      radial-gradient(circle at 50% 50%, rgba(151,70,255,0.22), transparent 52%),
+      rgba(255,255,255,0.04);
+  }
+  to {
+    background:
+      radial-gradient(circle at 50% 56%, rgba(255,236,150,0.62), transparent 32%),
+      radial-gradient(circle at 50% 50%, rgba(151,70,255,0.38), transparent 58%),
+      rgba(255,255,255,0.10);
+  }
+}
+
+/* Utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: rgba(106,176,255,0.20); border-radius: var(--radius-xs); }
+
+.no-img {
+  width:100%;height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0.35rem;
+}
+.no-img span { font-size:1.4rem;opacity:0.1; }
+.no-img p { font-size: var(--text-label);color:var(--silver3);font-family:var(--font-display);letter-spacing:0.1em; }
+
+.badge-category {
+  background: rgba(200,216,232,0.07);
+  border: 1px solid rgba(200,216,232,0.18);
+  color: var(--white2);
+}
+.badge-category-civilian {
+  background: rgba(142,196,170,0.10);
+  border-color: rgba(142,196,170,0.26);
+  color: #b5dcc8;
+}
+.badge-category-external {
+  background: rgba(201,168,76,0.08);
+  border-color: rgba(201,168,76,0.24);
+  color: var(--gold2);
+}
+
+.char-card-code,
+.cdp-section-label,
+.assets-empty,
+.lightbox-label {
+  color: var(--silver4);
+}
+
+.cdp-section-val,
+.cdp-tmi,
+.wy-body {
+  color: var(--white2);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --roster-frame-pad-x: 0.75rem;
+    /* 카드 하나가 화면 폭을 통째로 먹으면서 명부가 20076px — 스물네 화면이
+       됐고 한 화면에 인물이 1.39명만 보였다. 두 칸으로 나눈다. 폭은 그리드가
+       1fr로 나눠 가지므로 여기서는 하한만 정한다. */
+    --char-card-width: minmax(0, 1fr);
+    --char-card-mobile-width: var(--char-card-width);
+    --char-card-min: 0;
+    --char-card-gap: 0.7rem;
+    --nav-h: 54px;
+  }
+  .char-grid-wrap {
+    padding-left: var(--roster-frame-pad-x);
+    padding-right: var(--roster-frame-pad-x);
+  }
+  .char-grade-section {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .char-filter-bar {
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.9rem;
+  }
+  .char-filter-group {
+    width: 100%;
+    gap: 0.45rem;
+  }
+  .filter-btn {
+    min-height: 36px;
+    padding: 0.45rem 0.8rem;
+    font-size: var(--text-sm);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+*::before,
+*::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+  .char-card,
+.main-registry-copy,
+.main-seal-field {
+    opacity: 1 !important;
+    transform: none !important;
+    --card-y: 0px;
+    --card-delay: 0ms;
+  }
+}
+
+.filter-reset-btn {
+  min-height: 36px;
+  background: rgba(200,216,232,0.075);
+  border: 1px solid rgba(200,216,232,0.22);
+  border-radius: var(--radius-pill);
+  padding: 0.48rem 0.96rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--filter-reset-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.filter-reset-btn:hover {
+  color: var(--filter-reset-ink-hover);
+  border-color: rgba(201,168,76,0.34);
+  background: rgba(201,168,76,0.075);
+}
+
+
+/* ──────────────────────────────────────────────
+   열람 색인 (Ctrl/⌘ + K)
+   기록물 열람 창의 성격을 유지한다. 남색 기록면 위에 금색 각인선,
+좌측 표식은 인물의 학년색 또는 소속 세력색을 그대로 쓴다.
+────────────────────────────────────────────── */
+.cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: clamp(3rem, 12vh, 8rem) 1rem 2rem;
+}
+
+.cmdk[hidden] { display: none; }
+
+.cmdk-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 10, 22, 0.62);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.cmdk.is-open .cmdk-backdrop { opacity: 1; }
+
+.cmdk-panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(62vh, 520px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold) 52%, transparent);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(18, 38, 70, 0.99), rgba(8, 19, 38, 0.99));
+  box-shadow: 0 24px 60px rgba(3, 9, 20, 0.55);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.16s ease, transform 0.16s var(--motion-signature);
+}
+
+.cmdk.is-open .cmdk-panel {
+  opacity: 1;
+  transform: none;
+}
+
+.cmdk-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid rgba(219, 231, 251, 0.18);
+}
+
+.cmdk-prompt {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--gold2);
+}
+
+.cmdk-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #e9f1fd;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+
+.cmdk-input::placeholder { color: rgba(158, 188, 232, 0.72); }
+.cmdk-input:focus { outline: none; }
+.cmdk-field:focus-within {
+  box-shadow: inset 0 0 0 2px rgba(185, 154, 82, 0.58);
+}
+
+.cmdk-dismiss {
+  flex: 0 0 auto;
+  min-height: 24px;
+  padding: 0.16rem 0.42rem;
+  border: 1px solid rgba(219, 231, 251, 0.34);
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: #c6d9f4;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  cursor: pointer;
+}
+
+.cmdk-dismiss:hover { border-color: var(--gold2); color: var(--gold2); }
+
+.cmdk-results {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.3rem 0;
+  list-style: none;
+}
+
+.cmdk-row {
+  --cmdk-accent: var(--gold2);
+  display: grid;
+  grid-template-columns: 3px 2.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.42rem 0.85rem 0.42rem 0;
+  cursor: pointer;
+}
+
+.cmdk-row-mark {
+  align-self: stretch;
+  min-height: 20px;
+  background: var(--cmdk-accent);
+  opacity: 0.85;
+}
+
+.cmdk-row.is-active {
+  background: rgba(185, 154, 82, 0.18);
+}
+
+.cmdk-row.is-active .cmdk-row-mark { opacity: 1; }
+
+.cmdk-row-code {
+  margin-left: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-variant-numeric: tabular-nums;
+  color: #9dbae4;
+}
+
+.cmdk-row-label {
+  min-width: 0;
+  overflow: hidden;
+  color: #e2ecfb;
+  font-size: var(--text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cmdk-row-sub {
+  font-size: var(--text-label);
+  color: #93b2dc;
+  white-space: nowrap;
+}
+
+.cmdk-row--section .cmdk-row-label,
+.cmdk-row--world .cmdk-row-label {
+  font-family: var(--font-lore);
+}
+
+.cmdk-empty,
+.cmdk-foot {
+  margin: 0;
+  padding: 0.85rem;
+  color: #9dbae4;
+  font-size: var(--text-label);
+}
+
+.cmdk-empty { text-align: center; }
+
+.cmdk-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  border-top: 1px solid rgba(219, 231, 251, 0.14);
+}
+
+.cmdk-foot b {
+  display: inline-block;
+  min-width: 1.3rem;
+  margin-right: 0.25rem;
+  padding: 0.04rem 0.26rem;
+  border: 1px solid rgba(219, 231, 251, 0.30);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmdk-backdrop,
+.cmdk-panel {
+    transition: none;
+  }
+  .cmdk-panel { transform: none; }
+}
+
+/* 좁은 화면과 터치 입력에서는 색인의 조작 요소를 44px 이상으로 키운다.
+   사이트의 다른 화면이 모바일에서 지키는 최소 크기와 같은 기준이다. */
+@media (max-width: 640px), (pointer: coarse) {
+  .cmdk-field { padding: 0.5rem 0.6rem; }
+
+  .cmdk-input {
+    min-height: 44px;
+    padding: 0 0.25rem;
+  }
+
+  .cmdk-dismiss {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .cmdk-row {
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* ──────────────────────────────────────────────────
+   적월극장 이스터에그 — 다섯 번째 클릭의 보상.
+
+   곱게 등장하면 재미가 없다. 화면을 통째로 덮을 만큼 크게,
+살짝 비딱하게
+   밀고 들어와 한 박자 노려보고 사라진다. 그 뒤에 적월극장이 열린다.
+────────────────────────────────────────────────── */
+.redmoon-taunt {
+  position: fixed;
+  inset: 0;
+  z-index: 100002;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: rgba(12, 3, 7, 0.82);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.redmoon-taunt.is-visible { opacity: 1; }
+.redmoon-taunt.is-leaving { opacity: 0; }
+
+.redmoon-taunt img {
+  width: auto;
+  /* 화면보다 크게 잡아 얼굴이 프레임을 뚫고 나오게 한다. */
+  height: 132vh;
+  max-width: none;
+  object-fit: contain;
+  transform: scale(0.55) rotate(-7deg);
+  filter: drop-shadow(0 0 60px rgba(179, 19, 34, 0.55));
+  transition: transform 0.42s cubic-bezier(0.18, 1.5, 0.42, 1);
+}
+
+.redmoon-taunt.is-visible img {
+  transform: scale(1) rotate(-2deg);
+}
+
+.redmoon-taunt.is-reduced-motion img {
+  height: 88vh;
+  transform: none;
+  transition: none;
+}
+
+.redmoon-taunt.is-reduced-motion.is-visible img { transform: none; }

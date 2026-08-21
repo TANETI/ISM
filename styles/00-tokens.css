@@ -1,0 +1,195 @@
+/* ISM Academy stylesheet module: 00-tokens.css */
+/* Keep this file in the load order documented in docs/개발/CSS_구조.md. */
+
+/* Variables */
+/* Design tokens */
+:root {
+  --font-ui:          'Pretendard Variable', 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
+  --font-title-ko:    'Noto Serif KR', 'Pretendard Variable', 'Pretendard', serif;
+  --font-display-en:  'Cormorant Garamond', serif;
+  --font-meta:        'Pretendard Variable', 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
+  --font-display:     var(--font-display-en);
+  --font-mono:        'JetBrains Mono', 'D2Coding', Consolas, monospace;
+  --font-lore:        'Noto Serif KR', 'Cormorant Garamond', 'Pretendard Variable', 'Pretendard', serif;
+  --font-inscription: 'Cinzel', 'Cormorant Garamond', serif;
+
+  /* Type scale.
+     라벨과 캡션은 12px 미만이 될 수 없다(docs/개발/CSS_구조.md).
+     루트 글자 크기를 줄여도 바닥이 무너지지 않도록 max()로 하한을 토큰에 넣는다.
+     본문보다 작은 구간만 토큰화하며, 표제와 디스플레이 크기는 각 컴포넌트가 소유한다. */
+  --text-label: max(0.75rem, 12px);
+  --text-xs:    max(0.8125rem, 13px);
+  --text-sm:    max(0.875rem, 14px);
+  --text-base:  max(0.9375rem, 15px);
+  --text-md:    max(1rem, 16px);
+
+
+  --navy:        #ccdeff;
+  --navy2:       #d9e7ff;
+  --navy3:       #b9d0f5;
+  --navy4:       #9ebce8;
+  --navy-mid:    #769bd2;
+
+  --wine:        #13090d;
+  --wine2:       #1d0d14;
+  --wine3:       #2b1420;
+  --wine4:       #3a1b2a;
+  --wine-glow:   rgba(176,90,114,0.18);
+  --signal-accent: #8a1220;
+  --signal-glow:   rgba(138,18,32,0.22);
+
+  /* External faction palettes: one source for headers, cards, borders, and focus states. */
+  --faction-pbs-accent: #b31322;
+  --faction-pbs-muted: #9b3342;
+  --faction-pbs-surface: rgba(80, 10, 18, 0.72);
+  --faction-pbs-text: #f4c7cf;
+  --faction-hprf-accent: #2f74d0;
+  --faction-hprf-muted: #416d9d;
+  --faction-hprf-surface: rgba(35, 50, 70, 0.78);
+  --faction-hprf-text: #c7dcf3;
+  --faction-wf-accent: #f4f6f8;
+  --faction-wf-muted: #cbd6dc;
+  --faction-wf-surface: rgba(230, 240, 248, 0.13);
+  --faction-wf-text: #edf4f7;
+  --faction-rtn-accent: #7b8f58;
+  --faction-rtn-muted: #72845f;
+  --faction-rtn-surface: rgba(72, 92, 50, 0.62);
+  --faction-rtn-text: #d9e4c7;
+  --faction-nf-accent: #d9c5a5;
+  --faction-nf-muted: #bca987;
+  --faction-nf-surface: rgba(125, 106, 72, 0.50);
+  --faction-nf-text: #eadfc9;
+
+  --blue-accent:  #6ab0ff;
+  --blue-accent2: #2f74d0;
+  --blue-glow:    rgba(106,176,255,0.22);
+
+
+  --silver:      #385b83;
+  --silver2:     #557496;
+  --silver3:     #6886a5;
+  --silver4:     #7f9ab6;
+
+
+  --white:       #10284e;
+  --white2:      #23466f;
+
+  /* Gold accents */
+  --gold:        #b99a52;
+  --gold2:       #d8bd6d;
+  --gold3:       rgba(185,154,82,0.14);
+  --gold-glow:   rgba(185,154,82,0.24);
+
+
+  --navy-accent:  var(--blue-accent);
+  --navy-accent2: var(--blue-accent2);
+  --navy-glow:    var(--blue-glow);
+
+  /* 라벤더 안개 — 첫 화면 키비주얼 전용. 아카데미 셸(#ccdeff)과 금색 강조를
+     대체하지 않고, 배경 안개·초승달·장식선·스카이라인에만 섞여 공기감을 낸다.
+     본문 잉크로 쓰지 않는다: 밝은 셸 위에서 남색보다 대비가 약하다. */
+  --lavender:       #8f7cbe;
+  --lavender-deep:  #4d3f7d;
+  --lavender-haze:  rgba(143, 124, 190, 0.20);
+  --lavender-line:  rgba(110, 94, 160, 0.42);
+  --skyline-far:    rgba(143, 124, 190, 0.18);
+  --skyline-near:   rgba(58, 84, 138, 0.28);
+
+
+  --grade0:      #f0f5fa;
+  --grade1:      #5ba8ff;
+  --grade2:      #4ecb7a;
+  --grade3:      #f0c040;
+
+
+  --border:      rgba(31, 72, 126, 0.18);
+  --border2:     rgba(31, 72, 126, 0.28);
+  --border3:     rgba(216,189,109,0.22);
+
+  --surface-deep:  rgba(232, 240, 255, 0.97);
+  --surface:       rgba(244, 248, 255, 0.90);
+  --surface-soft:  rgba(218, 231, 255, 0.82);
+  --surface-field: rgba(255, 255, 255, 0.86);
+  --readable-surface: rgba(244, 248, 255, 0.90);
+  --readable-surface-strong: rgba(232, 240, 255, 0.98);
+  --readable-line: rgba(31, 72, 126, 0.20);
+  --readable-text: #10284e;
+  --readable-muted: rgba(31, 65, 105, 0.82);
+  --readable-dim: rgba(53, 87, 126, 0.70);
+
+  --academy-ink: #10284e;
+  --academy-ink-soft: #31557f;
+  /* 아래 셋은 네 개 파일에 흩어져 스물여덟 번 반복되던 값이다. 이름이 없으니
+     한 곳을 고쳐도 나머지가 따라오지 않았다.
+     navy-deep  — 활성 알약·강조 버튼의 바탕
+     ink-strong — 가장 진한 제목 잉크
+     ink-onNavy — 그 남색 위에 얹는 밝은 글씨 */
+  --academy-navy-deep: #173f74;
+  --academy-ink-strong: #001e57;
+  --academy-ink-on-navy: #b8dcff;
+  --academy-line: #6685ad;
+  --academy-line-strong: #2d568b;
+  --academy-panel: rgba(241, 246, 255, 0.92);
+  --academy-panel-strong: rgba(250, 252, 255, 0.96);
+  --academy-panel-muted: rgba(218, 230, 250, 0.92);
+  --academy-shadow: 0 14px 34px rgba(36, 68, 112, 0.16);
+  --academy-shadow-soft: 0 7px 18px rgba(36, 68, 112, 0.11);
+  --academy-gold-text: #6e5317;
+  --motion-signature: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Elevation on dark record surfaces. 밝은 아카데미 셸은 위의 academy-shadow를 쓴다.
+     inset 헤어라인은 elevation이 아니라 컴포넌트 고유의 디테일이므로 토큰화하지 않는다. */
+  --record-shadow:      0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.1);
+  --record-shadow-soft: 0 14px 34px rgba(0, 0, 0, 0.24);
+
+  /* 좌측 스크롤 색인 레일은 position: fixed라 문서 흐름을 밀어내지 않는다.
+     레일과 겹치면 안 되는 콘텐츠가 스스로 비켜야 하는 폭이다. 레일 자체가
+     clamp(0.72rem, 2vw, 1.8rem)만큼 왼쪽에서 떨어져 있으므로 같은 2vw를 따라간다.
+     명부·일정·세계관은 자기 프레임 덕에 이미 비켜 있었고, 갤러리 사이드바만
+     x=0에서 시작해 검색창과 상위 두 조직 행이 레일에 덮여 있었다. */
+  --rail-clearance: clamp(78px, 2vw + 67px, 100px);
+
+  /* 초기화 버튼은 밝은 전역 검색 바와 어두운 명부 바, 그리고 외부 모드에서
+     어두워지는 전역 바까지 세 문맥에 같은 클래스로 놓인다. 바가 잉크를 정하고
+     버튼은 받아 쓰기만 한다. 문맥마다 색을 덧칠하면 한 곳을 고칠 때 다른 곳이
+     깨진다 — 실제로 두 번 그랬다. */
+  --filter-reset-ink: var(--silver);
+  --filter-reset-ink-hover: var(--white2);
+
+  /* 스크롤 환경은 둘뿐이다. 페이지 전체는 ISM 셸이고, 명부를 외부 세력으로
+     돌렸을 때만 그 구간이 와인 환경으로 바뀐다. 외부 환경은 밝은 셸 한가운데
+     떠 있는 섬이라 위아래 모두 램프가 필요하다. 두 환경의 색이 서로 어긋나면
+     경계가 칼로 자른 듯 보이므로 여기 한 곳에서만 정의한다. */
+  --env-shell:        #ccdeff;
+  --env-academy-top:  #dbe9ff;
+  --env-academy-deep: var(--env-shell);
+  --env-external-top: #2a1220;
+  --env-external-deep: #0a0608;
+  /* 램프가 끝나기 전에 섹션 제목이 걸리면 밝은 바탕에 밝은 글씨가 된다.
+     외부 모드는 이 높이만큼 위아래 여백을 더 둬서 램프를 빈 공간에 둔다. */
+  --env-ramp: clamp(150px, 16vw, 230px);
+
+  /* Radius scale. 새 값을 추가하기 전에 이 다섯 단계 중 하나를 먼저 고른다. */
+  --radius-xs:     4px;
+  --radius-sm:     8px;
+  --radius-md:     12px;
+  --radius-lg:     16px;
+  --radius-pill:   999px;
+  --radius-circle: 50%;
+
+
+  --roster-frame-max: 1320px;
+  --roster-frame-pad-x: clamp(1rem, 2.4vw, 1.8rem);
+  --roster-frame-gap: 1rem;
+  --page-frame-max: 1240px;
+  --page-gutter: clamp(1rem, 4vw, 3rem);
+
+  /* 1226px 명부 프레임에서 다섯 칸을 유지하면서 카드 내부 비율도
+     함께 줄이기 위한 기준 폭. */
+  --char-card-width: 208px;
+  --char-card-mobile-width: 320px;
+  --char-card-min: var(--char-card-width);
+  --char-card-gap: clamp(0.8rem, 1.5vw, 1rem);
+
+  --nav-h:       58px;
+}
