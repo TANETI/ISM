@@ -32,7 +32,7 @@ jobs:
           # 얕은 클론이라도 GitHub은 매번 팩을 새로 만든다(`pack-reused 0`). 파일 대부분이
           # 이미 압축된 webp라 델타가 잡히지 않아 300MB를 통째로 다시 압축하며, 그 CPU
           # 작업이 큐에 걸리면 체크아웃 하나가 7분까지 늘어난다(세 번에 한 번꼴로 겪음).
-          # 배포에 쓰지 않는 경로를 빼서 그 몫을 줄인다 — 298MB → 245MB.
+          # 배포에 쓰지 않는 경로를 빼서 그 몫을 줄인다.
           filter: blob:none
           sparse-checkout-cone-mode: false
           sparse-checkout: |
@@ -40,8 +40,6 @@ jobs:
             !/webtoon/*.png
             !/webtoon/characters/
             !/tools/releases/*.exe
-            !/*/O/
-            !/*/S/
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Validate source files
@@ -72,11 +70,7 @@ jobs:
           # 메신저 프로필. 비어 있어도 실패하지 않도록 글로브 대신 디렉터리째 복사한다.
           mkdir -p dist/avatar
           cp -R avatar/. dist/avatar/
-          find . -maxdepth 1 -type d -regextype posix-extended -regex './[A-Z0-9]{2,4}' -print0 | while IFS= read -r -d '' character_dir; do
-            character_code="${character_dir#./}"
-            mkdir -p "dist/${character_code}"
-            find "$character_dir" -mindepth 1 -maxdepth 1 ! -name O ! -name S -exec cp -R {} "dist/${character_code}/" \;
-          done
+          find . -maxdepth 1 -type d -regextype posix-extended -regex './[A-Z0-9]{2,4}' -exec cp -R {} dist/ \;
           node scripts/apply_deploy_version.js dist/index.html "${GITHUB_SHA::8}"
           node scripts/apply_deploy_version.js dist/gallery.html "${GITHUB_SHA::8}"
           node scripts/apply_deploy_version.js dist/app.js "${GITHUB_SHA::8}"
@@ -108,10 +102,9 @@ jobs:
           fi
           test -f dist/characters.json
           test ! -e dist/outfit_assets.json
-          if find dist -mindepth 2 -maxdepth 2 -type d \( -name O -o -name S \) -print -quit | grep -q .; then
-            echo "Optional outfit directories must not be included in the Pages artifact."
-            exit 1
-          fi
+          find . -mindepth 3 -maxdepth 3 -type f \( -path './*/O/*.webp' -o -path './*/S/*.webp' \) -print0 | while IFS= read -r -d '' outfit_asset; do
+            test -f "dist/${outfit_asset#./}"
+          done
           test ! -e 'dist/프롬프트'
           if grep -q '__VERSION__\|__VERSION_VALUE__' dist/index.html; then
             echo "Version placeholders were not replaced."
