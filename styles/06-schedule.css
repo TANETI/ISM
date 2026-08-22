@@ -80,8 +80,227 @@
   color: var(--white2);
 }
 
+.club-directory {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--academy-line);
+}
+
+.club-directory-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.club-directory-kicker {
+  margin: 0 0 0.2rem;
+  color: var(--academy-gold-text);
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 800;
+}
+
+.club-directory-heading h4 {
+  margin: 0;
+  color: var(--academy-ink-strong);
+  font-family: var(--font-title-ko);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.club-directory-heading > p {
+  max-width: 430px;
+  margin: 0;
+  color: var(--academy-ink-soft);
+  font-size: var(--text-xs);
+  line-height: 1.55;
+  text-align: right;
+}
+
+.club-directory-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--academy-line);
+  border-radius: var(--radius-sm);
+  background: var(--academy-panel-strong);
+  scrollbar-color: var(--academy-line) #e4edf9;
+  scrollbar-width: thin;
+}
+
+.club-directory-scroll:focus-visible {
+  outline: 3px solid rgba(45, 86, 139, 0.34);
+  outline-offset: 3px;
+}
+
+.club-directory-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  color: var(--academy-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.club-directory-table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.club-directory-table th,
+.club-directory-table td {
+  padding: 0.78rem 0.85rem;
+  border-bottom: 1px solid #b8c9df;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.club-directory-table tr > :first-child {
+  width: 96px;
+  text-align: center;
+}
+
+.club-directory-table tr > :nth-child(2) {
+  width: 36%;
+}
+
+.club-directory-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.club-directory-table thead th {
+  color: #ffffff;
+  background: var(--academy-navy-deep);
+  font-size: var(--text-label);
+  font-weight: 850;
+}
+
+.club-directory-table tbody th {
+  color: var(--academy-ink-strong);
+  background: rgba(218, 230, 250, 0.35);
+}
+
+.club-directory-table tbody th strong,
+.club-directory-table tbody th span {
+  display: block;
+}
+
+.club-directory-table tbody th strong {
+  font-size: var(--text-base);
+  line-height: 1.35;
+}
+
+.club-directory-table tbody th span {
+  margin-top: 0.18rem;
+  color: var(--academy-ink-soft);
+  font-size: var(--text-label);
+  font-weight: 550;
+  line-height: 1.4;
+}
+
+.club-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 26px;
+  padding: 0.2rem 0.55rem;
+  color: #2f6a4f;
+  background: #eaf6ef;
+  border: 1px solid #9bc4ae;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-label);
+  font-weight: 850;
+  line-height: 1;
+}
+
+.club-status--ghost {
+  color: #5d4f83;
+  background: #f1edfb;
+  border-color: #b7a9d2;
+}
+
+.club-directory-empty {
+  color: var(--academy-ink-soft);
+}
+
+.club-directory-ghost > * {
+  background: rgba(241, 237, 251, 0.58);
+}
+
+.club-directory-ghost > th {
+  box-shadow: inset 3px 0 0 #5d4f83;
+}
+
 @media (max-width: 720px) {
   .event-grid { grid-template-columns: 1fr; }
   .schedule-assessment { display: block; }
   .schedule-assessment strong { display: block; margin-bottom: 0.25rem; }
+  .club-directory-heading { align-items: flex-start; flex-direction: column; }
+  .club-directory-heading > p { text-align: left; }
+  .club-directory-scroll { overflow: hidden; }
+  .club-directory-table { min-width: 0; }
+  .club-directory-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .club-directory-table tbody,
+  .club-directory-table tr,
+  .club-directory-table th,
+  .club-directory-table td { display: block; }
+  .club-directory-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.65rem 0.8rem;
+    padding: 0.9rem;
+    border-bottom: 1px solid #b8c9df;
+  }
+  .club-directory-table tbody tr:last-child { border-bottom: 0; }
+  .club-directory-table th,
+  .club-directory-table td {
+    width: auto !important;
+    padding: 0;
+    border: 0;
+  }
+  .club-directory-table tbody th {
+    grid-column: 1;
+    grid-row: 1;
+    background: transparent;
+  }
+  .club-directory-table tbody td:first-child {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+  }
+  .club-directory-table tbody td:nth-child(3),
+  .club-directory-table tbody td:nth-child(4) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    align-items: baseline;
+    color: var(--academy-ink);
+  }
+  .club-directory-table tbody td:nth-child(3)::before,
+  .club-directory-table tbody td:nth-child(4)::before {
+    color: var(--academy-ink-soft);
+    font-size: var(--text-label);
+    font-weight: 750;
+  }
+  .club-directory-table tbody td:nth-child(3)::before { content: '부장'; }
+  .club-directory-table tbody td:nth-child(4)::before { content: '현재 부원'; }
+  .club-directory-table .club-directory-empty { color: var(--academy-ink-soft); }
+  .club-directory-ghost > * { background: transparent; }
+  .club-directory-ghost > th { box-shadow: none; }
 }
