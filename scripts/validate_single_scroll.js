@@ -87,6 +87,18 @@ if (!navigation.includes('createSectionScrollController')) failures.push('scroll
 if (!app.includes('createSectionScrollController')) failures.push('app does not initialize scroll controller');
 if (!app.includes('window.scrollTo') && !app.includes('target?.scrollIntoView')) failures.push('section navigation does not scroll');
 
+// 인트로의 명부 인원수는 손으로 적혀 있어 인물이 늘면 조용히 낡는다.
+// 실제로 외부가 14명으로 남은 채 배포된 적이 있다.
+const roster = JSON.parse(fs.readFileSync(path.join(root, 'characters.json'), 'utf8'))
+  .filter(character => !character.spoilerOnly);
+const academyCount = roster.filter(c => c.category === 'student' || c.category === 'staff').length;
+const outsideCount = roster.filter(c => c.category === 'external').length;
+const rosterLabel = `아카데미 ${academyCount}명 · 외부 ${outsideCount}명`;
+if (!html.includes(rosterLabel)) {
+  const shown = (html.match(/아카데미 \d+명 · 외부 \d+명/) || ['(없음)'])[0];
+  failures.push(`intro roster count is stale: ${shown} but data says ${rosterLabel}`);
+}
+
 if (failures.length) {
   throw new Error(`Single-scroll validation failed:\n${failures.join('\n')}`);
 }
